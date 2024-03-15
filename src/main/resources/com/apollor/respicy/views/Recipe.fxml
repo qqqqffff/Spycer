@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane fx:id="rootPane" prefHeight="150.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.apollor.respicy.controllers.Recipe">
+   <center>
+      <VBox alignment="CENTER" spacing="20.0" BorderPane.alignment="CENTER">
+         <children>
+            <Text fx:id="recipeTitleText" strokeType="OUTSIDE" strokeWidth="0.0" text="Recipe Name">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </Text>
+            <HBox alignment="CENTER" spacing="25.0">
+               <children>
+                  <Text fx:id="ratingText" strokeType="OUTSIDE" strokeWidth="0.0" text="Rating: (4/5)">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="cooktimeText" layoutX="10.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Time: 1 hr">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+               </children>
+            </HBox>
+         </children>
+         <BorderPane.margin>
+            <Insets right="100.0" />
+         </BorderPane.margin>
+      </VBox>
+   </center>
+   <left>
+      <ImageView fx:id="recipeThumbnail" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets left="25.0" />
+         </BorderPane.margin>
+         <image>
+            <Image url="@../images/placeholders/100x100.png" />
+         </image>
+      </ImageView>
+   </left>
+</BorderPane>
