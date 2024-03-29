@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.layout.AnchorPane;
@@ -24,7 +25,9 @@ public class Home {
             FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("views/RecipeForm.fxml"));
             try {
                 homeBorderPane.setEffect(new GaussianBlur());
-                homeAnchorPane.getChildren().add(fxmlLoader.load());
+                ScrollPane form = fxmlLoader.load();
+                form.setId("recipe_form");
+                homeAnchorPane.getChildren().add(form);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

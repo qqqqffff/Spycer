@@ -1,5 +1,6 @@
 package com.apollor.respicy.controllers;
 
+import com.apollor.respicy.Application;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonWriter;
@@ -7,6 +8,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -18,9 +20,11 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class RecipeForm {
     public RecipeForm(
@@ -80,8 +84,14 @@ public class RecipeForm {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+            Application.rootAnchorPane.getChildren().removeIf(i -> Objects.equals(i.getId(), "recipe_form"));
+            Application.rootBorderPane.setEffect(null);
         });
 
+        cancelFormButton.setOnAction(event -> {
+            Application.rootAnchorPane.getChildren().removeIf(i -> Objects.equals(i.getId(), "recipe_form"));
+            Application.rootBorderPane.setEffect(null);
+        });
     }
 
     public void parseLists(Map<String, String> ingredientsList,
@@ -148,23 +158,16 @@ public class RecipeForm {
     }
 
     private void compileJson() throws IOException {
-        File f = new File(Paths.get("").toAbsolutePath() + "/src/main/java/com/apollor/respicy/data/" + titleTextField.getText() + "_recipe.json");
-        if(!f.createNewFile()){
-            int counter = 1;
-            while(f.exists())
-                f = new File(f.getName().replace("_recipe", "_recipe" + counter++));
-            if(!f.createNewFile()) throw new IOException("Unable to create file");
-        }
-
-        JsonWriter jw = new JsonWriter(new BufferedWriter(new FileWriter(f)));
+        Path curdir = Paths.get("").toAbsolutePath();
+        JsonWriter jw = getJsonWriter(curdir);
         jw.beginObject().name("title").value(titleTextField.getText());
         jw.name("ingredients").beginArray();
         for(String[] item : ingredientsList.values()){
-            jw.beginObject().name(item[0]).value(item[1]);
+            jw.beginObject().name(item[0]).value(item[1]).endObject();
         }
         jw.endArray().name("procedures").beginArray();
         for(String[] item : proceduresList.values()){
-            jw.beginObject().name(item[0]).value(item[1]);
+            jw.beginObject().name(item[0]).value(item[1]).endObject();
         }
         jw.endArray().name("notes").beginArray();
         int i = 0;
@@ -175,5 +178,27 @@ public class RecipeForm {
         jw.endArray().endObject();
 
         jw.close();
+    }
+
+    private JsonWriter getJsonWriter(Path curdir) throws IOException {
+        File data = new File(curdir + "/src/main/java/com/apollor/respicy/data/");
+        if(!data.exists()){
+            if(!data.mkdir()) throw new IOException("Unable to create data directory");
+        }
+
+        File f = new File(curdir + "/src/main/java/com/apollor/respicy/data/"+ titleTextField.getText() + "_recipe.json");
+        if(!f.createNewFile()){
+            int counter = 1;
+            while(f.exists()) {
+                f = new File(curdir + "/src/main/java/com/apollor/respicy/data/" +
+                        f.getName().replace(f.getName().contains("_recipe" + counter) ? "_recipe" + counter : "_recipe",
+                        "_recipe" + ++counter));
+            }
+            if(!f.createNewFile()) throw new IOException("Unable to create file");
+        }
+
+        JsonWriter jw = new JsonWriter(new BufferedWriter(new FileWriter(f)));
+        jw.setIndent("  ");
+        return jw;
     }
 }
