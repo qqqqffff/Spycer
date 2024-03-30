@@ -1,17 +1,18 @@
 package com.apollor.respicy.controllers;
 
 import com.apollor.respicy.Application;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.apollor.respicy.utils.JsonLoader;
+import com.apollor.respicy.utils.RecipeUpdater;
 import com.google.gson.stream.JsonWriter;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -27,15 +28,14 @@ import java.util.Map;
 import java.util.Objects;
 
 public class RecipeForm {
-    public RecipeForm(
-            Map<String, String> ingredientsList,
-            Map<String, String> proceduresList,
-            Map<String, String> notesList
-        ){
-
-    }
     public RecipeForm(){
+        try {
+            if(checkInProgressRecipe()){
 
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @FXML private TextField titleTextField;
@@ -55,7 +55,7 @@ public class RecipeForm {
 
     private Map<Integer, String[]> ingredientsList;
     private Map<Integer, String[]> proceduresList;
-    private Map<Integer, String> notesList;
+    private Map<Integer, String[]> notesList;
 
     @FXML
     public void initialize(){
@@ -81,6 +81,13 @@ public class RecipeForm {
         createRecipeButton.setOnAction(event -> {
             try {
                 compileJson();
+                //TODO: eliminate unnecessary IO
+                FXMLLoader loader = new FXMLLoader(Application.class.getResource("views/Recipe.fxml"));
+                BorderPane recipe = loader.load();
+                RecipeUpdater.updateRecipe(recipe, JsonLoader.parseJsonRecipe(new File(
+                        Paths.get("").toAbsolutePath() + "/src/main/java/com/apollor/respicy/data/" +
+                                titleTextField.getText() + "_recipe.json")));
+                ((VBox) Application.rootBorderPane.getCenter()).getChildren().add(recipe);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -151,7 +158,7 @@ public class RecipeForm {
             box.getChildren().add(input_a);
             box.setId(String.valueOf(notesList.size()));
 
-            sp_a.addListener(change -> notesList.put(Integer.parseInt(box.getId()), sp_a.getValue()));
+            sp_a.addListener(change -> notesList.put(Integer.parseInt(box.getId()), new String[]{sp_a.getValue()}));
             return box;
         }
         return null;
@@ -171,8 +178,8 @@ public class RecipeForm {
         }
         jw.endArray().name("notes").beginArray();
         int i = 0;
-        for(String item : notesList.values()){
-            jw.beginObject().name("note " + i).value(item);
+        for(String[] item : notesList.values()){
+            jw.beginObject().name("note " + i).value(item[0]).endObject();
             i++;
         }
         jw.endArray().endObject();
@@ -200,5 +207,15 @@ public class RecipeForm {
         JsonWriter jw = new JsonWriter(new BufferedWriter(new FileWriter(f)));
         jw.setIndent("  ");
         return jw;
+    }
+
+    public boolean checkInProgressRecipe() throws IOException {
+        Path curdir = Paths.get("").toAbsolutePath();
+        File data = new File(curdir + "/src/main/java/com/apollor/respicy/data/");
+        if(!data.exists()){
+            if(!data.mkdir()) throw new IOException("Unable to create data directory");
+        }
+        File f = new File(data.getAbsolutePath() + "/inprogress_recipe.json");
+        return f.exists();
     }
 }
