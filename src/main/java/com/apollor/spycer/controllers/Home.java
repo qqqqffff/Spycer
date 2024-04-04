@@ -32,6 +32,10 @@ public class Home {
 
     @FXML
     public void initialize(){
+        String ascending = "↑";
+        String descending = "↓";
+        String defaultSortBy = "name";
+
         createRecipeButton.setOnAction(event -> {
             FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("views/RecipeForm.fxml"));
             try {
@@ -53,8 +57,8 @@ public class Home {
                     BorderPane recipe = fxmlLoader.load();
                     RecipeUpdater.updateRecipe(recipe, data);
                     ((VBox) homeBorderPane.getCenter()).getChildren().add(recipe);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
+                } catch (IOException ignored) {
+                    System.out.println("Trouble loading recipe");
                 }
             }
         }

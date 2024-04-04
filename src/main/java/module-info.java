@@ -2,6 +2,7 @@ module com.apollor.spycer {
     requires javafx.controls;
     requires javafx.fxml;
     requires com.google.gson;
+    requires org.joda.time;
 
 
     opens com.apollor.spycer to javafx.fxml;

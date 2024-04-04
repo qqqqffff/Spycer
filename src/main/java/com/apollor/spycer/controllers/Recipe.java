@@ -17,11 +17,14 @@ public class Recipe {
 
     @FXML
     public void initialize(){
+        final String defaultStyle = "-fx-background-color: white; -fx-border-width: 3; -fx-border-radius: 15; -fx-border-color: black; -fx-background-radius: 15";
+        final String hoverStyle = "-fx-background-color: lightgrey; -fx-border-width: 3; -fx-border-radius: 15; -fx-border-color: black; -fx-background-radius: 15";
+
         rootPane.setOnMouseClicked(event -> {
             System.out.println(event);
         });
 
-        rootPane.setOnMouseEntered(event -> rootPane.setStyle("-fx-background-color: lightgrey"));
-        rootPane.setOnMouseExited(event -> rootPane.setStyle("-fx-background-color: white"));
+        rootPane.setOnMouseEntered(event -> rootPane.setStyle(hoverStyle));
+        rootPane.setOnMouseExited(event -> rootPane.setStyle(defaultStyle));
     }
 }
