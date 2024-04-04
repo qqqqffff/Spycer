@@ -1,4 +1,4 @@
-package com.apollor.respicy.utils;
+package com.apollor.spycer.utils;
 
 import java.util.Date;
 import java.util.Map;

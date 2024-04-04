@@ -1,12 +1,12 @@
-module com.apollor.respicy {
+module com.apollor.spycer {
     requires javafx.controls;
     requires javafx.fxml;
     requires com.google.gson;
 
 
-    opens com.apollor.respicy to javafx.fxml;
-    exports com.apollor.respicy;
-    exports com.apollor.respicy.controllers;
-    exports com.apollor.respicy.utils;
-    opens com.apollor.respicy.controllers to javafx.fxml;
+    opens com.apollor.spycer to javafx.fxml;
+    exports com.apollor.spycer;
+    exports com.apollor.spycer.controllers;
+    exports com.apollor.spycer.utils;
+    opens com.apollor.spycer.controllers to javafx.fxml;
 }

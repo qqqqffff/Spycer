@@ -1,4 +1,4 @@
-package com.apollor.respicy.controllers;
+package com.apollor.spycer.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;

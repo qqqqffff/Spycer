@@ -1,8 +1,8 @@
-package com.apollor.respicy.controllers;
+package com.apollor.spycer.controllers;
 
-import com.apollor.respicy.Application;
-import com.apollor.respicy.utils.JsonLoader;
-import com.apollor.respicy.utils.RecipeUpdater;
+import com.apollor.spycer.Application;
+import com.apollor.spycer.utils.JsonLoader;
+import com.apollor.spycer.utils.RecipeUpdater;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -44,7 +44,7 @@ public class Home {
             }
         });
 
-        File datadir = new File(Paths.get("").toAbsolutePath() + "/src/main/java/com/apollor/respicy/data/");
+        File datadir = new File(Paths.get("").toAbsolutePath() + "/src/main/java/com/apollor/spycer/data/");
         for(File dir : Objects.requireNonNull(datadir.listFiles())){
             if(dir.getName().contains("_recipe.json")){
                 try {

@@ -1,4 +1,4 @@
-package com.apollor.respicy.utils;
+package com.apollor.spycer.utils;
 
 import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;

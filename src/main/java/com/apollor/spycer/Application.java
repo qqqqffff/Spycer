@@ -1,4 +1,4 @@
-package com.apollor.respicy;
+package com.apollor.spycer;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;

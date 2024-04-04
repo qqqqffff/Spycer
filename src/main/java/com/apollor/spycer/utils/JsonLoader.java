@@ -1,4 +1,4 @@
-package com.apollor.respicy.utils;
+package com.apollor.spycer.utils;
 
 import com.google.gson.stream.JsonReader;
 

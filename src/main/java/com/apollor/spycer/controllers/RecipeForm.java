@@ -1,8 +1,8 @@
-package com.apollor.respicy.controllers;
+package com.apollor.spycer.controllers;
 
-import com.apollor.respicy.Application;
-import com.apollor.respicy.utils.JsonLoader;
-import com.apollor.respicy.utils.RecipeUpdater;
+import com.apollor.spycer.Application;
+import com.apollor.spycer.utils.JsonLoader;
+import com.apollor.spycer.utils.RecipeUpdater;
 import com.google.gson.stream.JsonWriter;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
@@ -85,7 +85,7 @@ public class RecipeForm {
                 FXMLLoader loader = new FXMLLoader(Application.class.getResource("views/Recipe.fxml"));
                 BorderPane recipe = loader.load();
                 RecipeUpdater.updateRecipe(recipe, JsonLoader.parseJsonRecipe(new File(
-                        Paths.get("").toAbsolutePath() + "/src/main/java/com/apollor/respicy/data/" +
+                        Paths.get("").toAbsolutePath() + "/src/main/java/com/apollor/spycer/data/" +
                                 titleTextField.getText() + "_recipe.json")));
                 ((VBox) Application.rootBorderPane.getCenter()).getChildren().add(recipe);
             } catch (IOException e) {
@@ -188,16 +188,16 @@ public class RecipeForm {
     }
 
     private JsonWriter getJsonWriter(Path curdir) throws IOException {
-        File data = new File(curdir + "/src/main/java/com/apollor/respicy/data/");
+        File data = new File(curdir + "/src/main/java/com/apollor/spycer/data/");
         if(!data.exists()){
             if(!data.mkdir()) throw new IOException("Unable to create data directory");
         }
 
-        File f = new File(curdir + "/src/main/java/com/apollor/respicy/data/"+ titleTextField.getText() + "_recipe.json");
+        File f = new File(curdir + "/src/main/java/com/apollor/spycer/data/"+ titleTextField.getText() + "_recipe.json");
         if(!f.createNewFile()){
             int counter = 1;
             while(f.exists()) {
-                f = new File(curdir + "/src/main/java/com/apollor/respicy/data/" +
+                f = new File(curdir + "/src/main/java/com/apollor/spycer/data/" +
                         f.getName().replace(f.getName().contains("_recipe" + counter) ? "_recipe" + counter : "_recipe",
                         "_recipe" + ++counter));
             }
@@ -211,7 +211,7 @@ public class RecipeForm {
 
     public boolean checkInProgressRecipe() throws IOException {
         Path curdir = Paths.get("").toAbsolutePath();
-        File data = new File(curdir + "/src/main/java/com/apollor/respicy/data/");
+        File data = new File(curdir + "/src/main/java/com/apollor/spycer/data/");
         if(!data.exists()){
             if(!data.mkdir()) throw new IOException("Unable to create data directory");
         }
