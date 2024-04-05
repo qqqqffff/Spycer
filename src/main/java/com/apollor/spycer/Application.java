@@ -13,6 +13,7 @@ import java.util.Objects;
 public class Application extends javafx.application.Application {
     public static AnchorPane rootAnchorPane;
     public static BorderPane rootBorderPane;
+    public static String stylesheetLink;
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -24,6 +25,8 @@ public class Application extends javafx.application.Application {
                 break;
             }
         }
+
+        stylesheetLink = String.valueOf(Application.class.getResource("styles/Stylesheet.css"));
         Scene scene = new Scene(rootAnchorPane, 1280, 800);
         stage.setTitle("Respicy");
         stage.setScene(scene);

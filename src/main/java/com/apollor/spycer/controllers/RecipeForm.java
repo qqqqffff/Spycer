@@ -9,10 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -68,6 +65,7 @@ public class RecipeForm {
         ingredientsList = new HashMap<>();
         proceduresList = new HashMap<>();
         notesList = new HashMap<>();
+        tagsList = new HashMap<>();
 
         addIngredientButton.setOnAction(event -> {
             HBox box = createGroup(0);
@@ -87,7 +85,7 @@ public class RecipeForm {
         addTagsButton.setOnAction(event -> {
             if(tagsList.size() < 3){
                 HBox box = createGroup(3);
-                noteBox.getChildren().add(box);
+                tagsBox.getChildren().add(box);
             }
         });
 
@@ -131,11 +129,15 @@ public class RecipeForm {
         HBox.setMargin(indentChar, new Insets(0, 0, 0, 10));
         box.getChildren().add(indentChar);
 
-        TextField input_a = new TextField();
-        input_a.setFont(new Font(16));
+        TextArea input_a = new TextArea();
+        input_a.setPrefWidth(315);
+        input_a.setMaxHeight(35);
+        input_a.setWrapText(true);
 
-        TextField input_b = new TextField();
-        input_b.setFont(new Font(16));
+        TextArea input_b = new TextArea();
+        input_b.setPrefWidth(315);
+        input_b.setMaxHeight(35);
+        input_b.setWrapText(true);
 
         SimpleStringProperty sp_a = new SimpleStringProperty();
         SimpleStringProperty sp_b = new SimpleStringProperty();
@@ -156,18 +158,11 @@ public class RecipeForm {
         }
         else if(type == 1){
             input_a.setPromptText("Procedure");
-            input_b.setPromptText("Time (Optional)");
-            box.getChildren().add(input_a);
-            box.getChildren().add(input_b);
-            box.setId(String.valueOf(proceduresList.size()));
-
-            sp_a.addListener(change -> proceduresList.put(Integer.parseInt(box.getId()), new String[]{sp_a.getValue(), sp_b.getValue()}));
-            sp_b.addListener(change -> proceduresList.put(Integer.parseInt(box.getId()), new String[]{sp_a.getValue(), sp_b.getValue()}));
-            return box;
+            return procedureBox(indentChar, input_a, sp_a);
         }
         else if(type == 2){
             input_a.setPromptText("Note");
-            input_a.setPrefWidth(400);
+            input_a.setPrefWidth(650);
             box.getChildren().add(input_a);
             box.setId(String.valueOf(notesList.size()));
 
@@ -176,22 +171,72 @@ public class RecipeForm {
         }
         else if(type == 3){
             input_a.setPromptText("Tag");
-            input_a.setPrefWidth(400);
-            return tagBox(indentChar, input_a);
+            input_a.setPrefWidth(650);
+            box.getChildren().add(input_a);
+            box.setId(String.valueOf(tagsList.size()));
+
+            sp_a.addListener(change -> tagsList.put(Integer.parseInt(box.getId()), new String[]{sp_a.getValue()}));
+            return box;
         }
         return null;
     }
 
-    private HBox tagBox(Label indentChar, TextField field){
+    private HBox procedureBox(Label indentChar, TextArea field, SimpleStringProperty sp){
         HBox box = new HBox();
+        box.setAlignment(Pos.CENTER_LEFT);
+        field.setPrefWidth(400);
+        box.setId(String.valueOf(tagsList.size()));
+        box.setMaxHeight(200);
         box.getChildren().add(indentChar);
+        HBox.setMargin(indentChar, new Insets(0, 25, 0, 10));
         BorderPane pane = new BorderPane();
         box.getChildren().add(pane);
+        BorderPane.setMargin(field, new Insets(0,25,0,0));
         pane.setLeft(field);
 
+        HBox numericalFields = new HBox();
+        numericalFields.setAlignment(Pos.CENTER_LEFT);
+        TextArea hrInput = createNumericalInput();
+        numericalFields.getChildren().add(hrInput);
+        Label hrLabel = new Label("H");
+        HBox.setMargin(hrLabel, new Insets(0,10,0,5));
+        numericalFields.getChildren().add(hrLabel);
+        SimpleStringProperty spHr = new SimpleStringProperty();
+        hrInput.textProperty().bindBidirectional(spHr);
 
+        TextArea minInput = createNumericalInput();
+        numericalFields.getChildren().add(minInput);
+        Label minLabel = new Label("M");
+        HBox.setMargin(minLabel, new Insets(0,10,0,5));
+        numericalFields.getChildren().add(minLabel);
+        SimpleStringProperty spMin = new SimpleStringProperty();
+        minInput.textProperty().bindBidirectional(spMin);
+
+        TextArea secInput = createNumericalInput();
+        numericalFields.getChildren().add(secInput);
+        Label secLabel = new Label("S");
+        secLabel.setFont(new Font(16));
+        HBox.setMargin(secLabel, new Insets(0,10,0,5));
+        numericalFields.getChildren().add(secLabel);
+        SimpleStringProperty spSec = new SimpleStringProperty();
+        secInput.textProperty().bindBidirectional(spSec);
+
+        pane.setRight(numericalFields);
+
+        sp.addListener(change -> notesList.put(Integer.parseInt(box.getId()), new String[]{sp.getValue(), spHr.getValue(), spMin.getValue(), spSec.getValue()}));
+        spHr.addListener(change -> notesList.put(Integer.parseInt(box.getId()), new String[]{sp.getValue(), spHr.getValue(), spMin.getValue(), spSec.getValue()}));
+        spMin.addListener(change -> notesList.put(Integer.parseInt(box.getId()), new String[]{sp.getValue(), spHr.getValue(), spMin.getValue(), spSec.getValue()}));
+        spSec.addListener(change -> notesList.put(Integer.parseInt(box.getId()), new String[]{sp.getValue(), spHr.getValue(), spMin.getValue(), spSec.getValue()}));
 
         return box;
+    }
+
+    private TextArea createNumericalInput(){
+        TextArea ta = new TextArea();
+        ta.setPrefWidth(50);
+        ta.setPrefHeight(35);
+        ta.setWrapText(true);
+        return ta;
     }
 
     private void compileJson() throws IOException {

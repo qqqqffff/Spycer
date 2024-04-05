@@ -1,0 +1,113 @@
+* {
+    -primary-color: #17202A;
+    -secondary-color: #2C3E50;
+    -l-secondary-color: #566573;
+    -tertiary-color: #3498DB;
+    -contrast-color: #EAECEE;
+}
+
+.text-area .scroll-bar:vertical {
+    -fx-pref-width: 1;
+    -fx-opacity: 0;
+}
+
+.text-area .content{
+    -fx-border-color: black;
+    -fx-border-width: 2;
+    -fx-prompt-text-fill: white;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+}
+
+.text-area{
+    -fx-background-insets: 4;
+    -fx-background-color: -secondary-color;
+    -fx-border-color: transparent;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-text-fill: -contrast-color;
+    -fx-font-size: 16;
+    -fx-font-family: Arial serif;
+}
+
+.text-area:focused .content{
+    -fx-border-color: -tertiary-color;
+}
+
+.text-area .scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.text-area .scroll-pane .viewport{
+    -fx-background-color: transparent;
+}
+
+.text-area .scroll-pane .content{
+    -fx-background-color: transparent;
+}
+
+.label .text{
+    -fx-fill: -contrast-color;
+    -fx-font-family: Arial serif;
+    -fx-font-size: 24
+}
+
+.text-field{
+    -fx-border-color: black;
+    -fx-border-width: 2;
+    -fx-background-color: -secondary-color;
+    -fx-prompt-text-fill: rgba(255, 255, 255, 0.5);
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-text-fill: -contrast-color;
+    -fx-font-size: 16;
+    -fx-font-family: Arial serif;
+}
+
+.text-field:focused{
+    -fx-border-color: -tertiary-color;
+}
+
+VBox{
+    -fx-background-color: -primary-color;
+}
+
+ScrollPane{
+    -fx-background-color: -primary-color;
+}
+
+
+.button {
+    -fx-background-color: -contrast-color;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-border-color: black;
+    -fx-border-width: 2;
+    -fx-background-insets: 1,4,4;
+    -fx-text-fill: -secondary-color;
+    -fx-font-family: Arial serif;
+    -fx-font-size: 16
+}
+
+.button:hover {
+    -fx-background-color: -l-secondary-color;
+    -fx-border-color: -tertiary-color;
+    -fx-text-fill: -contrast-color;
+}
+
+.slider .axis{
+    -fx-tick-label-fill: -contrast-color;
+}
+
+.slider .track{
+    -fx-background-color: -secondary-color;
+    -fx-border-color: black;
+    -fx-border-radius: 5;
+    -fx-padding: 7;
+    -fx-background-insets: 1,4,4;
+}
+
+.slider .thumb{
+    -fx-background-color: -tertiary-color;
+    -fx-border-color: transparent;
+}
