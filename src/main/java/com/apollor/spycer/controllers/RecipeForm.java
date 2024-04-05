@@ -11,6 +11,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -39,16 +40,20 @@ public class RecipeForm {
     }
 
     @FXML private TextField titleTextField;
+    @FXML private Slider ratingSlider;
     @FXML private Button addIngredientButton;
     @FXML private Button removeIngredientButton;
     @FXML private Button addProcedureButton;
     @FXML private Button removeProcedureButton;
     @FXML private Button addNotesButton;
     @FXML private Button removeNotesButton;
+    @FXML private Button addTagsButton;
+    @FXML private Button removeTagsButton;
 
     @FXML private VBox ingredientBox;
     @FXML private VBox procedureBox;
     @FXML private VBox noteBox;
+    @FXML private VBox tagsBox;
 
     @FXML private Button cancelFormButton;
     @FXML private Button createRecipeButton;
@@ -56,6 +61,7 @@ public class RecipeForm {
     private Map<Integer, String[]> ingredientsList;
     private Map<Integer, String[]> proceduresList;
     private Map<Integer, String[]> notesList;
+    private Map<Integer, String[]> tagsList;
 
     @FXML
     public void initialize(){
@@ -76,6 +82,13 @@ public class RecipeForm {
         addNotesButton.setOnAction(event -> {
             HBox box = createGroup(2);
             noteBox.getChildren().add(box);
+        });
+
+        addTagsButton.setOnAction(event -> {
+            if(tagsList.size() < 3){
+                HBox box = createGroup(3);
+                noteBox.getChildren().add(box);
+            }
         });
 
         createRecipeButton.setOnAction(event -> {
@@ -161,7 +174,24 @@ public class RecipeForm {
             sp_a.addListener(change -> notesList.put(Integer.parseInt(box.getId()), new String[]{sp_a.getValue()}));
             return box;
         }
+        else if(type == 3){
+            input_a.setPromptText("Tag");
+            input_a.setPrefWidth(400);
+            return tagBox(indentChar, input_a);
+        }
         return null;
+    }
+
+    private HBox tagBox(Label indentChar, TextField field){
+        HBox box = new HBox();
+        box.getChildren().add(indentChar);
+        BorderPane pane = new BorderPane();
+        box.getChildren().add(pane);
+        pane.setLeft(field);
+
+
+
+        return box;
     }
 
     private void compileJson() throws IOException {

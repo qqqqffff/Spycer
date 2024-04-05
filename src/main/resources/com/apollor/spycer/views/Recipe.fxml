@@ -11,7 +11,7 @@
 
 <BorderPane fx:id="rootPane" style="-fx-border-color: black; -fx-border-width: 3; -fx-border-radius: 15;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.apollor.spycer.controllers.Recipe">
    <center>
-      <VBox alignment="CENTER" spacing="20.0" BorderPane.alignment="CENTER">
+      <VBox alignment="CENTER" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
             <Text fx:id="recipeTitleText" strokeType="OUTSIDE" strokeWidth="0.0" text="Recipe Name">
                <font>
@@ -32,6 +32,11 @@
                   </Text>
                </children>
             </HBox>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tags: Asian, Simple, Fast">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Text>
          </children>
          <BorderPane.margin>
             <Insets right="100.0" />

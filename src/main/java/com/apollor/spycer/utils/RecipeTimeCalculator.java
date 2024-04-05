@@ -9,12 +9,10 @@ public class RecipeTimeCalculator {
     //assuming procedure map:
     public static Period calculateRecipeTime(Map<Integer, String[]> map){
         double hours = 0;
+        Period period = new Period();
         for(String[] value : map.values()){
-            if(value[1].replace(" ", "").matches("\\d+hr&&h&&hour")){
 
-            }
-            else if()
-            Pattern
         }
+        return period;
     }
 }
