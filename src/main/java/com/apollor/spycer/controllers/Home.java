@@ -4,10 +4,11 @@ import com.apollor.spycer.Application;
 import com.apollor.spycer.utils.AnimationFactory;
 import com.apollor.spycer.utils.JsonLoader;
 import com.apollor.spycer.utils.RecipeUpdater;
-import javafx.animation.*;
+import com.apollor.spycer.utils.SortParam;
+import javafx.animation.Animation;
+import javafx.animation.Interpolator;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ScrollPane;
@@ -15,16 +16,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
 import java.util.Objects;
@@ -35,13 +31,14 @@ public class Home {
     @FXML private TextField recipeSearchField;
     @FXML private Button createRecipeButton;
     @FXML private Button sortDirectionButton;
-    @FXML private ComboBox<String> sortParameterComboBox;
+    @FXML private ComboBox<SortParam> sortParameterComboBox;
+
 
     @FXML
     public void initialize(){
         String ascending = "↑";
         String descending = "↓";
-        String defaultSortBy = "name";
+        SortParam defaultSortBy = SortParam.NAME;
 
         File datadir = new File(Paths.get("").toAbsolutePath() + "/src/main/java/com/apollor/spycer/data/");
         for(File dir : Objects.requireNonNull(datadir.listFiles())){
@@ -67,7 +64,7 @@ public class Home {
                 form.setLayoutX((1280-794) / 2.0);
                 form.setLayoutY(50);
                 homeAnchorPane.getChildren().add(form);
-                disableBackground();
+                Application.rootBorderPane.setDisable(true);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -189,15 +186,5 @@ public class Home {
             );
             animation.play();
         });
-    }
-
-    private void disableBackground(){
-
-    }
-    private void toggleGroup(Node n, boolean toggle){
-
-    }
-    private void enableBackground(){
-
     }
 }

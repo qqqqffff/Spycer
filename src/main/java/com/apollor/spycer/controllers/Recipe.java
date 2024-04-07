@@ -1,5 +1,6 @@
 package com.apollor.spycer.controllers;
 
+import com.apollor.spycer.utils.AnimationFactory;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.Transition;
@@ -30,40 +31,52 @@ public class Recipe {
         rootPane.setOnMouseClicked(System.out::println);
 
         rootPane.setOnMouseEntered(event -> {
-            Animation animation = new Transition() {
-                {
-                    setCycleDuration(Duration.millis(100));
-                    setInterpolator(Interpolator.EASE_IN);
-                }
-                @Override
-                protected void interpolate(double v) {
-                    double saturation = 29 - (15 * v);
-                    double lightness = 24 + (15 * v);
-
-                    Color c = Color.web("hsl(210, " + saturation +"%, " + lightness + "%)");
-                    rootPane.setStyle("-fx-border-width: 3; -fx-border-radius: 15; -fx-border-color: #3498DB; -fx-background-radius: 15; -fx-background-color: #"+ c.toString().substring(2) +";");
-                    descBox.setStyle("-fx-background-color: #"+ c.toString().substring(2) +";");
-                }
-            };
-            animation.play();
+            Animation animation1 = AnimationFactory.generateFillTransition(
+                    rootPane,
+                    Interpolator.EASE_IN,
+                    Duration.millis(100),
+                    "-fx-border-width: 3; -fx-border-radius: 15; -fx-border-color: #3498DB; -fx-background-radius: 15; -fx-background-color: ",
+                    29.0,
+                    24.0,
+                    -15.0,
+                    15.0
+            );
+            Animation animation2 = AnimationFactory.generateFillTransition(
+                    descBox,
+                    Interpolator.EASE_IN,
+                    Duration.millis(100),
+                    "-fx-background-color: ",
+                    29.0,
+                    24.0,
+                    -15.0,
+                    15.0
+            );
+            animation1.play();
+            animation2.play();
         });
         rootPane.setOnMouseExited(event -> {
-            Animation animation = new Transition() {
-                {
-                    setCycleDuration(Duration.millis(100));
-                    setInterpolator(Interpolator.EASE_OUT);
-                }
-                @Override
-                protected void interpolate(double v) {
-                    double saturation = 14 + (15 * v);
-                    double lightness = 39 - (15 * v);
-
-                    Color c = Color.web("hsl(210, " + saturation +"%, " + lightness + "%)");
-                    rootPane.setStyle("-fx-border-width: 3; -fx-border-radius: 15; -fx-border-color: black; -fx-background-radius: 15; -fx-background-color: #"+ c.toString().substring(2) +";");
-                    descBox.setStyle("-fx-background-color: #"+ c.toString().substring(2) +";");
-                }
-            };
-            animation.play();
+            Animation animation1 = AnimationFactory.generateFillTransition(
+                    rootPane,
+                    Interpolator.EASE_OUT,
+                    Duration.millis(100),
+                    "-fx-border-width: 3; -fx-border-radius: 15; -fx-border-color: #000000; -fx-background-radius: 15; -fx-background-color: ",
+                    14.0,
+                    39.0,
+                    15.0,
+                    -15.0
+            );
+            Animation animation2 = AnimationFactory.generateFillTransition(
+                    descBox,
+                    Interpolator.EASE_OUT,
+                    Duration.millis(100),
+                    "-fx-background-color: ",
+                    14.0,
+                    39.0,
+                    15.0,
+                    -15.0
+            );
+            animation1.play();
+            animation2.play();
         });
     }
 }

@@ -30,6 +30,10 @@
     -fx-font-family: Arial serif;
 }
 
+.text-area:hover .content{
+    -fx-border-color: -tertiary-color;
+}
+
 .text-area:focused .content{
     -fx-border-color: -tertiary-color;
 }

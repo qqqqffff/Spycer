@@ -1,10 +1,13 @@
 package com.apollor.spycer.controllers;
 
 import com.apollor.spycer.Application;
+import com.apollor.spycer.utils.AnimationFactory;
 import com.apollor.spycer.utils.JsonLoader;
 import com.apollor.spycer.utils.RecipeTimeCalculator;
 import com.apollor.spycer.utils.RecipeUpdater;
 import com.google.gson.stream.JsonWriter;
+import javafx.animation.Animation;
+import javafx.animation.Interpolator;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,6 +18,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.util.Duration;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -72,15 +76,93 @@ public class RecipeForm {
             HBox box = createGroup(0);
             ingredientBox.getChildren().add(box);
         });
+        addIngredientButton.setOnMouseEntered(event -> {
+            Animation animation = AnimationFactory.generateFillTransition(
+                    addIngredientButton,
+                    Interpolator.EASE_IN,
+                    Duration.millis(150),
+                    "-fx-background-color: ",
+                    9.0,
+                    92.0,
+                    5.0,
+                    -53.0
+            );
+            animation.play();
+        });
+        addIngredientButton.setOnMouseExited(event -> {
+            Animation animation = AnimationFactory.generateFillTransition(
+                    addIngredientButton,
+                    Interpolator.EASE_OUT,
+                    Duration.millis(150),
+                    "-fx-background-color: ",
+                    14,
+                    39,
+                    -5.0,
+                    53.0
+            );
+            animation.play();
+        });
 
         addProcedureButton.setOnAction(event -> {
             HBox box = createGroup(1);
             procedureBox.getChildren().add(box);
         });
+        addProcedureButton.setOnMouseEntered(event -> {
+            Animation animation = AnimationFactory.generateFillTransition(
+                    addProcedureButton,
+                    Interpolator.EASE_IN,
+                    Duration.millis(150),
+                    "-fx-background-color: ",
+                    9.0,
+                    92.0,
+                    5.0,
+                    -53.0
+            );
+            animation.play();
+        });
+        addProcedureButton.setOnMouseExited(event -> {
+            Animation animation = AnimationFactory.generateFillTransition(
+                    addProcedureButton,
+                    Interpolator.EASE_OUT,
+                    Duration.millis(150),
+                    "-fx-background-color: ",
+                    14,
+                    39,
+                    -5.0,
+                    53.0
+            );
+            animation.play();
+        });
 
         addNotesButton.setOnAction(event -> {
             HBox box = createGroup(2);
             noteBox.getChildren().add(box);
+        });
+        addNotesButton.setOnMouseEntered(event -> {
+            Animation animation = AnimationFactory.generateFillTransition(
+                    addNotesButton,
+                    Interpolator.EASE_IN,
+                    Duration.millis(150),
+                    "-fx-background-color: ",
+                    9.0,
+                    92.0,
+                    5.0,
+                    -53.0
+            );
+            animation.play();
+        });
+        addNotesButton.setOnMouseExited(event -> {
+            Animation animation = AnimationFactory.generateFillTransition(
+                    addNotesButton,
+                    Interpolator.EASE_OUT,
+                    Duration.millis(150),
+                    "-fx-background-color: ",
+                    14,
+                    39,
+                    -5.0,
+                    53.0
+            );
+            animation.play();
         });
 
         addTagsButton.setOnAction(event -> {
@@ -93,6 +175,32 @@ public class RecipeForm {
                 addTagsButton.setOpacity(0);
                 addTagsButton.setDisable(true);
             }
+        });
+        addTagsButton.setOnMouseEntered(event -> {
+            Animation animation = AnimationFactory.generateFillTransition(
+                    addTagsButton,
+                    Interpolator.EASE_IN,
+                    Duration.millis(150),
+                    "-fx-background-color: ",
+                    9.0,
+                    92.0,
+                    5.0,
+                    -53.0
+            );
+            animation.play();
+        });
+        addTagsButton.setOnMouseExited(event -> {
+            Animation animation = AnimationFactory.generateFillTransition(
+                    addTagsButton,
+                    Interpolator.EASE_OUT,
+                    Duration.millis(150),
+                    "-fx-background-color: ",
+                    14,
+                    39,
+                    -5.0,
+                    53.0
+            );
+            animation.play();
         });
 
         createRecipeButton.setOnAction(event -> {
@@ -110,11 +218,65 @@ public class RecipeForm {
             }
             Application.rootAnchorPane.getChildren().removeIf(i -> Objects.equals(i.getId(), "recipe_form"));
             Application.rootBorderPane.setEffect(null);
+            Application.rootBorderPane.setDisable(false);
+        });
+        createRecipeButton.setOnMouseEntered(event -> {
+            Animation animation = AnimationFactory.generateFillTransition(
+                    createRecipeButton,
+                    Interpolator.EASE_IN,
+                    Duration.millis(150),
+                    "-fx-background-color: ",
+                    9.0,
+                    92.0,
+                    5.0,
+                    -53.0
+            );
+            animation.play();
+        });
+        createRecipeButton.setOnMouseExited(event -> {
+            Animation animation = AnimationFactory.generateFillTransition(
+                    createRecipeButton,
+                    Interpolator.EASE_OUT,
+                    Duration.millis(150),
+                    "-fx-background-color: ",
+                    14,
+                    39,
+                    -5.0,
+                    53.0
+            );
+            animation.play();
         });
 
         cancelFormButton.setOnAction(event -> {
             Application.rootAnchorPane.getChildren().removeIf(i -> Objects.equals(i.getId(), "recipe_form"));
             Application.rootBorderPane.setEffect(null);
+            Application.rootBorderPane.setDisable(false);
+        });
+        cancelFormButton.setOnMouseEntered(event -> {
+            Animation animation = AnimationFactory.generateFillTransition(
+                    cancelFormButton,
+                    Interpolator.EASE_IN,
+                    Duration.millis(150),
+                    "-fx-background-color: ",
+                    9.0,
+                    92.0,
+                    5.0,
+                    -53.0
+            );
+            animation.play();
+        });
+        cancelFormButton.setOnMouseExited(event -> {
+            Animation animation = AnimationFactory.generateFillTransition(
+                    cancelFormButton,
+                    Interpolator.EASE_OUT,
+                    Duration.millis(150),
+                    "-fx-background-color: ",
+                    14,
+                    39,
+                    -5.0,
+                    53.0
+            );
+            animation.play();
         });
     }
 
@@ -139,11 +301,63 @@ public class RecipeForm {
         input_a.setPrefWidth(315);
         input_a.setMaxHeight(35);
         input_a.setWrapText(true);
+        input_a.setOnMouseEntered(event -> {
+            Animation animation = AnimationFactory.generateFillTransition(
+                    input_a,
+                    Interpolator.EASE_IN,
+                    Duration.millis(100),
+                    "-fx-background-color: ",
+                    29.0,
+                    24.0,
+                    -15.0,
+                    15.0
+            );
+            animation.play();
+        });
+        input_a.setOnMouseExited(event -> {
+            Animation animation = AnimationFactory.generateFillTransition(
+                    input_a,
+                    Interpolator.EASE_OUT,
+                    Duration.millis(100),
+                    "-fx-background-color: ",
+                    14.0,
+                    39,
+                    15.0,
+                    -15.0
+            );
+            animation.play();
+        });
 
         TextArea input_b = new TextArea();
         input_b.setPrefWidth(315);
         input_b.setMaxHeight(35);
         input_b.setWrapText(true);
+        input_b.setOnMouseEntered(event -> {
+            Animation animation = AnimationFactory.generateFillTransition(
+                    input_b,
+                    Interpolator.EASE_IN,
+                    Duration.millis(100),
+                    "-fx-background-color: ",
+                    29.0,
+                    24.0,
+                    -15.0,
+                    15.0
+            );
+            animation.play();
+        });
+        input_b.setOnMouseExited(event -> {
+            Animation animation = AnimationFactory.generateFillTransition(
+                    input_b,
+                    Interpolator.EASE_OUT,
+                    Duration.millis(100),
+                    "-fx-background-color: ",
+                    14.0,
+                    39,
+                    15.0,
+                    -15.0
+            );
+            animation.play();
+        });
 
         SimpleStringProperty sp_a = new SimpleStringProperty();
         SimpleStringProperty sp_b = new SimpleStringProperty();
