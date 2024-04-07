@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -26,6 +27,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -72,6 +74,10 @@ public class RecipeForm {
         notesList = new HashMap<>();
         tagsList = new HashMap<>();
 
+        //TODO: make it so that you can lists at a time from multiple
+        //TODO: make it so that adding a new item turns off remove mode
+        //TODO: fix formatting of cancel and create button when scroll overflow
+
         addIngredientButton.setOnAction(event -> {
             HBox box = createGroup(0);
             ingredientBox.getChildren().add(box);
@@ -103,6 +109,46 @@ public class RecipeForm {
             animation.play();
         });
 
+        removeIngredientButton.setOnAction(event -> {
+            if(removeIngredientButton.getText().equals("-")){
+                removeIngredientButton.setText("✔");
+                toggleRemoveButtons(removeIngredientButton, true);
+                makeItemsRemovable(ingredientBox, ingredientsList);
+            }
+            else{
+                removeIngredientButton.setText("-");
+                toggleRemoveButtons(removeIngredientButton, false);
+                revertItems(ingredientBox);
+            }
+        });
+        removeIngredientButton.setOnMouseEntered(event -> {
+            Animation animation = AnimationFactory.generateFillTransition(
+                    removeIngredientButton,
+                    Interpolator.EASE_IN,
+                    Duration.millis(150),
+                    "-fx-background-color: ",
+                    9.0,
+                    92.0,
+                    5.0,
+                    -53.0
+            );
+            animation.play();
+        });
+        removeIngredientButton.setOnMouseExited(event -> {
+            Animation animation = AnimationFactory.generateFillTransition(
+                    removeIngredientButton,
+                    Interpolator.EASE_OUT,
+                    Duration.millis(150),
+                    "-fx-background-color: ",
+                    14,
+                    39,
+                    -5.0,
+                    53.0
+            );
+            animation.play();
+        });
+
+
         addProcedureButton.setOnAction(event -> {
             HBox box = createGroup(1);
             procedureBox.getChildren().add(box);
@@ -123,6 +169,45 @@ public class RecipeForm {
         addProcedureButton.setOnMouseExited(event -> {
             Animation animation = AnimationFactory.generateFillTransition(
                     addProcedureButton,
+                    Interpolator.EASE_OUT,
+                    Duration.millis(150),
+                    "-fx-background-color: ",
+                    14,
+                    39,
+                    -5.0,
+                    53.0
+            );
+            animation.play();
+        });
+
+        removeProcedureButton.setOnAction(event -> {
+            if(removeProcedureButton.getText().equals("-")){
+                removeProcedureButton.setText("✔");
+                toggleRemoveButtons(removeProcedureButton, true);
+                makeItemsRemovable(procedureBox, proceduresList);
+            }
+            else{
+                removeProcedureButton.setText("-");
+                toggleRemoveButtons(removeProcedureButton, false);
+                revertItems(procedureBox);
+            }
+        });
+        removeProcedureButton.setOnMouseEntered(event -> {
+            Animation animation = AnimationFactory.generateFillTransition(
+                    removeProcedureButton,
+                    Interpolator.EASE_IN,
+                    Duration.millis(150),
+                    "-fx-background-color: ",
+                    9.0,
+                    92.0,
+                    5.0,
+                    -53.0
+            );
+            animation.play();
+        });
+        removeProcedureButton.setOnMouseExited(event -> {
+            Animation animation = AnimationFactory.generateFillTransition(
+                    removeProcedureButton,
                     Interpolator.EASE_OUT,
                     Duration.millis(150),
                     "-fx-background-color: ",
@@ -165,12 +250,50 @@ public class RecipeForm {
             animation.play();
         });
 
+        removeNotesButton.setOnAction(event -> {
+            if(removeNotesButton.getText().equals("-")){
+                removeNotesButton.setText("✔");
+                toggleRemoveButtons(removeNotesButton, true);
+                makeItemsRemovable(noteBox, notesList);
+            }
+            else{
+                removeNotesButton.setText("-");
+                toggleRemoveButtons(removeNotesButton, false);
+                revertItems(noteBox);
+            }
+        });
+        removeNotesButton.setOnMouseEntered(event -> {
+            Animation animation = AnimationFactory.generateFillTransition(
+                    removeNotesButton,
+                    Interpolator.EASE_IN,
+                    Duration.millis(150),
+                    "-fx-background-color: ",
+                    9.0,
+                    92.0,
+                    5.0,
+                    -53.0
+            );
+            animation.play();
+        });
+        removeNotesButton.setOnMouseExited(event -> {
+            Animation animation = AnimationFactory.generateFillTransition(
+                    removeNotesButton,
+                    Interpolator.EASE_OUT,
+                    Duration.millis(150),
+                    "-fx-background-color: ",
+                    14,
+                    39,
+                    -5.0,
+                    53.0
+            );
+            animation.play();
+        });
+
         addTagsButton.setOnAction(event -> {
             if(tagsList.size() < 3){
                 HBox box = createGroup(3);
                 tagsBox.getChildren().add(box);
             }
-            System.out.println(tagsList.size());
             if(tagsList.size() == 3){
                 addTagsButton.setOpacity(0);
                 addTagsButton.setDisable(true);
@@ -192,6 +315,45 @@ public class RecipeForm {
         addTagsButton.setOnMouseExited(event -> {
             Animation animation = AnimationFactory.generateFillTransition(
                     addTagsButton,
+                    Interpolator.EASE_OUT,
+                    Duration.millis(150),
+                    "-fx-background-color: ",
+                    14,
+                    39,
+                    -5.0,
+                    53.0
+            );
+            animation.play();
+        });
+
+        removeTagsButton.setOnAction(event -> {
+            if(removeTagsButton.getText().equals("-")){
+                removeTagsButton.setText("✔");
+                toggleRemoveButtons(removeTagsButton, true);
+                makeItemsRemovable(tagsBox, tagsList);
+            }
+            else{
+                removeTagsButton.setText("-");
+                toggleRemoveButtons(removeTagsButton, false);
+                revertItems(tagsBox);
+            }
+        });
+        removeTagsButton.setOnMouseEntered(event -> {
+            Animation animation = AnimationFactory.generateFillTransition(
+                    removeNotesButton,
+                    Interpolator.EASE_IN,
+                    Duration.millis(150),
+                    "-fx-background-color: ",
+                    9.0,
+                    92.0,
+                    5.0,
+                    -53.0
+            );
+            animation.play();
+        });
+        removeTagsButton.setOnMouseExited(event -> {
+            Animation animation = AnimationFactory.generateFillTransition(
+                    removeNotesButton,
                     Interpolator.EASE_OUT,
                     Duration.millis(150),
                     "-fx-background-color: ",
@@ -293,6 +455,7 @@ public class RecipeForm {
         box.setSpacing(25);
 
         Label indentChar = new Label(">");
+        indentChar.setId("indentChar");
         indentChar.setFont(new Font(20));
         HBox.setMargin(indentChar, new Insets(0, 0, 0, 10));
         box.getChildren().add(indentChar);
@@ -374,7 +537,6 @@ public class RecipeForm {
 
             sp_a.addListener(change -> ingredientsList.put(Integer.parseInt(box.getId()), new String[]{sp_a.getValue(), sp_b.getValue()}));
             sp_b.addListener(change -> ingredientsList.put(Integer.parseInt(box.getId()), new String[]{sp_a.getValue(), sp_b.getValue()}));
-            ingredientsList.put(ingredientsList.size(), new String[]{sp_a.getValue(), sp_b.getValue()});
             return box;
         }
         else if(type == 1){
@@ -422,6 +584,33 @@ public class RecipeForm {
         numericalFields.setAlignment(Pos.CENTER_LEFT);
         TextArea hrInput = createNumericalInput();
         numericalFields.getChildren().add(hrInput);
+        hrInput.setOnMouseEntered(event -> {
+            Animation animation = AnimationFactory.generateFillTransition(
+                    hrInput,
+                    Interpolator.EASE_IN,
+                    Duration.millis(100),
+                    "-fx-background-color: ",
+                    29.0,
+                    24.0,
+                    -15.0,
+                    15.0
+            );
+            animation.play();
+        });
+        hrInput.setOnMouseExited(event -> {
+            Animation animation = AnimationFactory.generateFillTransition(
+                    hrInput,
+                    Interpolator.EASE_OUT,
+                    Duration.millis(100),
+                    "-fx-background-color: ",
+                    14.0,
+                    39,
+                    15.0,
+                    -15.0
+            );
+            animation.play();
+        });
+
         Label hrLabel = new Label("H");
         HBox.setMargin(hrLabel, new Insets(0,10,0,5));
         numericalFields.getChildren().add(hrLabel);
@@ -430,6 +619,33 @@ public class RecipeForm {
 
         TextArea minInput = createNumericalInput();
         numericalFields.getChildren().add(minInput);
+        minInput.setOnMouseEntered(event -> {
+            Animation animation = AnimationFactory.generateFillTransition(
+                    minInput,
+                    Interpolator.EASE_IN,
+                    Duration.millis(100),
+                    "-fx-background-color: ",
+                    29.0,
+                    24.0,
+                    -15.0,
+                    15.0
+            );
+            animation.play();
+        });
+        minInput.setOnMouseExited(event -> {
+            Animation animation = AnimationFactory.generateFillTransition(
+                    minInput,
+                    Interpolator.EASE_OUT,
+                    Duration.millis(100),
+                    "-fx-background-color: ",
+                    14.0,
+                    39,
+                    15.0,
+                    -15.0
+            );
+            animation.play();
+        });
+
         Label minLabel = new Label("M");
         HBox.setMargin(minLabel, new Insets(0,10,0,5));
         numericalFields.getChildren().add(minLabel);
@@ -438,6 +654,33 @@ public class RecipeForm {
 
         TextArea secInput = createNumericalInput();
         numericalFields.getChildren().add(secInput);
+        secInput.setOnMouseEntered(event -> {
+            Animation animation = AnimationFactory.generateFillTransition(
+                    secInput,
+                    Interpolator.EASE_IN,
+                    Duration.millis(100),
+                    "-fx-background-color: ",
+                    29.0,
+                    24.0,
+                    -15.0,
+                    15.0
+            );
+            animation.play();
+        });
+        secInput.setOnMouseExited(event -> {
+            Animation animation = AnimationFactory.generateFillTransition(
+                    secInput,
+                    Interpolator.EASE_OUT,
+                    Duration.millis(100),
+                    "-fx-background-color: ",
+                    14.0,
+                    39,
+                    15.0,
+                    -15.0
+            );
+            animation.play();
+        });
+
         Label secLabel = new Label("S");
         secLabel.setFont(new Font(16));
         HBox.setMargin(secLabel, new Insets(0,10,0,5));
@@ -525,5 +768,114 @@ public class RecipeForm {
         }
         File f = new File(data.getAbsolutePath() + "/inprogress_recipe.json");
         return f.exists();
+    }
+
+
+    //TODO: handle procedure box special case (indenting)
+    private void makeItemsRemovable(VBox box, Map<Integer, String[]> map){
+        for(Node n : box.getChildren()){
+            if(n.getClass() == HBox.class){
+                ((HBox) n).getChildren().removeIf(x -> Objects.equals(x.getId(), "indentChar"));
+
+                for(Node i : ((HBox) n).getChildren()){
+                    i.setDisable(true);
+                }
+
+                n.setStyle("-fx-border-width: 2; -fx-border-radius: 5; -fx-background-radius: 5; -fx-border-color: #000000;");
+                n.setOnMouseEntered(event -> {
+                    Animation animation = AnimationFactory.generateFillTransition(
+                            n,
+                            Interpolator.EASE_IN,
+                            Duration.millis(100),
+                            "-fx-border-width: 2; -fx-border-radius: 5; -fx-border-color: #3498DB; -fx-background-radius: 5; -fx-background-color: ",
+                            29.0,
+                            13.0,
+                            -15.0,
+                            26.0
+
+                    );
+                    animation.play();
+                });
+                n.setOnMouseExited(event -> {
+                    Animation animation = AnimationFactory.generateFillTransition(
+                            n,
+                            Interpolator.EASE_OUT,
+                            Duration.millis(100),
+                            "-fx-border-width: 2; -fx-border-radius: 5; -fx-border-color: #000000; -fx-background-radius: 5; -fx-background-color: ",
+                            14.0,
+                            39,
+                            15.0,
+                            -26.0
+
+                    );
+                    animation.play();
+                });
+                n.setOnMouseClicked(event -> {
+                    map.remove(Integer.parseInt(n.getId()));
+                    shiftMap(map);
+                    box.getChildren().remove(n);
+                });
+
+                Button deleteItemButton = new Button("-");
+                deleteItemButton.setId("deleteItemButton");
+                deleteItemButton.setOnAction(action -> {
+                    map.remove(Integer.parseInt(n.getId()));
+                    shiftMap(map);
+                    box.getChildren().remove(n);
+                });
+                HBox.setMargin(deleteItemButton, new Insets(0, 0, 0, 10));
+                ((HBox) n).getChildren().add(0, deleteItemButton);
+            }
+        }
+    }
+
+    private void revertItems(VBox box){
+        for(Node n : box.getChildren()){
+            if(n.getClass() == HBox.class){
+                ((HBox) n).getChildren().removeIf(x -> Objects.equals(x.getId(), "deleteItemButton"));
+
+                for(Node i : ((HBox) n).getChildren()){
+                    i.setDisable(false);
+                }
+
+                n.setStyle("");
+                n.setOnMouseClicked(null);
+                n.setOnMouseEntered(null);
+                n.setOnMouseExited(null);
+
+                Label indentChar = new Label(">");
+                indentChar.setId("indentChar");
+                indentChar.setFont(new Font(20));
+                HBox.setMargin(indentChar, new Insets(0, 0, 0, 10));
+                ((HBox) n).getChildren().add(0, indentChar);
+            }
+        }
+    }
+
+    private void toggleRemoveButtons(Button exception, boolean state){
+        if(!exception.equals(removeIngredientButton)){
+            removeIngredientButton.setDisable(state);
+        }
+        if(!exception.equals(removeProcedureButton)){
+            removeProcedureButton.setDisable(state);
+        }
+        if(!exception.equals(removeNotesButton)){
+            removeNotesButton.setDisable(state);
+        }
+        if(!exception.equals(removeTagsButton)){
+            removeTagsButton.setDisable(state);
+        }
+    }
+
+    private void shiftMap(Map<Integer, String[]> map){
+        int counter = 0;
+        for(int i : map.keySet()){
+            if(counter < i){
+                String[] temp = map.get(i);
+                map.remove(i);
+                map.put(i - (i - counter), temp);
+            }
+            counter++;
+        }
     }
 }
