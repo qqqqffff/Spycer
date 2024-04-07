@@ -40,8 +40,8 @@
                            <Font size="24.0" />
                         </font>
                      </TextField>
-                     <ComboBox promptText="Sort By:" />
-                     <Button mnemonicParsing="false" text="↑" />
+                     <ComboBox fx:id="sortParameterComboBox" promptText="Sort By:" />
+                     <Button fx:id="sortDirectionButton" mnemonicParsing="false" text="↑" />
                   </children>
                </HBox>
             </center>

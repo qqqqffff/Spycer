@@ -1,12 +1,17 @@
 package com.apollor.spycer.controllers;
 
+import javafx.animation.Animation;
+import javafx.animation.Interpolator;
+import javafx.animation.Transition;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 
 public class Recipe {
     @FXML public HBox subHBox;
@@ -19,23 +24,46 @@ public class Recipe {
 
     @FXML
     public void initialize(){
-        final String defaultStyle = "-fx-background-color: #17202A; -fx-border-width: 3; -fx-border-radius: 15; -fx-border-color: black; -fx-background-radius: 15";
-        final String hoverStyle = "-fx-background-color: #566573; -fx-border-width: 3; -fx-border-radius: 15; -fx-border-color: #3498DB; -fx-background-radius: 15";
-        final String descBoxDefaultStyle = "-fx-background-color: #17202A";
-        final String descBoxHoverStyle = "-fx-background-color: #566573";
+        final String descBoxDefaultStyle = "-fx-background-color: #2C3E50";
 
-
-        rootPane.setOnMouseClicked(event -> {
-            System.out.println(event);
-        });
+        descBox.setStyle(descBoxDefaultStyle);
+        rootPane.setOnMouseClicked(System.out::println);
 
         rootPane.setOnMouseEntered(event -> {
-            rootPane.setStyle(hoverStyle);
-            descBox.setStyle(descBoxHoverStyle);
+            Animation animation = new Transition() {
+                {
+                    setCycleDuration(Duration.millis(100));
+                    setInterpolator(Interpolator.EASE_IN);
+                }
+                @Override
+                protected void interpolate(double v) {
+                    double saturation = 29 - (15 * v);
+                    double lightness = 24 + (15 * v);
+
+                    Color c = Color.web("hsl(210, " + saturation +"%, " + lightness + "%)");
+                    rootPane.setStyle("-fx-border-width: 3; -fx-border-radius: 15; -fx-border-color: #3498DB; -fx-background-radius: 15; -fx-background-color: #"+ c.toString().substring(2) +";");
+                    descBox.setStyle("-fx-background-color: #"+ c.toString().substring(2) +";");
+                }
+            };
+            animation.play();
         });
         rootPane.setOnMouseExited(event -> {
-            rootPane.setStyle(defaultStyle);
-            descBox.setStyle(descBoxDefaultStyle);
+            Animation animation = new Transition() {
+                {
+                    setCycleDuration(Duration.millis(100));
+                    setInterpolator(Interpolator.EASE_OUT);
+                }
+                @Override
+                protected void interpolate(double v) {
+                    double saturation = 14 + (15 * v);
+                    double lightness = 39 - (15 * v);
+
+                    Color c = Color.web("hsl(210, " + saturation +"%, " + lightness + "%)");
+                    rootPane.setStyle("-fx-border-width: 3; -fx-border-radius: 15; -fx-border-color: black; -fx-background-radius: 15; -fx-background-color: #"+ c.toString().substring(2) +";");
+                    descBox.setStyle("-fx-background-color: #"+ c.toString().substring(2) +";");
+                }
+            };
+            animation.play();
         });
     }
 }

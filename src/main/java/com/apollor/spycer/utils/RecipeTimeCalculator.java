@@ -1,9 +1,5 @@
 package com.apollor.spycer.utils;
 
-import org.joda.time.Period;
-import org.joda.time.format.PeriodFormat;
-
-import java.util.Map;
 import java.util.regex.Pattern;
 
 public class RecipeTimeCalculator {
@@ -21,8 +17,11 @@ public class RecipeTimeCalculator {
             else if(Pattern.matches("\\d+_m", value)){
                 period += Integer.parseInt(value.replace("_m", "")) * 60;
             }
-            if(Pattern.matches("\\d+_s", value)){
+            else if(Pattern.matches("\\d+_s", value)){
                 period += Integer.parseInt(value.replace("_s", ""));
+            }
+            else{
+                return null;
             }
         }
         return String.valueOf(period);
