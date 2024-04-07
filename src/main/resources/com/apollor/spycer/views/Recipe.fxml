@@ -9,30 +9,30 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane fx:id="rootPane" style="-fx-border-color: black; -fx-border-width: 3; -fx-border-radius: 15;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.apollor.spycer.controllers.Recipe">
+<BorderPane fx:id="rootPane" style="-fx-border-color: black; -fx-border-width: 3; -fx-border-radius: 15; -fx-background-radius: 15; -fx-background-insets: 1,4,4;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.apollor.spycer.controllers.Recipe">
    <center>
-      <VBox alignment="CENTER" spacing="10.0" BorderPane.alignment="CENTER">
+      <VBox fx:id="descBox" alignment="CENTER" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
-            <Text fx:id="recipeTitleText" strokeType="OUTSIDE" strokeWidth="0.0" text="Recipe Name">
+            <Text fx:id="recipeTitleText" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #EAECEE;" text="Recipe Name">
                <font>
                   <Font size="36.0" />
                </font>
             </Text>
             <HBox fx:id="subHBox" alignment="CENTER" spacing="25.0">
                <children>
-                  <Text fx:id="ratingText" strokeType="OUTSIDE" strokeWidth="0.0" text="Rating: (4/5)">
+                  <Text fx:id="ratingText" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #EAECEE;" text="Rating: (4/5)">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="cooktimeText" layoutX="10.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Time: 1 hr">
+                  <Text fx:id="cooktimeText" layoutX="10.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #EAECEE;" text="Time: 1 hr">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
                </children>
             </HBox>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tags: Asian, Simple, Fast">
+            <Text fx:id="tagsText" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #EAECEE;" text="Tags: Asian, Simple, Fast">
                <font>
                   <Font size="16.0" />
                </font>

@@ -2,6 +2,7 @@ package com.apollor.spycer.controllers;
 
 import com.apollor.spycer.Application;
 import com.apollor.spycer.utils.JsonLoader;
+import com.apollor.spycer.utils.RecipeTimeCalculator;
 import com.apollor.spycer.utils.RecipeUpdater;
 import com.google.gson.stream.JsonWriter;
 import javafx.beans.property.SimpleStringProperty;
@@ -87,6 +88,11 @@ public class RecipeForm {
                 HBox box = createGroup(3);
                 tagsBox.getChildren().add(box);
             }
+            System.out.println(tagsList.size());
+            if(tagsList.size() == 3){
+                addTagsButton.setOpacity(0);
+                addTagsButton.setDisable(true);
+            }
         });
 
         createRecipeButton.setOnAction(event -> {
@@ -150,6 +156,7 @@ public class RecipeForm {
             box.getChildren().add(input_a);
             box.getChildren().add(input_b);
             box.setId(String.valueOf(ingredientsList.size()));
+            ingredientsList.put(Integer.parseInt(box.getId()), null);
 
             sp_a.addListener(change -> ingredientsList.put(Integer.parseInt(box.getId()), new String[]{sp_a.getValue(), sp_b.getValue()}));
             sp_b.addListener(change -> ingredientsList.put(Integer.parseInt(box.getId()), new String[]{sp_a.getValue(), sp_b.getValue()}));
@@ -165,6 +172,7 @@ public class RecipeForm {
             input_a.setPrefWidth(650);
             box.getChildren().add(input_a);
             box.setId(String.valueOf(notesList.size()));
+            notesList.put(Integer.parseInt(box.getId()), null);
 
             sp_a.addListener(change -> notesList.put(Integer.parseInt(box.getId()), new String[]{sp_a.getValue()}));
             return box;
@@ -174,6 +182,7 @@ public class RecipeForm {
             input_a.setPrefWidth(650);
             box.getChildren().add(input_a);
             box.setId(String.valueOf(tagsList.size()));
+            tagsList.put(Integer.parseInt(box.getId()), null);
 
             sp_a.addListener(change -> tagsList.put(Integer.parseInt(box.getId()), new String[]{sp_a.getValue()}));
             return box;
@@ -186,6 +195,7 @@ public class RecipeForm {
         box.setAlignment(Pos.CENTER_LEFT);
         field.setPrefWidth(400);
         box.setId(String.valueOf(tagsList.size()));
+        proceduresList.put(Integer.parseInt(box.getId()), null);
         box.setMaxHeight(200);
         box.getChildren().add(indentChar);
         HBox.setMargin(indentChar, new Insets(0, 25, 0, 10));
@@ -223,10 +233,10 @@ public class RecipeForm {
 
         pane.setRight(numericalFields);
 
-        sp.addListener(change -> notesList.put(Integer.parseInt(box.getId()), new String[]{sp.getValue(), spHr.getValue(), spMin.getValue(), spSec.getValue()}));
-        spHr.addListener(change -> notesList.put(Integer.parseInt(box.getId()), new String[]{sp.getValue(), spHr.getValue(), spMin.getValue(), spSec.getValue()}));
-        spMin.addListener(change -> notesList.put(Integer.parseInt(box.getId()), new String[]{sp.getValue(), spHr.getValue(), spMin.getValue(), spSec.getValue()}));
-        spSec.addListener(change -> notesList.put(Integer.parseInt(box.getId()), new String[]{sp.getValue(), spHr.getValue(), spMin.getValue(), spSec.getValue()}));
+        sp.addListener(change -> proceduresList.put(Integer.parseInt(box.getId()), new String[]{sp.getValue(), spHr.getValue()+"_h", spMin.getValue()+"_m", spSec.getValue()+"_s"}));
+        spHr.addListener(change -> proceduresList.put(Integer.parseInt(box.getId()), new String[]{sp.getValue(), spHr.getValue()+"_h", spMin.getValue()+"_m", spSec.getValue()+"_s"}));
+        spMin.addListener(change -> proceduresList.put(Integer.parseInt(box.getId()), new String[]{sp.getValue(), spHr.getValue()+"_h", spMin.getValue()+"_m", spSec.getValue()+"_s"}));
+        spSec.addListener(change -> proceduresList.put(Integer.parseInt(box.getId()), new String[]{sp.getValue(), spHr.getValue()+"_h", spMin.getValue()+"_m", spSec.getValue()+"_s"}));
 
         return box;
     }
@@ -243,19 +253,28 @@ public class RecipeForm {
         Path curdir = Paths.get("").toAbsolutePath();
         JsonWriter jw = getJsonWriter(curdir);
         jw.beginObject().name("title").value(titleTextField.getText());
+        jw.name("rating").value(ratingSlider.getValue());
         jw.name("ingredients").beginArray();
         for(String[] item : ingredientsList.values()){
+            if(item == null || item[0] == null || item[1] == null) continue;
             jw.beginObject().name(item[0]).value(item[1]).endObject();
         }
         jw.endArray().name("procedures").beginArray();
         for(String[] item : proceduresList.values()){
-            jw.beginObject().name(item[0]).value(item[1]).endObject();
+            if(item == null || item[0] == null) continue;
+            jw.beginObject().name(item[0]).value(RecipeTimeCalculator.calculateRecipeTime(item)).endObject();
         }
         jw.endArray().name("notes").beginArray();
         int i = 0;
         for(String[] item : notesList.values()){
-            jw.beginObject().name("note " + i).value(item[0]).endObject();
-            i++;
+            if(item == null || item[0] == null ) continue;
+            jw.beginObject().name("note " + i++).value(item[0]).endObject();
+        }
+        jw.endArray().name("tags").beginArray();
+        i = 0;
+        for(String[] item : tagsList.values()){
+            if(item == null || item[0] == null ) continue;
+            jw.beginObject().name("tag " + i++).value(item[0]).endObject();
         }
         jw.endArray().endObject();
 

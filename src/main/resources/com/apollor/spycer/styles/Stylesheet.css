@@ -60,7 +60,7 @@
     -fx-background-radius: 5;
     -fx-border-radius: 5;
     -fx-text-fill: -contrast-color;
-    -fx-font-size: 16;
+    -fx-font-size: 24;
     -fx-font-family: Arial serif;
 }
 
@@ -68,7 +68,16 @@
     -fx-border-color: -tertiary-color;
 }
 
+.text-field:hover{
+    -fx-border-color: -tertiary-color;
+    -fx-background-color: -l-secondary-color;
+}
+
 VBox{
+    -fx-background-color: -primary-color;
+}
+
+BorderPane{
     -fx-background-color: -primary-color;
 }
 
@@ -110,4 +119,24 @@ ScrollPane{
 .slider .thumb{
     -fx-background-color: -tertiary-color;
     -fx-border-color: transparent;
+}
+
+.combo-box {
+    -fx-background-color: -contrast-color;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-border-color: black;
+    -fx-border-width: 2;
+    -fx-background-insets: 1,4,4;
+    -fx-text-fill: -secondary-color;
+    -fx-font-family: Arial serif;
+    -fx-font-size: 16
+}
+
+.combo-box:hover {
+    -fx-background-color: -l-secondary-color;
+    -fx-border-color: -tertiary-color;
+}
+.combo-box:hover .text{
+    -fx-fill: -contrast-color;
 }

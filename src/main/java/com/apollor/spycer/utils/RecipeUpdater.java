@@ -23,23 +23,39 @@ public class RecipeUpdater {
                 for(Node i : ((HBox) n).getChildren()){
                     if(Objects.equals(i.getId(), "ratingText")){
                         try{
-                            String rating = data.get("options").get(1)[1];
+                            String rating = "Rating: " + data.get("options").get(1)[1] + " / 5.0";
                             ((Text) i).setText(rating);
                         } catch(NullPointerException ignored){
-                            ((Text) i).setText("Rating: unrated");
+                            ((Text) i).setText("Rating: Unrated");
                         }
 
                     }
                     else if(Objects.equals(i.getId(), "cooktimeText")) {
                         try{
-                            String rating = data.get("options").get(2)[1];
+                            String rating = "Time: " + data.get("options").get(2)[1];
                             ((Text) i).setText(rating);
                         } catch(NullPointerException ignored){
-                            ((Text) i).setText("Time: undetermined");
+                            ((Text) i).setText("Time: Undetermined");
                         }
                     }
                 }
             }
+            else if(Objects.equals(n.getId(), "tagsText")){
+                try{
+                    String tags = "Tags: " + extrapolateTags(data.get("tags"));
+                    ((Text) n).setText(tags);
+                }catch (NullPointerException ignored){
+                    ((Text) n).setText("Tags: None");
+                }
+            }
         }
+    }
+
+    private static String extrapolateTags(Map<Integer, String[]> data){
+        StringBuilder retString = new StringBuilder();
+        for(String[] value : data.values()){
+            retString.append(value[1]).append(", ");
+        }
+        return retString.substring(0, retString.length() - 2);
     }
 }

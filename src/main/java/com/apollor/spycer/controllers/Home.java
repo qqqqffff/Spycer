@@ -42,7 +42,10 @@ public class Home {
                 homeBorderPane.setEffect(new GaussianBlur());
                 ScrollPane form = fxmlLoader.load();
                 form.setId("recipe_form");
+                form.setLayoutX((1280-794) / 2.0);
+                form.setLayoutY(50);
                 homeAnchorPane.getChildren().add(form);
+                disableBackground();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -62,5 +65,9 @@ public class Home {
                 }
             }
         }
+    }
+
+    private void disableBackground(){
+
     }
 }

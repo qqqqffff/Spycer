@@ -12,11 +12,11 @@
 <?import javafx.scene.text.Text?>
 
 <AnchorPane fx:id="homeAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="800.0" minWidth="1280.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.apollor.spycer.controllers.Home">
-   <BorderPane fx:id="homeBorderPane" minHeight="800.0" minWidth="1280.0">
+   <BorderPane fx:id="homeBorderPane" minHeight="800.0" minWidth="1280.0" stylesheets="@../styles/Stylesheet.css">
       <top>
          <BorderPane BorderPane.alignment="CENTER">
             <left>
-               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Spycer" BorderPane.alignment="CENTER">
+               <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #EAECEE;" text="Spycer" BorderPane.alignment="CENTER">
                   <font>
                      <Font size="32.0" />
                   </font>
