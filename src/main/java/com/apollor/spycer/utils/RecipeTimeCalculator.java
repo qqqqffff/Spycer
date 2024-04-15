@@ -20,9 +20,6 @@ public class RecipeTimeCalculator {
             else if(Pattern.matches("\\d+_s", value)){
                 period += Integer.parseInt(value.replace("_s", ""));
             }
-            else{
-                return null;
-            }
         }
         return String.valueOf(period);
     }
@@ -32,10 +29,13 @@ public class RecipeTimeCalculator {
      * @return the formatted string
      */
     public static String formatTotalTime(int total, boolean showSeconds){
+        System.out.println(total);
+
         int days = total / (3600 * 24);
         total -= days * 3600 * 24;
         int hours = total / 3600;
         total -= hours * 3600;
+        System.out.println(total);
         int minutes = total / 60;
         total -= minutes * 60;
         int seconds = total;

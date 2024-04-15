@@ -67,6 +67,8 @@ public class RecipeForm {
     private Map<Integer, String[]> notesList;
     private Map<Integer, String[]> tagsList;
 
+    private File recipeFile;
+
     @FXML
     public void initialize(){
         ingredientsList = new HashMap<>();
@@ -371,9 +373,7 @@ public class RecipeForm {
                 //TODO: eliminate unnecessary IO
                 FXMLLoader loader = new FXMLLoader(Application.class.getResource("views/Recipe.fxml"));
                 BorderPane recipe = loader.load();
-                RecipeUpdater.updateRecipe(recipe, JsonLoader.parseJsonRecipe(new File(
-                        Paths.get("").toAbsolutePath() + "/src/main/java/com/apollor/spycer/data/" +
-                                titleTextField.getText() + "_recipe.json")));
+                RecipeUpdater.updateRecipe(recipe, JsonLoader.parseJsonRecipe(recipeFile), recipeFile.getName());
                 ((VBox) Application.rootBorderPane.getCenter()).getChildren().add(recipe);
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -754,6 +754,7 @@ public class RecipeForm {
             }
             if(!f.createNewFile()) throw new IOException("Unable to create file");
         }
+        recipeFile = f;
 
         JsonWriter jw = new JsonWriter(new BufferedWriter(new FileWriter(f)));
         jw.setIndent("  ");

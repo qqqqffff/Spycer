@@ -42,12 +42,12 @@ public class Home {
 
         File datadir = new File(Paths.get("").toAbsolutePath() + "/src/main/java/com/apollor/spycer/data/");
         for(File dir : Objects.requireNonNull(datadir.listFiles())){
-            if(dir.getName().contains("_recipe.json")){
+            if(dir.getName().matches(".*_recipe\\d*[.]json")){
                 try {
                     Map<String, Map<Integer, String[]>> data = JsonLoader.parseJsonRecipe(dir);
                     FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("views/Recipe.fxml"));
                     BorderPane recipe = fxmlLoader.load();
-                    RecipeUpdater.updateRecipe(recipe, data);
+                    RecipeUpdater.updateRecipe(recipe, data, dir.getName());
                     ((VBox) homeBorderPane.getCenter()).getChildren().add(recipe);
                 } catch (IOException ignored) {
                     System.out.println("Trouble loading recipe");

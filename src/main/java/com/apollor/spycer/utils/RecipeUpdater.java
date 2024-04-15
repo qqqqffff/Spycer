@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Objects;
 
 public class RecipeUpdater {
-    public static void updateRecipe(BorderPane pane, Map<String, Map<Integer, String[]>> data){
+    public static void updateRecipe(BorderPane pane, Map<String, Map<Integer, String[]>> data, String fileName){
         VBox center = (VBox) pane.getCenter();
         for(Node n : center.getChildren()){
             if(Objects.equals(n.getId(), "recipeTitleText")){
@@ -38,6 +38,9 @@ public class RecipeUpdater {
                             ((Text) i).setText("Time: Undetermined");
                         }
                     }
+                    else if(Objects.equals(i.getId(), "fnameText")){
+                        ((Text) i).setText(fileName);
+                    }
                 }
             }
             else if(Objects.equals(n.getId(), "tagsText")){
@@ -52,6 +55,7 @@ public class RecipeUpdater {
     }
 
     private static String extrapolateTags(Map<Integer, String[]> data){
+        if(data.isEmpty()) throw new NullPointerException("Tag Dictionary Empty");
         StringBuilder retString = new StringBuilder();
         for(String[] value : data.values()){
             retString.append(value[1]).append(", ");
