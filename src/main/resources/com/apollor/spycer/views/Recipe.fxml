@@ -9,22 +9,23 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane fx:id="rootPane" style="-fx-border-color: black; -fx-border-width: 3; -fx-border-radius: 15; -fx-background-radius: 15; -fx-background-insets: 1,4,4; -fx-background-color: #2C3E50;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.apollor.spycer.controllers.Recipe">
-   <left>
-      <ImageView fx:id="recipeThumbnail" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
-         <BorderPane.margin>
-            <Insets left="25.0" right="25.0" />
-         </BorderPane.margin>
-         <image>
-            <Image url="@../images/placeholders/100x100.png" />
-         </image>
-      </ImageView>
-   </left>
-   <padding>
-      <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-   </padding>
+<BorderPane fx:id="rootPane" style="-fx-background-color: #2C3E50; -fx-border-color: black; -fx-border-width: 3; -fx-border-radius: 15; -fx-background-radius: 15; -fx-background-insets: 1,4,4;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.apollor.spycer.controllers.Recipe">
    <center>
-      <BorderPane BorderPane.alignment="CENTER">
+<!--      style=" " -->
+      <BorderPane fx:id="contentPane" style="-fx-background-color: #2C3E50; -fx-border-radius: 15; -fx-background-radius: 15;" BorderPane.alignment="CENTER">
+         <padding>
+            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+         </padding>
+         <left>
+            <ImageView fx:id="recipeThumbnail" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets left="25.0" right="25.0" />
+               </BorderPane.margin>
+               <image>
+                  <Image url="@../images/placeholders/100x100.png" />
+               </image>
+            </ImageView>
+         </left>
          <center>
             <VBox fx:id="descBox" alignment="CENTER" spacing="10.0" BorderPane.alignment="CENTER">
                <children>
@@ -68,4 +69,18 @@
          </center>
       </BorderPane>
    </center>
+   <left>
+      <VBox alignment="CENTER" prefHeight="100.0" style="-fx-background-color: #3498DB; -fx-background-radius: 5; -fx-border-color: black; -fx-border-radius: 5; -fx-border-width: 0;" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets right="15.0" />
+         </BorderPane.margin>
+         <children>
+            <Text fx:id="deleteButton" opacity="0.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 0.0000000000001;" visible="false">
+               <font>
+                  <Font />
+               </font>
+            </Text>
+         </children>
+      </VBox>
+   </left>
 </BorderPane>

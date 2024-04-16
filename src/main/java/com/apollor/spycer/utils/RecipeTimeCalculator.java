@@ -57,6 +57,6 @@ public class RecipeTimeCalculator {
             retString += seconds;
             retString += seconds > 1 ? " seconds, " : " second, ";
         }
-        return retString.substring(0, retString.length() - 2);
+        return retString.length() > 0 ? retString.substring(0, retString.length() - 2) : "Undetermined";
     }
 }

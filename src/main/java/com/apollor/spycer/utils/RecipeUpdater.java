@@ -11,7 +11,7 @@ import java.util.Objects;
 
 public class RecipeUpdater {
     public static void updateRecipe(BorderPane pane, Map<String, Map<Integer, String[]>> data, String fileName){
-        VBox center = (VBox) pane.getCenter();
+        VBox center = (VBox) ((BorderPane) pane.getCenter()).getCenter();
         for(Node n : center.getChildren()){
             if(Objects.equals(n.getId(), "recipeTitleText")){
                 try{

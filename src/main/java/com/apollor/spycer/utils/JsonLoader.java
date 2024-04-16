@@ -2,8 +2,10 @@ package com.apollor.spycer.utils;
 
 import com.google.gson.stream.JsonReader;
 
-import java.io.*;
-import java.util.Arrays;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,54 +20,30 @@ public class JsonLoader {
 
         JsonReader jr = new JsonReader(new BufferedReader(new FileReader(f)));
         jr.beginObject();
-        options.put(0, new String[]{jr.nextName(), jr.nextString()});
-        options.put(1, new String[]{jr.nextName(), jr.nextString()});
-
-        jr.nextName();
-        jr.beginArray();
-        int i = 0;
         while(jr.hasNext()){
-            jr.beginObject();
-            ingredients.put(i++, new String[]{jr.nextName(), jr.nextString()});
-            jr.endObject();
-        }
-
-        jr.endArray();
-        jr.nextName();
-        jr.beginArray();
-        i = 0;
-        int totalTime = 0;
-        while(jr.hasNext()){
-            jr.beginObject();
-            String[] procedure = new String[]{jr.nextName(), jr.nextString()};
-            try{
-                totalTime += Integer.parseInt(procedure[1]);
-            }catch(NumberFormatException ignored){
-
+            String jsonName = jr.nextName();
+            JsonParameter name = JsonParameter.parseName(jsonName);
+            if(name == null){
+                continue;
             }
-            procedures.put(i++, procedure);
-            jr.endObject();
+            switch(name){
+                case TITLE -> options.put(0, new String[]{jsonName, jr.nextString()});
+                case RATING -> options.put(1, new String[]{jsonName, jr.nextString()});
+                case INGREDIENTS -> dynamicPlacement(jr, ingredients);
+                case PROCEDURES -> dynamicPlacement(jr, procedures);
+                case NOTES -> dynamicPlacement(jr, notes);
+                case TAGS -> dynamicPlacement(jr, tags);
+            }
         }
-        options.put(2, new String[]{"cookTime", RecipeTimeCalculator.formatTotalTime(totalTime, false)});
+        int totalTime = procedures.values().stream().map(x -> {
+            try{
+                return Integer.parseInt(x[1]);
+            }catch(NumberFormatException ignored){
+                return 0;
+            }
+        }).reduce(0, Integer::sum);
+        options.put(4, new String[]{RecipeTimeCalculator.formatTotalTime(totalTime, false)});
 
-        jr.endArray();
-        jr.nextName();
-        jr.beginArray();
-        i = 0;
-        while(jr.hasNext()){
-            jr.beginObject();
-            notes.put(i++, new String[]{jr.nextName(), jr.nextString()});
-            jr.endObject();
-        }
-
-        jr.endArray();
-        jr.nextName();
-        jr.beginArray();
-        i = 0;
-        while(jr.hasNext()){
-            jr.beginObject();
-            tags.put(i++, new String[]{jr.nextName(), jr.nextString()});
-        }
         map.put("options", options);
         map.put("ingredients", ingredients);
         map.put("procedures", procedures);
@@ -73,4 +51,16 @@ public class JsonLoader {
         map.put("tags", tags);
         return map;
     }
+
+    private static void dynamicPlacement(JsonReader reader, Map<Integer, String[]> map) throws IOException {
+        reader.beginArray();
+        int i = 0;
+        while(reader.hasNext()){
+            reader.beginObject();
+            map.put(i++, new String[]{reader.nextName(), reader.nextString()});
+            reader.endObject();
+        }
+        reader.endArray();
+    }
+
 }
