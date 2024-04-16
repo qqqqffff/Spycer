@@ -69,8 +69,8 @@
    </center>
    <left>
       <AnchorPane fx:id="deletePane" BorderPane.alignment="CENTER">
-         <Rectangle fx:id="deleteButton" arcHeight="30.0" arcWidth="30.0" fill="#3498db" stroke="BLACK"
-                    strokeType="INSIDE" strokeWidth="0.0"/>
+         <Rectangle fx:id="deleteButton" arcHeight="30.0" arcWidth="30.0" fill="#EAECEE" stroke="BLACK"
+                    strokeType="INSIDE" strokeWidth="3.0"/>
       </AnchorPane>
    </left>
 </BorderPane>

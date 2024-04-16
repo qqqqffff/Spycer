@@ -21,10 +21,12 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class Recipe {
@@ -115,10 +117,51 @@ public class Recipe {
                     dragging = true;
                     finalDragPos.set(event.getX());
                     if(deltaDragPos.get() < (finalDragPos.get() - initialDragPos.get())) {
-                        if(deltaDragPos.get() > 15){
+                        if(deltaDragPos.get() > 25){
                             BorderPane.setMargin(deletePane, new Insets(0, 15,0,0));
                             deleteButton.setHeight(rootPane.getHeight());
                             deleteButton.setWidth(deltaDragPos.get() - 15.0);
+
+                            deletePane.getChildren().removeIf(x -> Objects.equals(x.getId(), "text"));
+                            Text deleteText = new Text("Delete");
+                            deleteText.setId("text");
+                            deleteText.setStyle("-fx-font-weight: bold; -fx-text-fill: #2C3E50;");
+                            deleteText.setFont(new Font("Arial serif", 32));
+                            deleteText.setText(computeMaximumText(deleteText, deltaDragPos.get() - 10));
+                            deleteText.setLayoutX((deltaDragPos.get() - deleteText.getLayoutBounds().getWidth() - 15) / 2);
+                            deleteText.setLayoutY((rootPane.getHeight() + 32) / 2);
+
+                            if(deletePane.getOnMouseEntered() == null) {
+                                deletePane.setOnMouseEntered(event1 -> {
+                                    deleteText.setStyle("-fx-font-weight: bold; -fx-text-fill: #EAECEE");
+                                    Animation animation = AnimationFactory.generateFillTransition(
+                                            deleteButton,
+                                            Interpolator.EASE_IN,
+                                            Duration.millis(150),
+                                            "-fx-fill: ",
+                                            9.0,
+                                            92.0,
+                                            5.0,
+                                            -53.0
+                                    );
+                                    animation.play();
+                                });
+                                deletePane.setOnMouseEntered(event2 -> {
+                                    Animation animation = AnimationFactory.generateFillTransition(
+                                            deleteButton,
+                                            Interpolator.EASE_OUT,
+                                            Duration.millis(150),
+                                            "-fx-border-color-fx-background-color: ",
+                                            14,
+                                            39,
+                                            -5.0,
+                                            53.0
+                                    );
+                                    animation.play();
+                                });
+                            }
+
+                            deletePane.getChildren().add(deleteText);
                         }
                         else{
                             rootPane.setTranslateX((finalDragPos.get() - initialDragPos.get()));
@@ -148,5 +191,14 @@ public class Recipe {
         });
 
 
+    }
+
+    private String computeMaximumText(Text text, double size){
+        String s = text.getText();
+        while(text.getLayoutBounds().getWidth() > size){
+            s = s.substring(0, s.length() - 1);
+            text.setText(s);
+        }
+        return s;
     }
 }
