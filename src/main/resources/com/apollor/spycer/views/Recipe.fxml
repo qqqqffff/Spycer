@@ -3,16 +3,18 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane fx:id="rootPane" style="-fx-background-color: #2C3E50; -fx-border-color: black; -fx-border-width: 3; -fx-border-radius: 15; -fx-background-radius: 15; -fx-background-insets: 1,4,4;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.apollor.spycer.controllers.Recipe">
+<BorderPane fx:id="rootPane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.apollor.spycer.controllers.Recipe">
    <center>
 <!--      style=" " -->
-      <BorderPane fx:id="contentPane" style="-fx-background-color: #2C3E50; -fx-border-radius: 15; -fx-background-radius: 15;" BorderPane.alignment="CENTER">
+      <BorderPane fx:id="contentPane" style="-fx-background-color: #2C3E50; -fx-border-color: black; -fx-border-width: 3; -fx-border-radius: 15; -fx-background-radius: 15; -fx-background-insets: 1,4,4;" BorderPane.alignment="CENTER">
          <padding>
             <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
          </padding>
@@ -28,59 +30,47 @@
          </left>
          <center>
             <VBox fx:id="descBox" alignment="CENTER" spacing="10.0" BorderPane.alignment="CENTER">
-               <children>
-                  <Text fx:id="recipeTitleText" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #EAECEE;" text="Recipe Name">
-                     <font>
-                        <Font size="36.0" />
-                     </font>
-                  </Text>
-                  <HBox fx:id="subHBox" alignment="CENTER" spacing="25.0">
-                     <children>
-                        <Text fx:id="ratingText" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #EAECEE;" text="Rating: (4/5)">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </Text>
-                        <Text fx:id="cooktimeText" layoutX="10.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #EAECEE;" text="Time: 1 hr">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </Text>
-                        <Text fx:id="fnameText" opacity="0.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 0.0000000000001;" visible="false">
-                           <font>
-                              <Font />
-                           </font>
-                           <HBox.margin>
-                              <Insets left="-25.0" />
-                           </HBox.margin>
-                        </Text>
-                     </children>
-                  </HBox>
-                  <Text fx:id="tagsText" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #EAECEE;" text="Tags: Asian, Simple, Fast">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                  </Text>
-               </children>
                <BorderPane.margin>
                   <Insets right="100.0" />
                </BorderPane.margin>
+               <Text fx:id="recipeTitleText" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #EAECEE;" text="Recipe Name">
+                  <font>
+                     <Font size="36.0" />
+                  </font>
+               </Text>
+               <HBox fx:id="subHBox" alignment="CENTER" spacing="25.0">
+                  <Text fx:id="ratingText" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #EAECEE;" text="Rating: (4/5)">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="cooktimeText" layoutX="10.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #EAECEE;" text="Time: 1 hr">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="fnameText" opacity="0.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 0.0000000000001;" visible="false">
+                     <font>
+                        <Font />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="-25.0" />
+                     </HBox.margin>
+                  </Text>
+               </HBox>
+               <Text fx:id="tagsText" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #EAECEE;" text="Tags: Asian, Simple, Fast">
+                  <font>
+                     <Font size="16.0" />
+                  </font>
+               </Text>
             </VBox>
          </center>
       </BorderPane>
    </center>
    <left>
-      <VBox alignment="CENTER" prefHeight="100.0" style="-fx-background-color: #3498DB; -fx-background-radius: 5; -fx-border-color: black; -fx-border-radius: 5; -fx-border-width: 0;" BorderPane.alignment="CENTER">
-         <BorderPane.margin>
-            <Insets right="15.0" />
-         </BorderPane.margin>
-         <children>
-            <Text fx:id="deleteButton" opacity="0.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 0.0000000000001;" visible="false">
-               <font>
-                  <Font />
-               </font>
-            </Text>
-         </children>
-      </VBox>
+      <AnchorPane fx:id="deletePane" BorderPane.alignment="CENTER">
+         <Rectangle fx:id="deleteButton" arcHeight="30.0" arcWidth="30.0" fill="#3498db" stroke="BLACK"
+                    strokeType="INSIDE" strokeWidth="0.0"/>
+      </AnchorPane>
    </left>
 </BorderPane>

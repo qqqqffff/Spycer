@@ -10,14 +10,17 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
@@ -27,20 +30,25 @@ import java.util.concurrent.atomic.AtomicReference;
 public class Recipe {
     @FXML public HBox subHBox;
     @FXML private BorderPane rootPane;
+    @FXML private BorderPane contentPane;
     @FXML private Text recipeTitleText;
     @FXML private Text ratingText;
     @FXML private Text cooktimeText;
-    @FXML private ImageView recipeTumbnail;
+    @FXML private Text tagsText;
+    @FXML private ImageView recipeThumbnail;
     @FXML private VBox descBox;
     @FXML private Text fnameText;
+
+    @FXML private AnchorPane deletePane;
+    @FXML private Rectangle deleteButton;
+
+    private boolean dragging;
 
     @FXML
     public void initialize(){
         final String descBoxDefaultStyle = "-fx-background-color: #2C3E50";
 
         descBox.setStyle(descBoxDefaultStyle);
-//        rootPane.setOnMouseClicked(System.out::println);
-
 
         AtomicReference<Double> initialDragPos = new AtomicReference<>(Double.MAX_VALUE);
         AtomicReference<Double> finalDragPos = new AtomicReference<>(Double.MAX_VALUE);
@@ -48,7 +56,7 @@ public class Recipe {
 
         rootPane.setOnMouseEntered(event -> {
             Animation animation1 = AnimationFactory.generateFillTransition(
-                    rootPane,
+                    contentPane,
                     Interpolator.EASE_IN,
                     Duration.millis(100),
                     "-fx-border-width: 3; -fx-border-radius: 15; -fx-border-color: #3498DB; -fx-background-radius: 15; -fx-background-color: ",
@@ -72,10 +80,10 @@ public class Recipe {
         });
         rootPane.setOnMouseExited(event -> {
             Animation animation1 = AnimationFactory.generateFillTransition(
-                    rootPane,
+                    contentPane,
                     Interpolator.EASE_OUT,
                     Duration.millis(100),
-                    "-fx-border-width: 3; -fx-border-radius: 15; -fx-border-color: #000000; -fx-background-radius: 15; -fx-background-color: ",
+                    "-fx-border-radius: 15; -fx-background-radius: 15; -fx-border-width: 3; -fx-border-radius: 15; -fx-border-color: #000000; -fx-background-radius: 15; -fx-background-color: ",
                     14.0,
                     39.0,
                     15.0,
@@ -100,48 +108,45 @@ public class Recipe {
                     initialDragPos.set(event.getX());
                     finalDragPos.set(Double.MIN_VALUE);
                 }
-                else if((finalDragPos.get() - initialDragPos.get()) > (rootPane.getWidth() / 4.5)){
-                    displayDeleteConfirmation();
+                else if((finalDragPos.get() - initialDragPos.get()) > (rootPane.getWidth() / 6)){
                     rootPane.setDisable(true);
                 }
                 else {
+                    dragging = true;
                     finalDragPos.set(event.getX());
                     if(deltaDragPos.get() < (finalDragPos.get() - initialDragPos.get())) {
-                        rootPane.setTranslateX((finalDragPos.get() - initialDragPos.get()));
-
+                        if(deltaDragPos.get() > 15){
+                            BorderPane.setMargin(deletePane, new Insets(0, 15,0,0));
+                            deleteButton.setHeight(rootPane.getHeight());
+                            deleteButton.setWidth(deltaDragPos.get() - 15.0);
+                        }
+                        else{
+                            rootPane.setTranslateX((finalDragPos.get() - initialDragPos.get()));
+                        }
                     }
                     deltaDragPos.set((finalDragPos.get() - initialDragPos.get()));
                 }
             }
         });
         rootPane.setOnMouseReleased(event -> {
-            initialDragPos.set(Double.MAX_VALUE);
-            finalDragPos.set(Double.MAX_VALUE);
-            deltaDragPos.set(Double.MAX_VALUE);
+            if(dragging) {
+                initialDragPos.set(Double.MAX_VALUE);
+                finalDragPos.set(Double.MAX_VALUE);
+                deltaDragPos.set(Double.MAX_VALUE);
 
-            TranslateTransition transition = new TranslateTransition();
-            transition.setNode(rootPane);
-            transition.setFromX(rootPane.getTranslateX());
-            transition.setToX(rootPane.getLayoutX());
-            transition.setDuration(Duration.millis(50));
-            transition.play();
+                TranslateTransition transition = new TranslateTransition();
+                transition.setNode(rootPane);
+                transition.setFromX(rootPane.getTranslateX());
+                transition.setToX(rootPane.getLayoutX());
+                transition.setDuration(Duration.millis(50));
+                transition.play();
+            }
+            else{
+                //TODO: handle displaying info
+                System.out.println("no drag detected");
+            }
         });
 
 
-    }
-
-    //TODO: when settings are implemented allow for users to delete without confirmation
-    private void displayDeleteConfirmation(){
-        for(Node i : ((VBox) Application.rootBorderPane.getCenter()).getChildren()){
-            if(i.equals(rootPane)){
-                FXMLLoader loader = new FXMLLoader(Application.class.getResource("views/DeleteRecipeConfirmation.fxml"));
-                try {
-                    BorderPane confirmation = loader.load();
-                    RecipeDeleter.updateConfirmation(confirmation, recipeTitleText.getText(), rootPane, fnameText.getText());
-                } catch (IOException ignored) {
-
-                }
-            }
-        }
     }
 }
