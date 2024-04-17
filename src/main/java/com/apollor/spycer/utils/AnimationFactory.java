@@ -5,6 +5,7 @@ import javafx.animation.Interpolator;
 import javafx.animation.Transition;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
 public class AnimationFactory {
@@ -35,6 +36,29 @@ public class AnimationFactory {
                 double l = lightness + (delta_lightness * v);
 
                 n.setStyle(style + hslToHex(210, s, l) + ";");
+            }
+        };
+    }
+
+    /**
+     * Transformation transition for rectangles
+     * @param r rectangle
+     * @param interpolator interpolator for transition type
+     * @param duration duration of the animation
+     * @param deltaDimensions vector representing the delta of the target dimensions in form [w, h]. Leave either parameter as 0 to not transform
+     * @return animation to play
+     */
+    public static Animation generateTransformTransition(Rectangle r, Interpolator interpolator, Duration duration, double[] deltaDimensions){
+        double[] initialDimensions = new double[]{r.getWidth(), r.getHeight()};
+        return new Transition() {
+            {
+                setCycleDuration(duration);
+                setInterpolator(interpolator);
+            }
+            @Override
+            protected void interpolate(double v) {
+                r.setWidth(initialDimensions[0] + deltaDimensions[0] * v);
+                r.setHeight(initialDimensions[1] + deltaDimensions[1] * v);
             }
         };
     }

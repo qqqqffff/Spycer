@@ -16,11 +16,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.StrokeLineCap;
+import javafx.scene.shape.StrokeLineJoin;
+import javafx.scene.shape.StrokeType;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
@@ -49,14 +50,15 @@ public class Recipe {
     @FXML
     public void initialize(){
         final String descBoxDefaultStyle = "-fx-background-color: #2C3E50";
+        final double deleteButtonThreshold = 190.0;
 
         descBox.setStyle(descBoxDefaultStyle);
 
         AtomicReference<Double> initialDragPos = new AtomicReference<>(Double.MAX_VALUE);
         AtomicReference<Double> finalDragPos = new AtomicReference<>(Double.MAX_VALUE);
-        AtomicReference<Double> deltaDragPos = new AtomicReference<>(Double.MAX_VALUE);
+        AtomicReference<Double> deltaDragPos = new AtomicReference<>(0.0);
 
-        rootPane.setOnMouseEntered(event -> {
+        contentPane.setOnMouseEntered(event -> {
             Animation animation1 = AnimationFactory.generateFillTransition(
                     contentPane,
                     Interpolator.EASE_IN,
@@ -80,7 +82,7 @@ public class Recipe {
             animation1.play();
             animation2.play();
         });
-        rootPane.setOnMouseExited(event -> {
+        contentPane.setOnMouseExited(event -> {
             Animation animation1 = AnimationFactory.generateFillTransition(
                     contentPane,
                     Interpolator.EASE_OUT,
@@ -104,14 +106,15 @@ public class Recipe {
             animation1.play();
             animation2.play();
         });
-        rootPane.setOnMouseDragged(event -> {
+        contentPane.setOnMouseDragged(event -> {
             if(event.getButton() == MouseButton.PRIMARY){
                 if(initialDragPos.get() == Double.MAX_VALUE){
                     initialDragPos.set(event.getX());
                     finalDragPos.set(Double.MIN_VALUE);
                 }
-                else if((finalDragPos.get() - initialDragPos.get()) > (rootPane.getWidth() / 6)){
-                    rootPane.setDisable(true);
+                else if((finalDragPos.get() - initialDragPos.get()) >= deleteButtonThreshold){
+                    deleteButton.setWidth(deleteButtonThreshold - 15);
+                    contentPane.setDisable(true);
                 }
                 else {
                     dragging = true;
@@ -125,7 +128,8 @@ public class Recipe {
                             deletePane.getChildren().removeIf(x -> Objects.equals(x.getId(), "text"));
                             Text deleteText = new Text("Delete");
                             deleteText.setId("text");
-                            deleteText.setStyle("-fx-font-weight: bold; -fx-text-fill: #2C3E50;");
+                            deleteText.setFill(Color.web("#2C3E50"));
+                            deleteText.setStyle("-fx-font-weight: bold;");
                             deleteText.setFont(new Font("Arial serif", 32));
                             deleteText.setText(computeMaximumText(deleteText, deltaDragPos.get() - 10));
                             deleteText.setLayoutX((deltaDragPos.get() - deleteText.getLayoutBounds().getWidth() - 15) / 2);
@@ -133,7 +137,8 @@ public class Recipe {
 
                             if(deletePane.getOnMouseEntered() == null) {
                                 deletePane.setOnMouseEntered(event1 -> {
-                                    deleteText.setStyle("-fx-font-weight: bold; -fx-text-fill: #EAECEE");
+                                    deletePane.getChildren().stream().filter(x -> x.getClass().equals(Text.class)).forEach(x -> ((Text) x).setFill(Color.web("#EAECEE")));
+                                    deleteButton.setStroke(Color.web("#3498DB"));
                                     Animation animation = AnimationFactory.generateFillTransition(
                                             deleteButton,
                                             Interpolator.EASE_IN,
@@ -146,7 +151,9 @@ public class Recipe {
                                     );
                                     animation.play();
                                 });
-                                deletePane.setOnMouseEntered(event2 -> {
+                                deletePane.setOnMouseExited(event1 -> {
+                                    deletePane.getChildren().stream().filter(x -> x.getClass().equals(Text.class)).forEach(x -> ((Text) x).setFill(Color.web("#2C3E50")));
+                                    deleteButton.setStroke(Color.BLACK);
                                     Animation animation = AnimationFactory.generateFillTransition(
                                             deleteButton,
                                             Interpolator.EASE_OUT,
@@ -173,16 +180,52 @@ public class Recipe {
         });
         rootPane.setOnMouseReleased(event -> {
             if(dragging) {
+                TranslateTransition backwardTransition = new TranslateTransition();
+
+                backwardTransition.setNode(rootPane);
+                backwardTransition.setFromX(rootPane.getTranslateX());
+                backwardTransition.setToX(rootPane.getLayoutX());
+                backwardTransition.setDuration(Duration.millis(50));
+
+                if(deltaDragPos.get() > 125 && deltaDragPos.get() < deleteButtonThreshold - 15){
+                    contentPane.setDisable(true);
+                    Animation animation = AnimationFactory.generateTransformTransition(
+                            deleteButton,
+                            Interpolator.EASE_IN,
+                            Duration.millis(100),
+                            new double[]{deleteButtonThreshold - 15 - deleteButton.getWidth(), 0}
+                    );
+
+                    Node n = deletePane.getChildren().stream().filter(x -> x.getClass().equals(Text.class)).toList().get(0);
+                    TranslateTransition animation2 = new TranslateTransition();
+                    animation2.setNode(n);
+                    animation2.setFromX(n.getLayoutX());
+                    animation2.setToX((deleteButtonThreshold - n.getLayoutBounds().getWidth()) / 2);
+                    animation2.setInterpolator(Interpolator.EASE_IN);
+                    animation2.setDuration(Duration.millis(100));
+
+                    animation.setOnFinished(e -> backwardTransition.play());
+                    animation.play();
+                    animation2.play();
+                }
+                else if(deltaDragPos.get() < 125){
+                    deletePane.getChildren().removeIf(x -> x.getClass().equals(Text.class));
+                    BorderPane.setMargin(deletePane, new Insets(0,0,0,0));
+                    Animation animation = AnimationFactory.generateTransformTransition(
+                            deleteButton,
+                            Interpolator.EASE_OUT,
+                            Duration.millis(100),
+                            new double[]{-deleteButton.getWidth(), 0}
+                    );
+                    animation.setOnFinished(e -> backwardTransition.play());
+                    animation.play();
+                }
+                else{
+                    backwardTransition.play();
+                }
                 initialDragPos.set(Double.MAX_VALUE);
                 finalDragPos.set(Double.MAX_VALUE);
-                deltaDragPos.set(Double.MAX_VALUE);
-
-                TranslateTransition transition = new TranslateTransition();
-                transition.setNode(rootPane);
-                transition.setFromX(rootPane.getTranslateX());
-                transition.setToX(rootPane.getLayoutX());
-                transition.setDuration(Duration.millis(50));
-                transition.play();
+                deltaDragPos.set(0.0);
             }
             else{
                 //TODO: handle displaying info
