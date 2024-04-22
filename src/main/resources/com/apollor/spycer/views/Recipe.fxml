@@ -13,19 +13,17 @@
 
 <BorderPane fx:id="rootPane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.apollor.spycer.controllers.Recipe">
    <center>
-<!--      style=" " -->
       <BorderPane fx:id="contentPane" style="-fx-background-color: #2C3E50; -fx-border-color: black; -fx-border-width: 3; -fx-border-radius: 15; -fx-background-radius: 15; -fx-background-insets: 1,4,4;" BorderPane.alignment="CENTER">
          <padding>
             <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
          </padding>
          <left>
-            <ImageView fx:id="recipeThumbnail" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+            <ImageView fx:id="recipeThumbnail" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true"
+                       preserveRatio="true" BorderPane.alignment="CENTER">
                <BorderPane.margin>
-                  <Insets left="25.0" right="25.0" />
+                  <Insets left="25.0" right="25.0"/>
                </BorderPane.margin>
-               <image>
-                  <Image url="@../images/placeholders/100x100.png" />
-               </image>
+               <Image url="@../images/placeholders/100x100.png"/>
             </ImageView>
          </left>
          <center>
