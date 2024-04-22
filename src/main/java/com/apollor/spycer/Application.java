@@ -33,6 +33,11 @@ public class Application extends javafx.application.Application {
         stage.show();
     }
 
+    @Override
+    public void stop() throws Exception {
+        System.out.println("this happens on close");
+    }
+
     public static void main(String[] args) {
         launch();
     }

@@ -8,6 +8,7 @@ public enum JsonParameter {
     TAGS,
     PROCEDURES,
     INGREDIENTS,
+    AUTHOR,
     NOTES;
 
 
@@ -34,6 +35,9 @@ public enum JsonParameter {
             }
             case "NOTES" -> {
                 return JsonParameter.NOTES;
+            }
+            case "AUTHOR" -> {
+                return JsonParameter.AUTHOR;
             }
         }
         return null;

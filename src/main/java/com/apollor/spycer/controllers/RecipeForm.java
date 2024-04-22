@@ -1,6 +1,7 @@
 package com.apollor.spycer.controllers;
 
 import com.apollor.spycer.Application;
+import com.apollor.spycer.user.User;
 import com.apollor.spycer.utils.AnimationFactory;
 import com.apollor.spycer.utils.JsonLoader;
 import com.apollor.spycer.utils.RecipeTimeCalculator;
@@ -711,6 +712,7 @@ public class RecipeForm {
         JsonWriter jw = getJsonWriter(curdir);
         jw.beginObject().name("title").value(titleTextField.getText());
         jw.name("rating").value(ratingSlider.getValue());
+        jw.name("author").value(User.getUser().userName);
         jw.name("ingredients").beginArray();
         for(String[] item : ingredientsList.values()){
             if(item == null || item[0] == null || item[1] == null) continue;
