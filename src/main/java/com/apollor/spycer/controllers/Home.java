@@ -5,8 +5,6 @@ import com.apollor.spycer.utils.AnimationFactory;
 import com.apollor.spycer.utils.JsonLoader;
 import com.apollor.spycer.utils.RecipeUpdater;
 import com.apollor.spycer.utils.SortParam;
-import javafx.animation.Animation;
-import javafx.animation.Interpolator;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -17,7 +15,6 @@ import javafx.scene.effect.GaussianBlur;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import javafx.util.Duration;
 
 import java.io.File;
 import java.io.IOException;
@@ -69,59 +66,11 @@ public class Home {
                 throw new RuntimeException(e);
             }
         });
-        createRecipeButton.setOnMouseEntered(event -> {
-            Animation animation = AnimationFactory.generateFillTransition(
-                    createRecipeButton,
-                    Interpolator.EASE_IN,
-                    Duration.millis(150),
-                    "-fx-background-color: ",
-                    9.0,
-                    92.0,
-                    5.0,
-                    -53.0
-            );
-            animation.play();
-        });
-        createRecipeButton.setOnMouseExited(event -> {
-            Animation animation = AnimationFactory.generateFillTransition(
-                    createRecipeButton,
-                    Interpolator.EASE_OUT,
-                    Duration.millis(150),
-                    "-fx-background-color: ",
-                    14,
-                    39,
-                    -5.0,
-                    53.0
-            );
-            animation.play();
-        });
+        createRecipeButton.setOnMouseEntered(AnimationFactory.generateDefaultButtonMouseEnterAnimation(createRecipeButton));
+        createRecipeButton.setOnMouseExited(AnimationFactory.generateDefaultButtonMouseExitAnimation(createRecipeButton));
 
-        recipeSearchField.setOnMouseEntered(event -> {
-            Animation animation = AnimationFactory.generateFillTransition(
-                    recipeSearchField,
-                    Interpolator.EASE_IN,
-                    Duration.millis(100),
-                    "-fx-background-color: ",
-                    29.0,
-                    24.0,
-                    -15.0,
-                    15.0
-            );
-            animation.play();
-        });
-        recipeSearchField.setOnMouseExited(event -> {
-            Animation animation = AnimationFactory.generateFillTransition(
-                    recipeSearchField,
-                    Interpolator.EASE_OUT,
-                    Duration.millis(100),
-                    "-fx-background-color: ",
-                    14.0,
-                    39,
-                    15.0,
-                    -15.0
-            );
-            animation.play();
-        });
+        recipeSearchField.setOnMouseEntered(AnimationFactory.generateDefaultTextFieldMouseEnterAnimation(recipeSearchField));
+        recipeSearchField.setOnMouseExited(AnimationFactory.generateDefaultTextFieldMouseExitAnimation(recipeSearchField));
 
         sortDirectionButton.setOnAction(action -> {
             //ascending
@@ -133,58 +82,10 @@ public class Home {
                 sortDirectionButton.setText(ascending);
             }
         });
-        sortDirectionButton.setOnMouseEntered(event -> {
-            Animation animation = AnimationFactory.generateFillTransition(
-                    sortDirectionButton,
-                    Interpolator.EASE_IN,
-                    Duration.millis(150),
-                    "-fx-background-color: ",
-                    9.0,
-                    92.0,
-                    5.0,
-                    -53.0
-            );
-            animation.play();
-        });
-        sortDirectionButton.setOnMouseExited(event -> {
-            Animation animation = AnimationFactory.generateFillTransition(
-                    sortDirectionButton,
-                    Interpolator.EASE_OUT,
-                    Duration.millis(150),
-                    "-fx-background-color: ",
-                    14,
-                    39,
-                    -5.0,
-                    53.0
-            );
-            animation.play();
-        });
+        sortDirectionButton.setOnMouseEntered(AnimationFactory.generateDefaultButtonMouseEnterAnimation(sortDirectionButton));
+        sortDirectionButton.setOnMouseExited(AnimationFactory.generateDefaultButtonMouseExitAnimation(sortDirectionButton));
 
-        sortParameterComboBox.setOnMouseEntered(event -> {
-            Animation animation = AnimationFactory.generateFillTransition(
-                    sortParameterComboBox,
-                    Interpolator.EASE_IN,
-                    Duration.millis(150),
-                    "-fx-background-color: ",
-                    9.0,
-                    92.0,
-                    5.0,
-                    -53.0
-            );
-            animation.play();
-        });
-        sortParameterComboBox.setOnMouseExited(event -> {
-            Animation animation = AnimationFactory.generateFillTransition(
-                    sortParameterComboBox,
-                    Interpolator.EASE_OUT,
-                    Duration.millis(150),
-                    "-fx-background-color: ",
-                    14,
-                    39,
-                    -5.0,
-                    53.0
-            );
-            animation.play();
-        });
+        sortParameterComboBox.setOnMouseEntered(AnimationFactory.generateDefaultButtonMouseEnterAnimation(sortParameterComboBox));
+        sortParameterComboBox.setOnMouseExited(AnimationFactory.generateDefaultButtonMouseExitAnimation(sortParameterComboBox));
     }
 }

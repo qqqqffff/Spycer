@@ -1,6 +1,7 @@
 package com.apollor.spycer.utils;
 
 import javafx.scene.Node;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -52,6 +53,10 @@ public class RecipeUpdater {
                 }
             }
         }
+    }
+
+    public static void updateRecipePage(ScrollPane pane, String fileName){
+
     }
 
     private static String extrapolateTags(Map<Integer, String[]> data){

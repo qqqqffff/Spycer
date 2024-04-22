@@ -2,36 +2,30 @@ package com.apollor.spycer.controllers;
 
 import com.apollor.spycer.Application;
 import com.apollor.spycer.utils.AnimationFactory;
-import com.apollor.spycer.utils.RecipeDeleter;
+import com.apollor.spycer.utils.RecipeUpdater;
 import com.apollor.spycer.utils.Statistics;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.TranslateTransition;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseDragEvent;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.StrokeLineCap;
-import javafx.scene.shape.StrokeLineJoin;
-import javafx.scene.shape.StrokeType;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.DoubleSummaryStatistics;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class Recipe {
@@ -63,7 +57,7 @@ public class Recipe {
         AtomicReference<Double> finalDragPos = new AtomicReference<>(Double.MAX_VALUE);
         AtomicReference<Double> deltaDragPos = new AtomicReference<>(0.0);
 
-        deletePane.setOnMouseEntered(event1 -> {
+        deletePane.setOnMouseEntered(event -> {
             deletePane.getChildren().stream().filter(x -> x.getClass().equals(Text.class)).forEach(x -> ((Text) x).setFill(Color.web("#EAECEE")));
             deleteButton.setStroke(Color.web("#3498DB"));
             Animation animation = AnimationFactory.generateFillTransition(
@@ -78,7 +72,7 @@ public class Recipe {
             );
             animation.play();
         });
-        deletePane.setOnMouseExited(event1 -> {
+        deletePane.setOnMouseExited(event -> {
             deletePane.getChildren().stream().filter(x -> x.getClass().equals(Text.class)).forEach(x -> ((Text) x).setFill(Color.web("#2C3E50")));
             deleteButton.setStroke(Color.BLACK);
             Animation animation = AnimationFactory.generateFillTransition(
@@ -237,8 +231,16 @@ public class Recipe {
                 deltaDragPos.set(0.0);
             }
             else{
-                //TODO: handle displaying info
-                System.out.println("no drag detected");
+                System.out.println("no drag detected, displaying recipe: " + fnameText);
+                FXMLLoader loader = new FXMLLoader(Application.class.getResource("views/RecipePage.fxml"));
+                try{
+                    ScrollPane page = loader.load();
+                    RecipeUpdater.updateRecipePage(page, fnameText.getText());
+                    Application.rootBorderPane.setTop(null);
+                    Application.rootBorderPane.setCenter(page);
+                } catch (IOException e){
+                    throw new RuntimeException(e);
+                }
             }
         });
 

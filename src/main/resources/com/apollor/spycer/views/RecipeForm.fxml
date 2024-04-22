@@ -21,42 +21,44 @@
          <font>
             <Font size="36.0" />
          </font></Text>
-      <GridPane vgap="30.0">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="200.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-                <TextField fx:id="titleTextField" prefWidth="400.0" promptText="Title" GridPane.columnIndex="1">
-               <font>
-                  <Font size="32.0" />
-               </font>
-               <padding>
-                  <Insets bottom="10.0" left="5.0" top="5.0" />
-               </padding></TextField>
-            <Slider fx:id="ratingSlider" blockIncrement="0.1" majorTickUnit="1.0" max="5.0" min="1.0" minorTickCount="0" showTickLabels="true" showTickMarks="true" value="3.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-               <GridPane.margin>
-                  <Insets top="24.0" />
-               </GridPane.margin>
+        <GridPane vgap="30.0">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="200.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            </rowConstraints>
+            <VBox.margin>
+                <Insets top="10.0"/>
+            </VBox.margin>
+            <TextField fx:id="titleTextField" prefWidth="400.0" promptText="Title" GridPane.columnIndex="1">
+                <font>
+                    <Font size="32.0"/>
+                </font>
+                <padding>
+                    <Insets bottom="10.0" left="5.0" top="5.0"/>
+                </padding>
+            </TextField>
+            <Slider fx:id="ratingSlider" blockIncrement="0.1" majorTickUnit="1.0" max="5.0" min="1.0" minorTickCount="0"
+                    showTickLabels="true" showTickMarks="true" value="3.0" GridPane.columnIndex="1"
+                    GridPane.rowIndex="1">
+                <GridPane.margin>
+                    <Insets top="24.0"/>
+                </GridPane.margin>
             </Slider>
             <Label text="Rating:" underline="true" GridPane.rowIndex="1">
-               <font>
-                  <Font size="24.0" />
-               </font>
+                <font>
+                    <Font size="24.0"/>
+                </font>
             </Label>
-                <Label text="Recipe Title:" underline="true">
-               <font>
-                  <Font size="24.0" />
-               </font></Label>
-         </children>
-         <VBox.margin>
-            <Insets top="10.0" />
-         </VBox.margin>
-      </GridPane>
+            <Label text="Recipe Title:" underline="true">
+                <font>
+                    <Font size="24.0"/>
+                </font>
+            </Label>
+        </GridPane>
       <HBox alignment="CENTER_LEFT" spacing="30.0" />
       <BorderPane>
          <left>
@@ -67,12 +69,11 @@
             </Label>
          </left>
          <right>
-            <HBox alignment="CENTER_LEFT" spacing="20.0" BorderPane.alignment="CENTER">
-               <children>
-                  <Button fx:id="addIngredientButton" minHeight="35.0" minWidth="35.0" mnemonicParsing="false" text="+" />
-                  <Button fx:id="removeIngredientButton" layoutX="143.0" layoutY="12.0" minHeight="35.0" minWidth="35.0" mnemonicParsing="false" text="-" />
-               </children>
-            </HBox>
+             <HBox alignment="CENTER_LEFT" spacing="20.0" BorderPane.alignment="CENTER">
+                 <Button fx:id="addIngredientButton" minHeight="35.0" minWidth="35.0" mnemonicParsing="false" text="+"/>
+                 <Button fx:id="removeIngredientButton" layoutX="143.0" layoutY="12.0" minHeight="35.0" minWidth="35.0"
+                         mnemonicParsing="false" text="-"/>
+             </HBox>
          </right>
       </BorderPane>
       <VBox fx:id="ingredientBox" spacing="5">
@@ -86,12 +87,11 @@
             </Label>
          </left>
          <right>
-            <HBox alignment="CENTER_LEFT" spacing="20.0" BorderPane.alignment="CENTER">
-               <children>
-                  <Button fx:id="addProcedureButton" minHeight="35.0" minWidth="35.0" mnemonicParsing="false" text="+" />
-                  <Button fx:id="removeProcedureButton" layoutX="146.0" layoutY="12.0" minHeight="35.0" minWidth="35.0" mnemonicParsing="false" text="-" />
-               </children>
-            </HBox>
+             <HBox alignment="CENTER_LEFT" spacing="20.0" BorderPane.alignment="CENTER">
+                 <Button fx:id="addProcedureButton" minHeight="35.0" minWidth="35.0" mnemonicParsing="false" text="+"/>
+                 <Button fx:id="removeProcedureButton" layoutX="146.0" layoutY="12.0" minHeight="35.0" minWidth="35.0"
+                         mnemonicParsing="false" text="-"/>
+             </HBox>
          </right>
       </BorderPane>
       <VBox fx:id="procedureBox" spacing="5">
@@ -105,17 +105,13 @@
             </Label>
          </left>
          <right>
-            <HBox alignment="CENTER_LEFT" spacing="20.0" BorderPane.alignment="CENTER">
-               <children>
-                  <Button fx:id="addNotesButton" minHeight="35.0" minWidth="35.0" mnemonicParsing="false" text="+" />
-                  <Button fx:id="removeNotesButton" minHeight="35.0" minWidth="35.0" mnemonicParsing="false" text="-" />
-               </children>
-            </HBox>
+             <HBox alignment="CENTER_LEFT" spacing="20.0" BorderPane.alignment="CENTER">
+                 <Button fx:id="addNotesButton" minHeight="35.0" minWidth="35.0" mnemonicParsing="false" text="+"/>
+                 <Button fx:id="removeNotesButton" minHeight="35.0" minWidth="35.0" mnemonicParsing="false" text="-"/>
+             </HBox>
          </right>
       </BorderPane>
         <VBox fx:id="noteBox" spacing="5">
-            <children>
-            </children>
         </VBox>
       <BorderPane>
          <left>
@@ -126,21 +122,17 @@
             </Label>
          </left>
          <right>
-            <HBox alignment="CENTER_LEFT" spacing="20.0" BorderPane.alignment="CENTER">
-               <children>
-                  <Button fx:id="addTagsButton" minHeight="35.0" minWidth="35.0" mnemonicParsing="false" text="+" />
-                  <Button fx:id="removeTagsButton" minHeight="35.0" minWidth="35.0" mnemonicParsing="false" text="-" />
-               </children>
-            </HBox>
+             <HBox alignment="CENTER_LEFT" spacing="20.0" BorderPane.alignment="CENTER">
+                 <Button fx:id="addTagsButton" minHeight="35.0" minWidth="35.0" mnemonicParsing="false" text="+"/>
+                 <Button fx:id="removeTagsButton" minHeight="35.0" minWidth="35.0" mnemonicParsing="false" text="-"/>
+             </HBox>
          </right>
       </BorderPane>
       <VBox fx:id="tagsBox" spacing="5.0" />
-      <HBox alignment="CENTER_RIGHT" spacing="15.0">
-         <children>
-            <Button fx:id="cancelFormButton" mnemonicParsing="false" text="Cancel" />
-            <Button fx:id="createRecipeButton" mnemonicParsing="false" text="Create" />
-         </children>
-      </HBox>
+        <HBox alignment="CENTER_RIGHT" spacing="15.0">
+            <Button fx:id="cancelFormButton" mnemonicParsing="false" text="Cancel"/>
+            <Button fx:id="createRecipeButton" mnemonicParsing="false" text="Create"/>
+        </HBox>
       <padding>
          <Insets bottom="25.0" left="40.0" right="40.0" top="25.0" />
       </padding>

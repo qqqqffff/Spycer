@@ -3,7 +3,10 @@ package com.apollor.spycer.utils;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.Transition;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
@@ -83,6 +86,67 @@ public class AnimationFactory {
                 n.setLayoutX(initialDimensions[0] + deltaTranslation[0] * v);
                 n.setLayoutY(initialDimensions[1] + deltaTranslation[1] * v);
             }
+        };
+    }
+
+    public static EventHandler<MouseEvent> generateDefaultButtonMouseEnterAnimation(Node n){
+        return event -> {
+            Animation animation = generateFillTransition(
+                    n,
+                    Interpolator.EASE_IN,
+                    Duration.millis(150),
+                    "-fx-background-color: ",
+                    9.0,
+                    92.0,
+                    5.0,
+                    -53.0
+            );
+            animation.play();
+        };
+    }
+    public static EventHandler<MouseEvent> generateDefaultButtonMouseExitAnimation(Node n){
+        return event -> {
+            Animation animation = AnimationFactory.generateFillTransition(
+                    n,
+                    Interpolator.EASE_OUT,
+                    Duration.millis(150),
+                    "-fx-background-color: ",
+                    14,
+                    39,
+                    -5.0,
+                    53.0
+            );
+            animation.play();
+        };
+    }
+    public static EventHandler<MouseEvent> generateDefaultTextFieldMouseEnterAnimation(Node n){
+        return event -> {
+            Animation animation = AnimationFactory.generateFillTransition(
+                    n,
+                    Interpolator.EASE_IN,
+                    Duration.millis(100),
+                    "-fx-background-color: ",
+                    29.0,
+                    24.0,
+                    -15.0,
+                    15.0
+            );
+            animation.play();
+        };
+    }
+    public static EventHandler<MouseEvent> generateDefaultTextFieldMouseExitAnimation(Node n){
+        return event -> {
+            Animation animation = AnimationFactory.generateFillTransition(
+                    n,
+                    Interpolator.EASE_OUT,
+                    Duration.millis(100),
+                    "-fx-background-color: ",
+                    14.0,
+                    39,
+                    15.0,
+                    -15.0
+            );
+            animation.play();
         };
     }
 
