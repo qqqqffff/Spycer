@@ -53,7 +53,8 @@
 .label .text{
     -fx-fill: -contrast-color;
     -fx-font-family: Arial serif;
-    -fx-font-size: 24
+    -fx-font-size: 24;
+    -fx-font-weight: 900;
 }
 
 .text-field{
@@ -100,7 +101,7 @@ ScrollPane{
     -fx-text-fill: -secondary-color;
     -fx-font-family: Arial serif;
     -fx-font-size: 16;
-    -fx-font-weight: bold;
+    -fx-font-weight: 900;
 }
 
 .button:hover {
@@ -142,5 +143,32 @@ ScrollPane{
 }
 
 .combo-box:hover{
+    -fx-border-color: -tertiary-color;
+}
+
+.check-box .box{
+    -fx-background-color: -secondary-color;
+    -fx-border-color: black;
+    -fx-border-width: 2;
+    -fx-pref-width: 28;
+    -fx-pref-height: 28;
+}
+
+.check-box{
+    -fx-font-size: 24;
+    -fx-font-family: Arial serif;
+    -fx-font-weight: 900;
+    -fx-text-fill: -contrast-color;
+}
+
+.check-box:selected .mark{
+    -fx-background-color: -contrast-color;
+}
+.check-box:selected {
+    -fx-font-weight: 200;
+}
+
+.check-box:hover .box{
+    -fx-background-color: -l-secondary-color;
     -fx-border-color: -tertiary-color;
 }

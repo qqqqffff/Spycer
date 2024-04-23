@@ -741,16 +741,11 @@ public class RecipeForm {
     }
 
     private JsonWriter getJsonWriter(Path curdir) throws IOException {
-        File data = new File(curdir + "/src/main/java/com/apollor/spycer/data/");
-        if(!data.exists()){
-            if(!data.mkdir()) throw new IOException("Unable to create data directory");
-        }
-
-        File f = new File(curdir + "/src/main/java/com/apollor/spycer/data/"+ titleTextField.getText() + "_recipe.json");
+        File f = new File(curdir + Application.datadir.getAbsolutePath() + titleTextField.getText() + "_recipe.json");
         if(!f.createNewFile()){
             int counter = 1;
             while(f.exists()) {
-                f = new File(curdir + "/src/main/java/com/apollor/spycer/data/" +
+                f = new File(curdir + Application.datadir.getAbsolutePath()  +
                         f.getName().replace(f.getName().contains("_recipe" + counter) ? "_recipe" + counter : "_recipe",
                         "_recipe" + ++counter));
             }
@@ -764,12 +759,7 @@ public class RecipeForm {
     }
 
     public boolean checkInProgressRecipe() throws IOException {
-        Path curdir = Paths.get("").toAbsolutePath();
-        File data = new File(curdir + "/src/main/java/com/apollor/spycer/data/");
-        if(!data.exists()){
-            if(!data.mkdir()) throw new IOException("Unable to create data directory");
-        }
-        File f = new File(data.getAbsolutePath() + "/inprogress_recipe.json");
+        File f = new File(Application.datadir.getAbsolutePath() + "/inprogress_recipe.json");
         return f.exists();
     }
 

@@ -10,6 +10,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class JsonLoader {
+    /**
+     * Recipe Json Parser:
+     * 5 Maps found with the key of the map names:
+     * 1) options map
+     * 1a) title
+     * 1b) rating
+     * 1c) total time
+     * 1d) author
+     * 2) ingredients
+     * 3) procedures
+     * 4) notes
+     * 5) tags
+     * @param f file to parse
+     * @return Map of all the data contained in the recipe json
+     * @throws IOException if json file dne
+     */
     public static Map<String, Map<Integer, String[]>> parseJsonRecipe(File f) throws IOException {
         Map<String, Map<Integer, String[]>> map = new HashMap<>();
         Map<Integer, String[]> options = new HashMap<>();
@@ -29,6 +45,7 @@ public class JsonLoader {
             switch(name){
                 case TITLE -> options.put(0, new String[]{jsonName, jr.nextString()});
                 case RATING -> options.put(1, new String[]{jsonName, jr.nextString()});
+                case AUTHOR -> options.put(3, new String[]{jsonName, jr.nextString()});
                 case INGREDIENTS -> dynamicPlacement(jr, ingredients);
                 case PROCEDURES -> dynamicPlacement(jr, procedures);
                 case NOTES -> dynamicPlacement(jr, notes);
@@ -42,7 +59,7 @@ public class JsonLoader {
                 return 0;
             }
         }).reduce(0, Integer::sum);
-        options.put(4, new String[]{RecipeTimeCalculator.formatTotalTime(totalTime, false)});
+        options.put(2, new String[]{RecipeTimeCalculator.formatTotalTime(totalTime, false)});
 
         map.put("options", options);
         map.put("ingredients", ingredients);

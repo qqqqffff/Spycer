@@ -14,114 +14,122 @@
 <?import javafx.scene.text.Text?>
 
 <ScrollPane hbarPolicy="NEVER" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.apollor.spycer.controllers.RecipePage">
-    <VBox alignment="TOP_CENTER" prefHeight="800.0" prefWidth="1280.0" spacing="15.0"
-          stylesheets="@../styles/Stylesheet.css">
+    <VBox alignment="TOP_CENTER" prefHeight="800.0" prefWidth="1280.0" spacing="15.0" stylesheets="@../styles/Stylesheet.css">
         <padding>
-            <Insets bottom="25.0" left="25.0" right="25.0" top="25.0"/>
+            <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
         </padding>
         <GridPane>
             <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             </columnConstraints>
             <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
-            <Button mnemonicParsing="false" text="Back"/>
-            <Text fx:id="titleText" strokeType="OUTSIDE" strokeWidth="0.0"
-                  style="-fx-fill: #EAECEE; -fx-font-weight: bold;" text="Title" GridPane.columnIndex="1"
-                  GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+            <Button mnemonicParsing="false" text="Back" />
+            <Text fx:id="titleText" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #EAECEE; -fx-font-weight: bold;" text="Title" underline="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                 <font>
-                    <Font name="Arial Bold" size="36.0"/>
+                    <Font name="Arial Bold" size="36.0" />
                 </font>
             </Text>
-            <HBox alignment="CENTER_RIGHT" spacing="15.0" GridPane.columnIndex="2" GridPane.halignment="RIGHT"
-                  GridPane.valignment="CENTER">
+            <HBox alignment="CENTER_RIGHT" spacing="15.0" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
                 <children>
-                    <Button fx:id="editRecipeButton" mnemonicParsing="false" text="Edit"/>
-                    <Button fx:id="deleteRecipeButton" mnemonicParsing="false" text="Delete"/>
-                    <Button fx:id="settingsButton" mnemonicParsing="false" text="Settings"/>
+                    <Button fx:id="editRecipeButton" mnemonicParsing="false" text="Edit" />
+                    <Button fx:id="deleteRecipeButton" mnemonicParsing="false" text="Delete" />
+                    <Button fx:id="settingsButton" mnemonicParsing="false" text="Settings" />
                 </children>
             </HBox>
         </GridPane>
-        <HBox alignment="CENTER" spacing="25.0">
-            <Text fx:id="authorText" strokeType="OUTSIDE" strokeWidth="0.0"
-                  style="-fx-fill: #EAECEE; -fx-font-weight: bold;" text="By: Author">
+        <HBox alignment="CENTER" spacing="50.0">
+            <Text fx:id="authorText" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #EAECEE; -fx-font-weight: bold;" text="By: Author">
                 <font>
-                    <Font name="Arial" size="24.0"/>
+                    <Font name="Arial" size="24.0" />
                 </font>
+            <HBox.margin>
+               <Insets top="10.0" />
+            </HBox.margin>
             </Text>
-            <Text fx:id="ratingText" strokeType="OUTSIDE" strokeWidth="0.0"
-                  style="-fx-fill: #EAECEE; -fx-font-weight: bold;" text="Rating: 4.5/5">
+            <Text fx:id="ratingText" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #EAECEE; -fx-font-weight: bold;" text="Rating: 4.5 / 5">
                 <font>
-                    <Font size="24.0"/>
+                    <Font name="Arial" size="24.0" />
                 </font>
             </Text>
         </HBox>
-        <GridPane>
+        <GridPane hgap="50.0" vgap="15.0">
             <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="40.0" prefWidth="100.0"/>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="40.0" prefWidth="100.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="40.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="60.0" prefWidth="100.0" />
             </columnConstraints>
             <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints maxHeight="1.7976931348623157E308" minHeight="0.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="400.0" vgrow="ALWAYS" />
+                <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <VBox.margin>
-                <Insets top="10.0"/>
+                <Insets top="10.0" />
             </VBox.margin>
             <Label text="Ingredients:" underline="true">
                 <font>
-                    <Font size="24.0"/>
+                    <Font size="24.0" />
                 </font>
                 <GridPane.margin>
-                    <Insets/>
+                    <Insets />
                 </GridPane.margin>
             </Label>
-            <VBox fx:id="ingredientsBox" GridPane.rowIndex="1"/>
+            <VBox fx:id="ingredientsBox" spacing="15.0" GridPane.rowIndex="1">
+            <GridPane.margin>
+               <Insets left="25.0" />
+            </GridPane.margin></VBox>
             <Label text="Procedures:" underline="true" GridPane.columnIndex="1">
                 <font>
-                    <Font size="24.0"/>
+                    <Font size="24.0" />
                 </font>
             </Label>
-            <VBox fx:id="proceduresBox" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-            <Button fx:id="syncPantryButton" mnemonicParsing="false" text="Sync Pantry" GridPane.halignment="RIGHT"
-                    GridPane.rowIndex="2" GridPane.valignment="CENTER">
+            <VBox fx:id="proceduresBox" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <GridPane.margin>
+               <Insets left="25.0" />
+            </GridPane.margin></VBox>
+            <Button fx:id="syncPantryButton" mnemonicParsing="false" text="Sync Pantry" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                 <GridPane.margin>
-                    <Insets right="15.0"/>
+                    <Insets right="15.0" top="25.0" />
                 </GridPane.margin>
             </Button>
             <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                 <left>
-                    <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #EAECEE;"
-                          text="TIme Remaining: xhrs x mins xsecs" BorderPane.alignment="CENTER">
+                    <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #EAECEE;" text="TIme Remaining: xhrs x mins xsecs" BorderPane.alignment="CENTER">
                         <font>
-                            <Font name="Arial" size="20.0"/>
+                            <Font name="Arial" size="20.0" />
                         </font>
                     </Text>
                 </left>
-                <right>
-                    <Button fx:id="switchProceduresType" mnemonicParsing="false" text="Switch to Images"
-                            BorderPane.alignment="CENTER"/>
-                </right>
+            <right>
+               <HBox spacing="15.0" BorderPane.alignment="CENTER">
+                  <children>
+                          <Button fx:id="setTimerButton" mnemonicParsing="false" text="Set Timer" />
+                     <Button fx:id="switchProceduresType" mnemonicParsing="false" text="Switch to Images" />
+                  </children>
+               </HBox>
+            </right>
             </BorderPane>
         </GridPane>
-        <GridPane>
+        <GridPane vgap="15.0">
             <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             </columnConstraints>
             <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
             </rowConstraints>
             <Label text="Notes:" underline="true">
                 <font>
-                    <Font size="24.0"/>
+                    <Font size="24.0" />
                 </font>
             </Label>
-            <VBox fx:id="notesBox" GridPane.rowIndex="1"/>
+            <VBox fx:id="notesBox" GridPane.rowIndex="1">
+            <GridPane.margin>
+               <Insets left="25.0" />
+            </GridPane.margin></VBox>
         </GridPane>
     </VBox>
 </ScrollPane>

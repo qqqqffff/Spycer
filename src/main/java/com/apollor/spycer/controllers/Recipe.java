@@ -236,7 +236,6 @@ public class Recipe {
                 try{
                     ScrollPane page = loader.load();
                     RecipeUpdater.updateRecipePage(page, fnameText.getText());
-                    Application.rootBorderPane.setTop(null);
                     Application.rootBorderPane.setCenter(page);
                 } catch (IOException e){
                     throw new RuntimeException(e);

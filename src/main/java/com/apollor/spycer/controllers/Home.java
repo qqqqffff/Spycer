@@ -37,8 +37,7 @@ public class Home {
         String descending = "↓";
         SortParam defaultSortBy = SortParam.NAME;
 
-        File datadir = new File(Paths.get("").toAbsolutePath() + "/src/main/java/com/apollor/spycer/data/");
-        for(File dir : Objects.requireNonNull(datadir.listFiles())){
+        for(File dir : Objects.requireNonNull(Application.datadir.listFiles())){
             if(dir.getName().matches(".*_recipe\\d*[.]json")){
                 try {
                     Map<String, Map<Integer, String[]>> data = JsonLoader.parseJsonRecipe(dir);
