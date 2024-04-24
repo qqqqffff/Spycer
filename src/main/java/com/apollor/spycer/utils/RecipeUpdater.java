@@ -68,7 +68,7 @@ public class RecipeUpdater {
             if(n.getClass().equals(GridPane.class)){
                 for(Node i : ((GridPane) n).getChildren()){
                     switch (Objects.requireNonNullElse(i.getId(),"")){
-                        case "titleText" -> ((Text) i).setText(data.get("options").get(0)[1]);
+                        case "titleText" -> ((Label) i).setText(data.get("options").get(0)[1]);
                         case "ingredientsBox" -> {
                             for(String[] value : data.get("ingredients").values()){
                                 ((VBox) i).getChildren().add(createIngredientGroup(value));
@@ -92,17 +92,17 @@ public class RecipeUpdater {
                 for(Node i : ((HBox) n).getChildren()){
                     if(Objects.equals(i.getId(), "authorText")){
                         try{
-                            ((Text) i).setText("Author: " + data.get("options").get(3)[1]);
+                            ((Label) i).setText("Author: " + data.get("options").get(3)[1]);
                         } catch(NullPointerException ignored){
-                            ((Text) i).setText("Author: Unknown");
+                            ((Label) i).setText("Author: Unknown");
                         }
 
                     }
                     else if(Objects.equals(i.getId(), "ratingText")){
                         try{
-                            ((Text) i).setText("Rating: " + data.get("options").get(1)[1] + " / 5");
+                            ((Label) i).setText("Rating: " + data.get("options").get(1)[1] + " / 5");
                         }catch (NullPointerException ignored){
-                            ((Text) i).setText("Rating: Unrated");
+                            ((Label) i).setText("Rating: Unrated");
                         }
 
                     }
@@ -120,6 +120,7 @@ public class RecipeUpdater {
         Label label = new Label(data[1]);
         pane.setRight(label);
 
+        pane.setStyle("-fx-background-color: transparent");
         return pane;
     }
     private static BorderPane createProcedureGroup(String[] data){
@@ -130,8 +131,9 @@ public class RecipeUpdater {
         cb.setWrapText(true);
         cb.setMaxWidth(width - 50);
         pane.setLeft(cb);
-        //TODO: impl dynamic spacing
 
+        //TODO: impl dynamic spacing
+        pane.setStyle("-fx-background-color: transparent");
         return pane;
     }
     private static HBox createNoteGroup(String[] data){
@@ -142,14 +144,17 @@ public class RecipeUpdater {
         indentChar.setId("indentChar");
         indentChar.setFont(new Font(20));
         pane.getChildren().add(indentChar);
+        BorderPane.setMargin(indentChar, new Insets(5,0,0,0));
 
         double width = (Application.rootAnchorPane.getWidth() - 75);
         Label label = new Label(data[1]);
         label.setWrapText(true);
         label.setMaxWidth(width - 50);
+        label.setStyle("-fx-font-weight: 200; -fx-font-size: 24;");
         //TODO: impl dynamic spacing
         pane.getChildren().add(label);
 
+        pane.setStyle("-fx-background-color: transparent");
         return pane;
     }
 

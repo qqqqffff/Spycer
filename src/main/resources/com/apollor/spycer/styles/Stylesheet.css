@@ -147,7 +147,10 @@ ScrollPane{
 }
 
 .check-box .box{
-    -fx-background-color: -secondary-color;
+    -fx-background-color: -contrast-color;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-background-insets: 1,4,4;
     -fx-border-color: black;
     -fx-border-width: 2;
     -fx-pref-width: 28;
@@ -157,15 +160,12 @@ ScrollPane{
 .check-box{
     -fx-font-size: 24;
     -fx-font-family: Arial serif;
-    -fx-font-weight: 900;
+    -fx-font-weight: 200;
     -fx-text-fill: -contrast-color;
 }
 
 .check-box:selected .mark{
-    -fx-background-color: -contrast-color;
-}
-.check-box:selected {
-    -fx-font-weight: 200;
+    -fx-background-color: black;
 }
 
 .check-box:hover .box{
