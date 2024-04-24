@@ -23,20 +23,10 @@ import java.util.Map;
 import java.util.Objects;
 
 public class Home {
-    @FXML private AnchorPane homeAnchorPane;
-    @FXML private BorderPane homeBorderPane;
-    @FXML private TextField recipeSearchField;
-    @FXML private Button createRecipeButton;
-    @FXML private Button sortDirectionButton;
-    @FXML private ComboBox<SortParam> sortParameterComboBox;
-
+    @FXML private VBox contentBox;
 
     @FXML
     public void initialize(){
-        String ascending = "↑";
-        String descending = "↓";
-        SortParam defaultSortBy = SortParam.NAME;
-
         for(File dir : Objects.requireNonNull(Application.datadir.listFiles())){
             if(dir.getName().matches(".*_recipe\\d*[.]json")){
                 try {
@@ -44,47 +34,11 @@ public class Home {
                     FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("views/Recipe.fxml"));
                     BorderPane recipe = fxmlLoader.load();
                     RecipeUpdater.updateRecipe(recipe, data, dir.getName());
-                    ((VBox) homeBorderPane.getCenter()).getChildren().add(recipe);
+                    contentBox.getChildren().add(recipe);
                 } catch (IOException ignored) {
                     System.out.println("Trouble loading recipe");
                 }
             }
         }
-
-        createRecipeButton.setOnAction(event -> {
-            FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("views/RecipeForm.fxml"));
-            try {
-                homeBorderPane.setEffect(new GaussianBlur());
-                ScrollPane form = fxmlLoader.load();
-                form.setId("recipe_form");
-                form.setLayoutX((1280-794) / 2.0);
-                form.setLayoutY(50);
-                homeAnchorPane.getChildren().add(form);
-                Application.rootBorderPane.setDisable(true);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
-        createRecipeButton.setOnMouseEntered(AnimationFactory.generateDefaultButtonMouseEnterAnimation(createRecipeButton));
-        createRecipeButton.setOnMouseExited(AnimationFactory.generateDefaultButtonMouseExitAnimation(createRecipeButton));
-
-        recipeSearchField.setOnMouseEntered(AnimationFactory.generateDefaultTextFieldMouseEnterAnimation(recipeSearchField));
-        recipeSearchField.setOnMouseExited(AnimationFactory.generateDefaultTextFieldMouseExitAnimation(recipeSearchField));
-
-        sortDirectionButton.setOnAction(action -> {
-            //ascending
-            if(sortDirectionButton.getText().equals(ascending)){
-                sortDirectionButton.setText(descending);
-            }
-            //descending
-            else{
-                sortDirectionButton.setText(ascending);
-            }
-        });
-        sortDirectionButton.setOnMouseEntered(AnimationFactory.generateDefaultButtonMouseEnterAnimation(sortDirectionButton));
-        sortDirectionButton.setOnMouseExited(AnimationFactory.generateDefaultButtonMouseExitAnimation(sortDirectionButton));
-
-        sortParameterComboBox.setOnMouseEntered(AnimationFactory.generateDefaultButtonMouseEnterAnimation(sortParameterComboBox));
-        sortParameterComboBox.setOnMouseExited(AnimationFactory.generateDefaultButtonMouseExitAnimation(sortParameterComboBox));
     }
 }

@@ -23,10 +23,10 @@ public class Application extends javafx.application.Application {
         if(!datadir.exists()){
             if(!datadir.mkdir()) throw new IOException("Unable to create data directory");
         }
-        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("views/Home.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("views/Root.fxml"));
         rootAnchorPane = fxmlLoader.load();
         for(Node i : rootAnchorPane.getChildren()){
-            if(Objects.equals(i.getId(), "homeBorderPane")) {
+            if(Objects.equals(i.getId(), "rootBorderPane")) {
                 rootBorderPane = (BorderPane) i;
                 break;
             }

@@ -1,67 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Line?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="homeAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="800.0" minWidth="1280.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.apollor.spycer.controllers.Home">
-   <BorderPane fx:id="homeBorderPane" minHeight="800.0" minWidth="1280.0" stylesheets="@../styles/Stylesheet.css">
-      <center>
-         <VBox prefHeight="200.0" prefWidth="100.0" spacing="20.0" BorderPane.alignment="CENTER">
-            <BorderPane.margin>
-               <Insets left="25.0" right="25.0" top="25.0" />
-            </BorderPane.margin></VBox>
-      </center>
-      <top>
-         <VBox spacing="15.0" BorderPane.alignment="CENTER">
-            <children>
-               <BorderPane fx:id="homeHeaderPane">
-                  <left>
-                     <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #EAECEE;" text="Spycer" BorderPane.alignment="CENTER">
-                        <font>
-                           <Font name="Arial Bold" size="32.0" />
-                        </font>
-                     </Text>
-                  </left>
-                  <right>
-                     <Button fx:id="createRecipeButton" mnemonicParsing="false" text="Create" BorderPane.alignment="CENTER">
-                        <font>
-                           <Font size="24.0" />
-                        </font>
-                     </Button>
-                  </right>
-                  <center>
-                     <HBox alignment="CENTER" spacing="10.0" BorderPane.alignment="CENTER">
-                        <children>
-                           <TextField fx:id="recipeSearchField" prefWidth="750.0" promptText="Search Recipes">
-                              <font>
-                                 <Font size="24.0" />
-                              </font>
-                           </TextField>
-                           <ComboBox fx:id="sortParameterComboBox" promptText="Sort By:" />
-                           <Button fx:id="sortDirectionButton" mnemonicParsing="false" text="↑" />
-                        </children>
-                     </HBox>
-                  </center>
-               </BorderPane>
-               <Line endX="1230.0" stroke="#eaecee">
-                  <VBox.margin>
-                     <Insets />
-                  </VBox.margin>
-               </Line>
-            </children>
-            <BorderPane.margin>
-               <Insets left="25.0" right="25.0" top="25.0" />
-            </BorderPane.margin>
-         </VBox>
-      </top>
-   </BorderPane>
-</AnchorPane>
+<VBox xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.apollor.spycer.controllers.Home" fx:id="contentBox" prefHeight="200.0" prefWidth="100.0" spacing="20.0" BorderPane.alignment="CENTER">
+   <BorderPane.margin>
+      <Insets left="25.0" right="25.0" top="25.0" />
+   </BorderPane.margin>
+</VBox>

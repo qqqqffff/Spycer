@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+
+<AnchorPane minHeight="800" minWidth="1280.0" stylesheets="@../styles/Stylesheet.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.apollor.spycer.controllers.Root">
+    <BorderPane fx:id="rootBorderPane">
+        <top>
+            <fx:include source="Header.fxml" />
+        </top>
+        <center>
+            <fx:include source="Home.fxml" />
+        </center>
+    </BorderPane>
+</AnchorPane>

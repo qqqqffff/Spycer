@@ -90,6 +90,10 @@ ScrollPane{
     -fx-background-color: -primary-color;
 }
 
+AnchorPane{
+    -fx-background-color: -primary-color;
+}
+
 
 .button {
     -fx-background-color: -contrast-color;
