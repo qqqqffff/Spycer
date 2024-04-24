@@ -13,7 +13,7 @@ import java.io.IOException;
 
 public class RecipePage {
 
-    @FXML private Button backButton;
+    @FXML private Button homeButton;
     @FXML private Label titleText;
     @FXML private Button editRecipeButton;
     @FXML private Button deleteRecipeButton;
@@ -30,9 +30,9 @@ public class RecipePage {
 
     @FXML
     public void initialize(){
-        backButton.setOnMouseEntered(AnimationFactory.generateDefaultButtonMouseEnterAnimation(backButton));
-        backButton.setOnMouseExited(AnimationFactory.generateDefaultButtonMouseExitAnimation(backButton));
-        backButton.setOnAction(event -> {
+        homeButton.setOnMouseEntered(AnimationFactory.generateDefaultButtonMouseEnterAnimation(homeButton));
+        homeButton.setOnMouseExited(AnimationFactory.generateDefaultButtonMouseExitAnimation(homeButton));
+        homeButton.setOnAction(event -> {
             FXMLLoader loader = new FXMLLoader(Application.class.getResource("views/Home.fxml"));
             try {
                 Application.rootBorderPane.setCenter(loader.load());

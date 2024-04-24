@@ -6,6 +6,7 @@ import com.apollor.spycer.utils.RecipeUpdater;
 import com.apollor.spycer.utils.Statistics;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
+import javafx.animation.Transition;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,12 +21,14 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class Recipe {
@@ -44,7 +47,7 @@ public class Recipe {
     @FXML private Rectangle deleteButton;
 
     private boolean dragging;
-    private List<Double> motions = new ArrayList<>();
+    private boolean deletePaneShown;
 
     @FXML
     public void initialize(){
@@ -86,6 +89,9 @@ public class Recipe {
                     53.0
             );
             animation.play();
+        });
+        deleteButton.setOnMouseClicked(event -> {
+
         });
 
         contentPane.setOnMouseEntered(event -> {
@@ -136,61 +142,73 @@ public class Recipe {
             animation1.play();
             animation2.play();
         });
+
         contentPane.setOnMouseDragged(event -> {
             if(event.getButton() == MouseButton.PRIMARY){
                 if(initialDragPos.get() == Double.MAX_VALUE){
-                    initialDragPos.set(event.getX());
+                    initialDragPos.set(event.getSceneX() - rootPane.getTranslateX());
                     finalDragPos.set(Double.MIN_VALUE);
-                }
-                else if((finalDragPos.get() - initialDragPos.get()) >= deleteButtonThreshold){
-                    deleteButton.setWidth(deleteButtonThreshold - 15);
-                    deltaDragPos.set(deleteButtonThreshold);
                 }
                 else {
                     dragging = true;
-                    finalDragPos.set(event.getX());
+
+                    finalDragPos.set(event.getSceneX());
                     deltaDragPos.set((finalDragPos.get() - initialDragPos.get()));
-                    motionProfile(deltaDragPos.get());
-//                    System.out.println(deltaDragPos.get() + ", " + Math.abs(deltaDragPos.get() - finalDragPos.get()));
-                    if(deltaDragPos.get() - finalDragPos.get() > 1) {
-                        if(deltaDragPos.get() > 25){
-//                            BorderPane.setMargin(deletePane, new Insets(0, 15,0,0));
-//                            deleteButton.setHeight(rootPane.getHeight());
-//                            deleteButton.setWidth(deltaDragPos.get() - 15.0);
-//
-//                            deletePane.getChildren().removeIf(x -> Objects.equals(x.getId(), "text"));
-//
-//                            Text deleteText = new Text("Delete");
-//                            deleteText.setId("text");
-//                            deleteText.setFill(Color.web("#2C3E50"));
-//                            deleteText.setStyle("-fx-font-weight: bold;");
-//                            deleteText.setFont(new Font("Arial serif", 32));
-//                            deleteText.setText(computeMaximumText(deleteText, deltaDragPos.get() - 10));
-//                            deleteText.setLayoutX((deltaDragPos.get() - deleteText.getLayoutBounds().getWidth() - 15) / 2);
-//                            deleteText.setLayoutY((rootPane.getHeight() + 32) / 2);
-//
-//                            deletePane.getChildren().add(deleteText);
-                        }
 
-                    }
-                    else{
+//                    System.out.println(deltaDragPos);
+                    if(deltaDragPos.get() > 21 && deltaDragPos.get() < deleteButtonThreshold){
+                        deletePaneShown = true;
+                        BorderPane.setMargin(deletePane, new Insets(0, 15,0,0));
+                        deleteButton.setHeight(rootPane.getHeight());
+                        deleteButton.setWidth(deltaDragPos.get() - 15.0);
 
+                        deletePane.getChildren().removeIf(x -> Objects.equals(x.getId(), "text"));
+
+                        Text deleteText = new Text("Delete");
+                        deleteText.setId("text");
+                        deleteText.setFill(Color.web("#2C3E50"));
+                        deleteText.setStyle("-fx-font-weight: bold;");
+                        deleteText.setFont(new Font("Arial serif", 32));
+                        deleteText.setText(computeMaximumText(deleteText, deltaDragPos.get() - 25));
+                        deleteText.setLayoutX((deltaDragPos.get() - deleteText.getLayoutBounds().getWidth() - 15) / 2);
+                        deleteText.setLayoutY((rootPane.getHeight() + 32) / 2);
+                        deletePane.getChildren().add(deleteText);
                     }
-                    rootPane.setTranslateX(getMotionProfile());
+                    else if(deletePaneShown && deltaDragPos.get() < 0 && deleteButton.getWidth() > 0){
+                        double deltaWidth = deleteButtonThreshold + deltaDragPos.get();
+                        deleteButton.setWidth(deltaWidth);
+
+                        Text deleteText = (Text) deletePane.getChildren().stream().filter(x -> x.getClass().equals(Text.class)).toList().get(0);
+                        deleteText.setText("Delete");
+                        deleteText.setText(computeMaximumText(deleteText, deltaWidth - 25));
+                        deleteText.setLayoutX((deltaWidth - deleteText.getLayoutBounds().getWidth() - 15) / 2);
+                    }
                 }
             }
         });
         contentPane.setOnMouseReleased(event -> {
             if(dragging) {
-                TranslateTransition backwardTransition = new TranslateTransition();
-
-                backwardTransition.setNode(rootPane);
-                backwardTransition.setFromX(rootPane.getTranslateX());
-                backwardTransition.setToX(rootPane.getLayoutX());
-                backwardTransition.setDuration(Duration.millis(50));
-
-                if(deltaDragPos.get() > 125 && deltaDragPos.get() != deleteButtonThreshold){
-                    contentPane.setDisable(true);
+                if(deltaDragPos.get() >= deleteButtonThreshold){
+                    double initialWidth = deleteButton.getWidth();
+                    double deltaWidth = deleteButtonThreshold - 15 - initialWidth;
+                    Text x = (Text) deletePane.getChildren().stream().filter(y -> y.getClass().equals(Text.class)).toList().get(0);
+                    Animation animation = new Transition() {
+                        {
+                            setCycleDuration(Duration.millis(75));
+                            setInterpolator(Interpolator.EASE_OUT);
+                        }
+                        @Override
+                        protected void interpolate(double v) {
+                            deleteButton.setWidth(initialWidth + deltaWidth * v);
+                            double dw = initialWidth + deltaWidth * v;
+                            x.setText("Delete");
+                            x.setText(computeMaximumText(x, dw));
+                            x.setLayoutX((dw - x.getLayoutBounds().getWidth()) / 2);
+                        }
+                    };
+                    animation.play();
+                }
+                if(deltaDragPos.get() > 125 && deltaDragPos.get() < deleteButtonThreshold){
                     Animation animation = AnimationFactory.generateTransformTransition(
                             deleteButton,
                             Interpolator.EASE_IN,
@@ -198,18 +216,22 @@ public class Recipe {
                             new double[]{deleteButtonThreshold - 15 - deleteButton.getWidth(), 0}
                     );
 
-                    Node n = deletePane.getChildren().stream().filter(x -> x.getClass().equals(Text.class)).toList().get(0);
+                    Text n = (Text) deletePane.getChildren().stream().filter(x -> x.getClass().equals(Text.class)).toList().get(0);
                     Animation animation2 = AnimationFactory.generateTranslateTransition(
                             n,
                             Interpolator.EASE_IN,
                             Duration.millis(100),
                             new double[]{((deleteButtonThreshold - n.getLayoutBounds().getWidth() - 15) / 2) - n.getLayoutX(), 0}
                     );
-                    animation.setOnFinished(e -> backwardTransition.play());
                     animation.play();
                     animation2.play();
+                    animation.setOnFinished(e -> {
+                        deleteButton.setWidth(deleteButtonThreshold - 15);
+                        n.setLayoutX((deleteButtonThreshold - n.getLayoutBounds().getWidth() - 15) / 2);
+                    });
                 }
-                else if(deltaDragPos.get() < 125){
+                else if(deltaDragPos.get() < 125 && deltaDragPos.get() > 0){
+                    deletePaneShown = false;
                     deletePane.getChildren().removeIf(x -> x.getClass().equals(Text.class));
                     BorderPane.setMargin(deletePane, new Insets(0,0,0,0));
                     Animation animation = AnimationFactory.generateTransformTransition(
@@ -218,20 +240,68 @@ public class Recipe {
                             Duration.millis(100),
                             new double[]{-deleteButton.getWidth(), 0}
                     );
-                    animation.setOnFinished(e -> backwardTransition.play());
                     animation.play();
                 }
-                else if(deleteButtonThreshold == deltaDragPos.get()){
-                    Node n = deletePane.getChildren().stream().filter(x -> x.getClass().equals(Text.class)).toList().get(0);
-                    System.out.println("2:" + n.getLayoutX() + ", " + (deleteButtonThreshold - n.getLayoutBounds().getWidth()) / 2);
-                    backwardTransition.play();
+                else if(deltaDragPos.get() < 0 && deltaDragPos.get() > -75){
+                    double initialWidth = deleteButtonThreshold + deltaDragPos.get();
+                    double deltaWidth = deleteButtonThreshold - 15 - initialWidth;
+                    Text x = (Text) deletePane.getChildren().stream().filter(y -> y.getClass().equals(Text.class)).toList().get(0);
+                    Animation animation = new Transition() {
+                        {
+                            setCycleDuration(Duration.millis(75));
+                            setInterpolator(Interpolator.EASE_OUT);
+                        }
+                        @Override
+                        protected void interpolate(double v) {
+                            deleteButton.setWidth(initialWidth + deltaWidth * v);
+                            double dw = initialWidth + deltaWidth * v;
+                            x.setText("Delete");
+                            x.setText(computeMaximumText(x, dw));
+                            x.setLayoutX((dw - x.getLayoutBounds().getWidth() - 15) / 2);
+                        }
+                    };
+                    animation.play();
+                }
+                else if(deltaDragPos.get() < -75 && deltaDragPos.get() > -deleteButtonThreshold){
+                    deletePaneShown = false;
+                    double initialWidth = deleteButtonThreshold + deltaDragPos.get();
+                    Text x = (Text) deletePane.getChildren().stream().filter(y -> y.getClass().equals(Text.class)).toList().get(0);
+                    Animation animation = new Transition() {
+                        {
+                            setCycleDuration(Duration.millis(75));
+                            setInterpolator(Interpolator.EASE_OUT);
+                        }
+                        @Override
+                        protected void interpolate(double v) {
+                            BorderPane.setMargin(deletePane, new Insets(0, 15 - 15*v, 0, 0));
+                            deleteButton.setWidth(initialWidth - initialWidth * v);
+                            double deltaWidth = initialWidth - initialWidth * v;
+                            x.setText("Delete");
+                            x.setText(computeMaximumText(x, deltaWidth));
+                            x.setLayoutX((deltaWidth - x.getLayoutBounds().getWidth() - 15) / 2);
+                        }
+                    };
+                    animation.play();
+                }
+                else if(deltaDragPos.get() <= -deleteButtonThreshold){
+                    Animation animation = new Transition() {
+                        {
+                            setCycleDuration(Duration.millis(25));
+                            setInterpolator(Interpolator.EASE_OUT);
+                        }
+                        @Override
+                        protected void interpolate(double v) {
+                            BorderPane.setMargin(deletePane, new Insets(0, 15 - 15*v, 0, 0));
+                        }
+                    };
+                    animation.play();
                 }
                 initialDragPos.set(Double.MAX_VALUE);
                 finalDragPos.set(Double.MAX_VALUE);
                 deltaDragPos.set(0.0);
             }
             else{
-                System.out.println("no drag detected, displaying recipe: " + fnameText);
+                System.out.println("no drag detected, displaying recipe: " + fnameText.getText());
                 FXMLLoader loader = new FXMLLoader(Application.class.getResource("views/RecipePage.fxml"));
                 try{
                     ScrollPane page = loader.load();
@@ -247,33 +317,10 @@ public class Recipe {
 
     private String computeMaximumText(Text text, double size){
         String s = text.getText();
-        while(text.getLayoutBounds().getWidth() > size){
+        while(text.getLayoutBounds().getWidth() > size && !s.isEmpty()){
             s = s.substring(0, s.length() - 1);
             text.setText(s);
         }
         return s;
-    }
-
-    private void motionProfile(double delta){
-        if(motions.isEmpty()) {
-            motions.add(delta);
-            return;
-        }
-        boolean sign = delta > 0;
-        if(sign != motions.get(0) > 0){
-            motions.clear();
-            motions.add(delta);
-        }
-        else{
-            motions.add(delta);
-        }
-    }
-    private double getMotionProfile(){
-        double std = Statistics.std(motions);
-        System.out.println(motions);
-        if(motions.get(motions.size() - 1) < std){
-            return std;
-        }
-        return motions.get(motions.size() - 1);
     }
 }

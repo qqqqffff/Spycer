@@ -29,7 +29,7 @@ public class RecipeTimeCalculator {
      * @return the formatted string
      */
     public static String formatTotalTime(int total, boolean showSeconds){
-        System.out.println(total);
+//        System.out.println(total);
 
         int days = total / (3600 * 24);
         total -= days * 3600 * 24;
@@ -43,20 +43,20 @@ public class RecipeTimeCalculator {
         String retString = "";
         if(days > 0){
             retString += days;
-            retString += days > 1 ? " days, " : " day, ";
+            retString += days > 1 ? " Days, " : " Day, ";
         }
         if(hours > 0){
             retString += hours;
-            retString += hours > 1 ? " hours, " : " hour, ";
+            retString += hours > 1 ? " Hours, " : " Hour, ";
         }
         if(minutes > 0){
             retString += minutes;
-            retString += minutes > 1 ? " minutes, " : " minute, ";
+            retString += minutes > 1 ? " Minutes, " : " Minute, ";
         }
         if(seconds > 0 && showSeconds){
             retString += seconds;
-            retString += seconds > 1 ? " seconds, " : " second, ";
+            retString += seconds > 1 ? " Seconds, " : " Second, ";
         }
-        return retString.length() > 0 ? retString.substring(0, retString.length() - 2) : "Undetermined";
+        return !retString.isEmpty() ? retString.substring(0, retString.length() - 2) : "Undetermined";
     }
 }

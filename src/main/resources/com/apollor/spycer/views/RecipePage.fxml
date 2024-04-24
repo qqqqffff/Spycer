@@ -27,7 +27,7 @@
             <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
-            <Button fx:id="backButton" mnemonicParsing="false" text="Back" />
+            <Button fx:id="homeButton" mnemonicParsing="false" text="Home" />
          <Label fx:id="titleText" text="Label" GridPane.columnIndex="1" />
             <HBox alignment="CENTER_RIGHT" spacing="15.0" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
                 <children>

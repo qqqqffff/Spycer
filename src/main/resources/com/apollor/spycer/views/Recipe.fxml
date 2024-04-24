@@ -18,12 +18,11 @@
             <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
          </padding>
          <left>
-            <ImageView fx:id="recipeThumbnail" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true"
-                       preserveRatio="true" BorderPane.alignment="CENTER">
+            <ImageView fx:id="recipeThumbnail" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
                <BorderPane.margin>
-                  <Insets left="25.0" right="25.0"/>
+                  <Insets left="25.0" right="25.0" />
                </BorderPane.margin>
-               <Image url="@../images/placeholders/100x100.png"/>
+               <Image url="@../images/placeholders/100x100.png" />
             </ImageView>
          </left>
          <center>
@@ -33,7 +32,7 @@
                </BorderPane.margin>
                <Text fx:id="recipeTitleText" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #EAECEE;" text="Recipe Name">
                   <font>
-                     <Font size="36.0" />
+                     <Font name="Arial Bold" size="36.0" />
                   </font>
                </Text>
                <HBox fx:id="subHBox" alignment="CENTER" spacing="25.0">
@@ -67,8 +66,7 @@
    </center>
    <left>
       <AnchorPane fx:id="deletePane" BorderPane.alignment="CENTER">
-         <Rectangle fx:id="deleteButton" arcHeight="30.0" arcWidth="30.0" fill="#EAECEE" stroke="BLACK"
-                    strokeType="INSIDE" strokeWidth="3.0"/>
+         <Rectangle fx:id="deleteButton" arcHeight="30.0" arcWidth="30.0" fill="#EAECEE" stroke="BLACK" strokeType="INSIDE" strokeWidth="3.0" />
       </AnchorPane>
    </left>
 </BorderPane>
