@@ -62,8 +62,11 @@ public class RecipeUpdater {
     }
 
     public static void updateRecipePage(ScrollPane pane, String fileName) throws IOException {
-        VBox box = (VBox) pane.getContent();
         Map<String, Map<Integer, String[]>> data = JsonLoader.parseJsonRecipe(new File(Application.datadir.getAbsolutePath() + "/" +fileName));
+        updateRecipePage(pane, data);
+    }
+    public static void updateRecipePage(ScrollPane pane, Map<String, Map<Integer, String[]>> data){
+        VBox box = (VBox) pane.getContent();
         for(Node n : box.getChildren()){
             if(n.getClass().equals(GridPane.class)){
                 for(Node i : ((GridPane) n).getChildren()){
@@ -126,7 +129,12 @@ public class RecipeUpdater {
     private static BorderPane createProcedureGroup(String[] data){
         BorderPane pane = new BorderPane();
 
-        double width = (Application.rootAnchorPane.getWidth() - 125) * .6;
+        double screenWidth = 1280;
+        try{
+            screenWidth = Application.rootAnchorPane.getWidth() == 0 ? screenWidth : Application.rootAnchorPane.getWidth();
+        }catch (NullPointerException ignored) {}
+
+        double width = (screenWidth - 125) * .6;
         CheckBox cb = new CheckBox(data[0]);
         cb.setWrapText(true);
         cb.setMaxWidth(width - 50);
@@ -146,7 +154,11 @@ public class RecipeUpdater {
         pane.getChildren().add(indentChar);
         BorderPane.setMargin(indentChar, new Insets(5,0,0,0));
 
-        double width = (Application.rootAnchorPane.getWidth() - 75);
+        double screenWidth = 1280;
+        try{
+            screenWidth = Application.rootAnchorPane.getWidth() == 0 ? screenWidth : Application.rootAnchorPane.getWidth();
+        }catch (NullPointerException ignored) {}
+        double width = (screenWidth - 75);
         Label label = new Label(data[1]);
         label.setWrapText(true);
         label.setMaxWidth(width - 50);

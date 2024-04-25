@@ -3,6 +3,7 @@ package com.apollor.spycer.controllers;
 import com.apollor.spycer.Application;
 import com.apollor.spycer.utils.AnimationFactory;
 import com.apollor.spycer.utils.RecipeUpdater;
+import com.apollor.spycer.utils.StateManager;
 import com.apollor.spycer.utils.Statistics;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
@@ -26,9 +27,7 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class Recipe {
@@ -99,7 +98,7 @@ public class Recipe {
             );
             animation.setOnFinished(e -> {
                 Home.dynamicAdjust(rootPane);
-//                ((VBox) Application.rootBorderPane.getCenter()).getChildren().remove(rootPane);
+                //TODO: when ready for release handle IO deletion
             });
             animation.play();
         });
@@ -312,8 +311,14 @@ public class Recipe {
             }
             else{
                 System.out.println("no drag detected, displaying recipe: " + fnameText.getText());
+                Map<String, Map<String, String>> data = new HashMap<>();
+                Map<String, String> fileMap = new HashMap<>();
+                fileMap.put("file", fnameText.getText());
+                data.put("file", fileMap);
+
                 FXMLLoader loader = new FXMLLoader(Application.class.getResource("views/RecipePage.fxml"));
                 try{
+                    StateManager.updateState(data);
                     ScrollPane page = loader.load();
                     RecipeUpdater.updateRecipePage(page, fnameText.getText());
                     Application.rootBorderPane.setCenter(page);

@@ -31,6 +31,7 @@
          <Label fx:id="titleText" text="Label" GridPane.columnIndex="1" />
             <HBox alignment="CENTER_RIGHT" spacing="15.0" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
                 <children>
+                    <Button fx:id="uploadRecipeButton" mnemonicParsing="false" text="Upload" />
                     <Button fx:id="editRecipeButton" mnemonicParsing="false" text="Edit" />
                     <Button fx:id="deleteRecipeButton" mnemonicParsing="false" text="Delete" />
                     <Button fx:id="settingsButton" mnemonicParsing="false" text="Settings" />

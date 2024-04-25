@@ -2,6 +2,7 @@ package com.apollor.spycer.controllers;
 
 import com.apollor.spycer.Application;
 import com.apollor.spycer.utils.AnimationFactory;
+import com.apollor.spycer.utils.StateManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -15,6 +16,8 @@ public class RecipePage {
 
     @FXML private Button homeButton;
     @FXML private Label titleText;
+
+    @FXML private Button uploadRecipeButton;
     @FXML private Button editRecipeButton;
     @FXML private Button deleteRecipeButton;
     @FXML private Button settingsButton;
@@ -35,6 +38,7 @@ public class RecipePage {
         homeButton.setOnAction(event -> {
             FXMLLoader loader = new FXMLLoader(Application.class.getResource("views/Home.fxml"));
             try {
+                StateManager.updateState(null);
                 Application.rootBorderPane.setCenter(loader.load());
             } catch (IOException e) {
                 throw new RuntimeException(e);
