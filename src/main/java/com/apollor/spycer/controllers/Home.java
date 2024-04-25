@@ -5,6 +5,8 @@ import com.apollor.spycer.utils.AnimationFactory;
 import com.apollor.spycer.utils.JsonLoader;
 import com.apollor.spycer.utils.RecipeUpdater;
 import com.apollor.spycer.utils.SortParam;
+import javafx.animation.Animation;
+import javafx.animation.Interpolator;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -16,6 +18,7 @@ import javafx.scene.effect.GaussianBlur;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 
 import java.io.File;
 import java.io.IOException;
@@ -45,8 +48,29 @@ public class Home {
 
     public static void dynamicAdjust(Node n){
         VBox contentBox = (VBox) Application.rootBorderPane.getCenter();
-        for(int i = 0; i < contentBox.getChildren().size(); i++){
-            System.out.println(contentBox.getChildren().get(i));
+        final Node[] itemToDelete = {null};
+        for(int i = 0, j = -1; i < contentBox.getChildren().size(); i++){
+            if(contentBox.getChildren().get(i).equals(n)){
+                itemToDelete[0] = contentBox.getChildren().get(i);
+                j = 1;
+            }
+            else if(j != -1){
+                Node x = contentBox.getChildren().get(i);
+                Animation animation = AnimationFactory.generateTranslateTransition2(
+                        x,
+                        Interpolator.LINEAR,
+                        Duration.millis(150),
+                        new double[]{0, -i * (x.getLayoutBounds().getHeight() + 15)}
+                );
+                animation.play();
+                animation.setOnFinished(e -> {
+                    if(itemToDelete[0] != null) {
+                        contentBox.getChildren().remove(itemToDelete[0]);
+                        itemToDelete[0] = null;
+                    }
+                    x.setTranslateY(0);
+                });
+            }
         }
     }
 }

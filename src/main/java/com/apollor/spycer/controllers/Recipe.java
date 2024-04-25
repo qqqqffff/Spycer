@@ -99,9 +99,9 @@ public class Recipe {
             );
             animation.setOnFinished(e -> {
                 Home.dynamicAdjust(rootPane);
-                ((VBox) Application.rootBorderPane.getCenter()).getChildren().remove(rootPane);
+//                ((VBox) Application.rootBorderPane.getCenter()).getChildren().remove(rootPane);
             });
-
+            animation.play();
         });
 
         contentPane.setOnMouseEntered(event -> {

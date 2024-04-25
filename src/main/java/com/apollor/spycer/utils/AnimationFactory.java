@@ -67,7 +67,7 @@ public class AnimationFactory {
     }
 
     /**
-     * Generator for translation transitions
+     * Generator for translation transitions using layout parameter
      * @param n Node to translate
      * @param interpolator interpolator for transition type
      * @param duration duration of the transition
@@ -85,6 +85,29 @@ public class AnimationFactory {
             protected void interpolate(double v) {
                 n.setLayoutX(initialDimensions[0] + deltaTranslation[0] * v);
                 n.setLayoutY(initialDimensions[1] + deltaTranslation[1] * v);
+            }
+        };
+    }
+
+    /**
+     * Generator for translate transitions using translation parameter
+     * @param n node to translate
+     * @param interpolator interpolator
+     * @param duration duration of animation
+     * @param deltaTranslation vector representing the delta of the target dimensions minus the initial dimensions in form [x, y]. Leave either parameter as 0 to not transform
+     * @return animation of the transition
+     */
+    public static Animation generateTranslateTransition2(Node n, Interpolator interpolator, Duration duration, double[] deltaTranslation){
+        double[] initialDimensions = new double[]{n.getTranslateX(), n.getTranslateY()};
+        return new Transition() {
+            {
+                setCycleDuration(duration);
+                setInterpolator(interpolator);
+            }
+            @Override
+            protected void interpolate(double v) {
+                n.setTranslateX(initialDimensions[0] + deltaTranslation[0] * v);
+                n.setTranslateY(initialDimensions[1] + deltaTranslation[1] * v);
             }
         };
     }
