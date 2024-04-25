@@ -89,6 +89,20 @@ public class AnimationFactory {
         };
     }
 
+    public static Animation generateOpacityTransition(Node n, Interpolator interpolator, Duration duration, boolean direction){
+        return new Transition(){
+            {
+                setCycleDuration(duration);
+                setInterpolator(interpolator);
+            }
+            @Override
+            protected void interpolate(double v){
+                double delta = direction ? -1*v : v;
+                n.setOpacity(1 + delta);
+            }
+        };
+    }
+
     public static EventHandler<MouseEvent> generateDefaultButtonMouseEnterAnimation(Node n){
         return event -> {
             Animation animation = generateFillTransition(

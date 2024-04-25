@@ -7,6 +7,7 @@ import com.apollor.spycer.utils.RecipeUpdater;
 import com.apollor.spycer.utils.SortParam;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ScrollPane;
@@ -39,6 +40,13 @@ public class Home {
                     System.out.println("Trouble loading recipe");
                 }
             }
+        }
+    }
+
+    public static void dynamicAdjust(Node n){
+        VBox contentBox = (VBox) Application.rootBorderPane.getCenter();
+        for(int i = 0; i < contentBox.getChildren().size(); i++){
+            System.out.println(contentBox.getChildren().get(i));
         }
     }
 }

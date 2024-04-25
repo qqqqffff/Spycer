@@ -90,7 +90,17 @@ public class Recipe {
             );
             animation.play();
         });
-        deleteButton.setOnMouseClicked(event -> {
+        deletePane.setOnMouseClicked(event -> {
+            Animation animation = AnimationFactory.generateOpacityTransition(
+                    rootPane,
+                    Interpolator.EASE_OUT,
+                    Duration.millis(100),
+                    true
+            );
+            animation.setOnFinished(e -> {
+                Home.dynamicAdjust(rootPane);
+                ((VBox) Application.rootBorderPane.getCenter()).getChildren().remove(rootPane);
+            });
 
         });
 
@@ -155,7 +165,6 @@ public class Recipe {
                     finalDragPos.set(event.getSceneX());
                     deltaDragPos.set((finalDragPos.get() - initialDragPos.get()));
 
-//                    System.out.println(deltaDragPos);
                     if(deltaDragPos.get() > 21 && deltaDragPos.get() < deleteButtonThreshold){
                         deletePaneShown = true;
                         BorderPane.setMargin(deletePane, new Insets(0, 15,0,0));
@@ -299,6 +308,7 @@ public class Recipe {
                 initialDragPos.set(Double.MAX_VALUE);
                 finalDragPos.set(Double.MAX_VALUE);
                 deltaDragPos.set(0.0);
+                dragging = false;
             }
             else{
                 System.out.println("no drag detected, displaying recipe: " + fnameText.getText());
