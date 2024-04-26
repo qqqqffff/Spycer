@@ -1,7 +1,5 @@
 package com.apollor.spycer.database;
 
-import com.apollor.spycer.user.User;
-
 //TODO: impl me
 public class UserDB {
     protected static User get(){
