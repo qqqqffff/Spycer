@@ -741,11 +741,11 @@ public class RecipeForm {
     }
 
     private JsonWriter getJsonWriter(Path curdir) throws IOException {
-        File f = new File(curdir + Application.datadir.getAbsolutePath() + titleTextField.getText() + "_recipe.json");
+        File f = new File(curdir + Application.datadir.getAbsolutePath() + "/" + titleTextField.getText().replace(" ", "_") + "_recipe.json");
         if(!f.createNewFile()){
             int counter = 1;
             while(f.exists()) {
-                f = new File(curdir + Application.datadir.getAbsolutePath()  +
+                f = new File(curdir + Application.datadir.getAbsolutePath()  + "/" +
                         f.getName().replace(f.getName().contains("_recipe" + counter) ? "_recipe" + counter : "_recipe",
                         "_recipe" + ++counter));
             }
