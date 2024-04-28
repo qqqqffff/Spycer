@@ -2,10 +2,7 @@ package com.apollor.spycer.controllers;
 
 import com.apollor.spycer.Application;
 import com.apollor.spycer.database.User;
-import com.apollor.spycer.utils.AnimationFactory;
-import com.apollor.spycer.utils.JsonLoader;
-import com.apollor.spycer.utils.RecipeTimeCalculator;
-import com.apollor.spycer.utils.RecipeUpdater;
+import com.apollor.spycer.utils.*;
 import com.google.gson.stream.JsonWriter;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
@@ -711,7 +708,7 @@ public class RecipeForm {
         JsonWriter jw = getJsonWriter(curdir);
         jw.beginObject().name("title").value(titleTextField.getText());
         jw.name("rating").value(ratingSlider.getValue());
-        jw.name("author").value(User.getUser().displayName);
+        jw.name("author").value(SessionHandler.getLoggedInUser().displayName);
         jw.name("ingredients").beginArray();
         for(String[] item : ingredientsList.values()){
             if(item == null || item[0] == null || item[1] == null) continue;

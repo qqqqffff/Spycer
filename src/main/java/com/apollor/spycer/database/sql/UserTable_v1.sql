@@ -1,7 +1,7 @@
 CREATE TABLE Users (
     userid varchar(36) NOT NULL,
     display_name varchar(64),
-    email_address varchar(255) NOT NULL,
+    email_address varchar(255) NOT NULL UNIQUE,
     mfa_email bool,
     mfa_app bool,
     verified bool NOT NULL,
