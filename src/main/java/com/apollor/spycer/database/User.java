@@ -1,22 +1,25 @@
 package com.apollor.spycer.database;
 
-import com.google.gson.Gson;
-import org.apache.hc.client5.http.classic.HttpClient;
+import com.apollor.spycer.Application;
+import com.apollor.spycer.utils.CustomHttpClientResponseHandler;
+import org.apache.hc.client5.http.classic.methods.HttpDelete;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.classic.methods.HttpPost;
+import org.apache.hc.client5.http.classic.methods.HttpPut;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
-import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
-import org.apache.hc.core5.http.HttpResponse;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.core5.http.io.entity.StringEntity;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.UUID;
+import java.nio.charset.StandardCharsets;
+import java.util.concurrent.atomic.AtomicReference;
 
 
 public class User {
+    private User(){
+
+    }
     public User(
             String userId,
             String displayName,
@@ -49,90 +52,128 @@ public class User {
     public String hashPW;
     public String hashSalt;
 
-    protected static User get(String email) throws IOException {
-        String urlString = "http://localhost:8080/users/" + email;
 
-        HttpClient client = HttpClientBuilder.create().build();
+    protected static User get(String email) throws IOException {
+        String urlString = Application.baseApplicationLink + "/users/" + email;
+        AtomicReference<User> user = new AtomicReference<>(null);
+
         HttpGet get = new HttpGet(urlString);
-        get.setHeader("Content-type", "application/json");
-        HttpResponse response = client.execute(get, resp -> {
-            return resp;
+
+        CloseableHttpClient client = HttpClients.createDefault();
+        client.execute(get, rsp -> {
+            if (rsp.getCode() == 200) {
+                String r = new String(rsp.getEntity().getContent().readAllBytes(), StandardCharsets.UTF_8);
+                user.set(parseUser(r));
+            }
+            return rsp;
         });
-//        URL url = new URL(urlString);
-//        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-//        connection.setRequestMethod("GET");
-//
-//        connection.setConnectTimeout(5000);
-//        connection.setReadTimeout(5000);
-//
-//        int status = connection.getResponseCode();
-//        BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-//        String inputLine;
-//        StringBuilder content = new StringBuilder();
-//        while ((inputLine = in.readLine()) != null) {
-//            content.append(inputLine);
-//        }
-//        in.close();
-//
-//        Gson gson = new Gson();
-//        System.out.println(status + "," + content);
-        return null;
+        client.close();
+
+        return user.get();
     }
 
     protected static String post(User user) throws IOException{
-        String urlString = "http://localhost:8080/users";
-        URL url = new URL(urlString);
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod("POST");
-        connection.setRequestProperty("Content-Type", "application/json");
+        String urlString = Application.baseApplicationLink + "/users";
+        HttpPost post = new HttpPost(urlString);
 
-        Gson gson = new Gson();
+        final String jsonString = createJsonString(user);
+        final StringEntity entity = new StringEntity(jsonString);
+        post.setEntity(entity);
+        post.setHeader("Accept", "application/json");
+        post.setHeader("Content-type", "application/json");
 
-//        Map<String, String> parameters = new HashMap<>();
-//        parameters.put("userid", user.userId);
-//        parameters.put("mfa_email", String.valueOf(user.mfaEmail));
-//        parameters.put("mfa_app", String.valueOf(user.mfaApp));
-//        parameters.put("verified", String.valueOf(user.verified));
-//        parameters.put("display_name", user.displayName);
-//        parameters.put("created_date", user.createdDate.toString());
-//        parameters.put("hash_pw", user.hashPW);
-//        parameters.put("hash_salt", user.hashSalt);
-//        parameters.put("email_address", user.emailAddress);
+        try(CloseableHttpClient client = HttpClients.createDefault();
+            CloseableHttpResponse response = (CloseableHttpResponse) client
+                    .execute(post, new CustomHttpClientResponseHandler())) {
 
-        //TODO: fix gson's shitty json formatter
-        connection.setDoOutput(true);
-        DataOutputStream out = new DataOutputStream(connection.getOutputStream());
-        out.writeBytes(gson.toJson(user, User.class));
-        out.flush();
-        out.close();
-
-        connection.setConnectTimeout(5000);
-        connection.setReadTimeout(5000);
-
-        int status = connection.getResponseCode();
-        BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-        String inputLine;
-        StringBuilder content = new StringBuilder();
-        while ((inputLine = in.readLine()) != null) {
-            content.append(inputLine);
+            System.out.println(response.getCode());
         }
-        in.close();
-
-//        assert status == 200;
-//        assert !content.isEmpty();
-        System.out.println(status + "," + content);
 
         return null;
     }
 
 
-    protected static String put(UUID id, User user){
+    protected static String put(User user) throws IOException {
+        String urlString = Application.baseApplicationLink + "/users";
+        HttpPut put = new HttpPut(urlString);
+
+        final String jsonString = createJsonString(user);
+        final StringEntity entity = new StringEntity(jsonString);
+        put.setEntity(entity);
+        put.setHeader("Accept", "application/json");
+        put.setHeader("Content-type", "application/json");
+
+        try(CloseableHttpClient client = HttpClients.createDefault();
+            CloseableHttpResponse response = (CloseableHttpResponse) client
+                    .execute(put, new CustomHttpClientResponseHandler())) {
+
+            System.out.println(response.getCode());
+        }
+
         return null;
     }
 
-    protected static String delete(UUID id){
+    protected static String delete(String id) throws IOException {
+        String urlString = Application.baseApplicationLink + "/users/" + id;
+        HttpDelete delete = new HttpDelete(urlString);
+
+        try(CloseableHttpClient client = HttpClients.createDefault();
+            CloseableHttpResponse response = (CloseableHttpResponse) client
+                    .execute(delete, new CustomHttpClientResponseHandler())) {
+
+            System.out.println(response.getCode());
+        }
+
         return null;
     }
 
+    private static User parseUser(String jsonUser){
+        User user = new User();
 
+        for(String i : jsonUser.split("\n")){
+            if(!i.contains("\"")) continue;
+
+            String key = i.substring(i.indexOf("\"") + 1, i.indexOf(":") - 1);
+
+            int finalLength = i.length() - 1;
+            int initialLength = i.indexOf(":") + 2;
+            String value = i.substring(initialLength);
+            if(!value.contains(",")){
+                finalLength++;
+            }
+            if(value.contains("\"")){
+                initialLength++;
+                finalLength--;
+            }
+            value = i.substring(initialLength, finalLength);
+
+            switch(key){
+                case "userid" -> user.userId = value;
+                case "display_name" -> user.displayName = value;
+                case "mfa_email" -> user.mfaEmail = Boolean.parseBoolean(value);
+                case "mfa_app" -> user.mfaApp = Boolean.parseBoolean(value);
+                case "verified" -> user.verified = Boolean.parseBoolean(value);
+                case "created_date" -> user.createdDate = value;
+                case "hash_pw" -> user.hashPW = value;
+                case "hash_salt" -> user.hashSalt = value;
+                case "email_address" -> user.emailAddress = value;
+            }
+        }
+
+        return user;
+    }
+
+    private static String createJsonString(User user){
+        return "{\n" +
+                "\t\"userid\": \"" + user.userId + "\"," +
+                "\t\"display_name\": \"" + user.displayName + "\",\n" +
+                "\t\"mfa_email\": " + user.mfaEmail + ",\n" +
+                "\t\"mfa_app\": " + user.mfaApp + ",\n" +
+                "\t\"verified\": " + user.verified + ",\n" +
+                "\t\"created_date\": \"" + user.createdDate + "\",\n" +
+                "\t\"hash_pw\": \"" + user.hashPW + "\",\n" +
+                "\t\"hash_salt\": \"" + user.hashSalt + "\",\n" +
+                "\t\"email_address\": \"" + user.emailAddress + "\"\n" +
+                "}";
+    }
 }

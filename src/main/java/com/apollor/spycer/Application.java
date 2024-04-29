@@ -18,6 +18,7 @@ import java.util.Map;
 import java.util.Objects;
 
 public class Application extends javafx.application.Application {
+    public static final String baseApplicationLink = "http://localhost:8080";
     public static AnchorPane rootAnchorPane;
     public static BorderPane rootBorderPane;
     public static String stylesheetLink;

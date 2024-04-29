@@ -5,11 +5,14 @@ import com.apollor.spycer.database.Session;
 import com.apollor.spycer.database.User;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.ZoneId;
 import java.util.UUID;
 
 public class SessionHandler {
@@ -31,8 +34,35 @@ public class SessionHandler {
 
     }
     //TODO: implement me
-    public static void attemptLogin(String email, String password_plaintext) throws IOException {
+    public static boolean attemptLogin(String email, String password_plaintext) throws IOException {
         User tempUser = Database.getUser(email);
+        if(tempUser == null) return false;
+        try{
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] salt = new byte[tempUser.hashSalt.length() / 2];
+            String hexSalt = tempUser.hashSalt;
+            for(int i = 0; i < salt.length; i++){
+                int index = i * 2;
+
+                int val = Integer.parseInt(hexSalt.substring(index, index + 2), 16);
+                salt[i] = (byte) val;
+            }
+
+            digest.update(salt);
+            byte[] encodedHash = digest.digest(password_plaintext.getBytes(StandardCharsets.UTF_8));
+
+            StringBuilder sb = new StringBuilder();
+            for(byte b: encodedHash){
+                sb.append(String.format("%02x", b));
+            }
+
+            loggedInUser = tempUser;
+            return sb.toString().equals(tempUser.hashPW);
+
+        }catch(NoSuchAlgorithmException ignored){
+
+        }
+        return false;
     }
 
     public static User createUser(String email, String displayName, String password_plaintext) throws IOException {
@@ -67,19 +97,23 @@ public class SessionHandler {
             throw new RuntimeException(e);
         }
 
+        String i = new Timestamp(System.currentTimeMillis()).toInstant().toString();
+        String zid = ZoneId.systemDefault().getRules().getOffset(Instant.parse(i)).toString();
+        String ts = i.substring(0,i.length() - 1) + "000" + zid;
+
         User user = new User(
                 UUID.randomUUID().toString(),
                 displayName,
                 false,
                 false,
                 false,
-                "2024-04-27T16:43:46.578882-04:00",
+                ts,
                 hexPasswordHash,
                 hexSalt,
                 email
         );
 
-//        Database.postUser(user);
+        Database.postUser(user);
         return user;
     }
 
