@@ -4,7 +4,11 @@ import com.apollor.spycer.Application;
 import com.apollor.spycer.database.Database;
 import com.apollor.spycer.database.Session;
 import com.apollor.spycer.database.User;
+import com.google.gson.stream.JsonWriter;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
@@ -20,6 +24,7 @@ import java.util.UUID;
 public class SessionHandler {
     private static User loggedInUser;
     private static Session userSession;
+    private static final File sessionToken = new File(Application.datadir + "/session_token.json");
     private static final User guestUser = new User(
             null,
             "Guest",
@@ -32,22 +37,14 @@ public class SessionHandler {
             null
     );
 
-    public static void checkSessionToken(User user) throws IOException {
+    public static boolean checkSessionToken(User user) throws IOException {
         Session session = Database.getSession(user.userId);
         if(session != null){
-            Instant ts = new Timestamp(System.currentTimeMillis()).toInstant();
-            Instant i = Instant.parse(session.sessionEnd);
+            createLocalSessionToken(session);
 
-            if(ts.isBefore(i)){
-                userSession = session;
-            }else{
-                Database.deleteSession(session.sessionId);
-                userSession = null;
-            }
+            return true;
         }
-        else{
-            System.out.println("fail");
-        }
+        return false;
     }
 
     public static boolean attemptLogin(String email, String password_plaintext) throws IOException {
@@ -86,14 +83,28 @@ public class SessionHandler {
 
                 double[] latlong = Geolocation.findLatLong();
 
-                Database.postSession(new Session(
+                //TODO: session detection logic
+                Session uSess = Database.getSession(tempUser.userId);
+
+                Session session = new Session(
                         UUID.randomUUID().toString(),
                         tempUser.userId,
                         latlong == null ? null : latlong[0],
                         latlong == null ? null : latlong[1],
                         ts_a,
                         ts_b
-                ));
+                );
+
+                if(uSess == null){
+                    Database.postSession(session);
+                    userSession = session;
+                }
+                else{
+                    userSession = uSess;
+                }
+
+                createLocalSessionToken(userSession);
+
                 return true;
             }
 
@@ -163,5 +174,27 @@ public class SessionHandler {
             return guestUser;
         }
         return loggedInUser;
+    }
+
+    private static void createLocalSessionToken(Session session) throws IOException {
+//        Instant ts = new Timestamp(System.currentTimeMillis()).toInstant();
+//        Instant i = Instant.parse(session.sessionEnd);
+//
+//        if(ts.isBefore(i)){
+//            userSession = session;
+//        }else{
+//            Database.deleteSession(session.sessionId);
+//            userSession = null;
+//        }
+
+        JsonWriter writer = new JsonWriter(new BufferedWriter(new FileWriter(sessionToken)));
+        writer.beginObject().name("session_id").value(session.sessionId);
+        writer.name("userid").value(session.userId);
+        writer.name("location_lat").value(session.locationLat);
+        writer.name("location_long").value(session.locationLong);
+        writer.name("session_start").value(session.sessionStart);
+        writer.name("session_end").value(session.sessionEnd).endObject().close();
+
+
     }
 }

@@ -28,7 +28,7 @@ public class Application extends javafx.application.Application {
 
     static {
         try {
-            geolocationKey = new BufferedReader(new FileReader(Objects.requireNonNull(Application.class.getResource("geolocation/key.txt")).toString().substring(6))).readLine().trim();
+            geolocationKey = new BufferedReader(new FileReader(Paths.get("").toAbsolutePath() + "/src/main/resources/com/apollor/spycer/geolocation/key.txt")).readLine().trim();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
