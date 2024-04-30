@@ -35,12 +35,12 @@ public class Session {
         this.sessionEnd = sessionEnd;
     }
 
-    private String sessionId;
-    private String userId;
-    private Double locationLat;
-    private Double locationLong;
-    private String sessionStart;
-    private String sessionEnd;
+    public String sessionId;
+    public String userId;
+    public Double locationLat;
+    public Double locationLong;
+    public String sessionStart;
+    public String sessionEnd;
 
     protected static Session get(String userid) throws IOException {
         String urlString = Application.baseApplicationLink +"/session/" + userid;
@@ -99,6 +99,7 @@ public class Session {
         Session session = new Session();
 
         for(String i : jsonSession.split("\n")){
+            if(!i.contains("\"")) continue;
             String key = i.substring(i.indexOf("\"") + 1, i.indexOf(":") - 1);
 
             int finalLength = i.length() - 1;

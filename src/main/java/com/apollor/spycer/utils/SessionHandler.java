@@ -14,6 +14,7 @@ import java.security.SecureRandom;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.ZoneId;
+import java.time.temporal.TemporalField;
 import java.util.UUID;
 
 public class SessionHandler {
@@ -31,9 +32,22 @@ public class SessionHandler {
             null
     );
 
-    //TODO: implement me
-    public static void checkSessionToken(Session session) {
+    public static void checkSessionToken(User user) throws IOException {
+        Session session = Database.getSession(user.userId);
+        if(session != null){
+            Instant ts = new Timestamp(System.currentTimeMillis()).toInstant();
+            Instant i = Instant.parse(session.sessionEnd);
 
+            if(ts.isBefore(i)){
+                userSession = session;
+            }else{
+                Database.deleteSession(session.sessionId);
+                userSession = null;
+            }
+        }
+        else{
+            System.out.println("fail");
+        }
     }
 
     public static boolean attemptLogin(String email, String password_plaintext) throws IOException {
