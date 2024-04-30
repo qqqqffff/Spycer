@@ -1,5 +1,6 @@
 package com.apollor.spycer.utils;
 
+import com.apollor.spycer.Application;
 import com.apollor.spycer.database.Database;
 import com.apollor.spycer.database.Session;
 import com.apollor.spycer.database.User;
@@ -17,6 +18,7 @@ import java.util.UUID;
 
 public class SessionHandler {
     private static User loggedInUser;
+    private static Session userSession;
     private static final User guestUser = new User(
             null,
             "Guest",
@@ -30,10 +32,10 @@ public class SessionHandler {
     );
 
     //TODO: implement me
-    public static void checkSessionToken(Session session){
+    public static void checkSessionToken(Session session) {
 
     }
-    //TODO: implement me
+
     public static boolean attemptLogin(String email, String password_plaintext) throws IOException {
         User tempUser = Database.getUser(email);
         if(tempUser == null) return false;
@@ -56,8 +58,32 @@ public class SessionHandler {
                 sb.append(String.format("%02x", b));
             }
 
-            loggedInUser = tempUser;
-            return sb.toString().equals(tempUser.hashPW);
+            boolean success = sb.toString().equals(tempUser.hashPW);
+
+            if(success){
+                loggedInUser = tempUser;
+
+                String i = new Timestamp(System.currentTimeMillis()).toInstant().toString();
+                String zid = ZoneId.systemDefault().getRules().getOffset(Instant.parse(i)).toString();
+                String ts_a = i.substring(0,i.length() - 1) + "000" + zid;
+
+                i = new Timestamp(System.currentTimeMillis() + Application.defaultTokenExpireTime.toMillis()).toInstant().toString();
+                String ts_b = i.substring(0,i.length() - 1) + "000" + zid;
+
+                double[] latlong = Geolocation.findLatLong();
+
+                Database.postSession(new Session(
+                        UUID.randomUUID().toString(),
+                        tempUser.userId,
+                        latlong == null ? null : latlong[0],
+                        latlong == null ? null : latlong[1],
+                        ts_a,
+                        ts_b
+                ));
+                return true;
+            }
+
+            return false;
 
         }catch(NoSuchAlgorithmException ignored){
 
@@ -65,6 +91,7 @@ public class SessionHandler {
         return false;
     }
 
+    //TODO: handle duplicate response
     public static User createUser(String email, String displayName, String password_plaintext) throws IOException {
         MessageDigest digest;
         String hexPasswordHash;

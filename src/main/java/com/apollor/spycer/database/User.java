@@ -165,7 +165,7 @@ public class User {
 
     private static String createJsonString(User user){
         return "{\n" +
-                "\t\"userid\": \"" + user.userId + "\"," +
+                "\t\"userid\": \"" + user.userId + "\",\n" +
                 "\t\"display_name\": \"" + user.displayName + "\",\n" +
                 "\t\"mfa_email\": " + user.mfaEmail + ",\n" +
                 "\t\"mfa_app\": " + user.mfaApp + ",\n" +

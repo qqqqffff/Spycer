@@ -1,17 +1,7 @@
 package com.apollor.spycer.database;
 
-import org.apache.hc.core5.http.ClassicHttpResponse;
-import org.apache.hc.core5.http.io.HttpClientResponseHandler;
-
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.*;
-import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
 
-//TODO: update with facade methods
 public class Database {
     public static User getUser(String email) throws IOException {
         return User.get(email);
@@ -26,5 +16,14 @@ public class Database {
         return User.delete(userid);
     }
 
+    public static Session getSession(String userid) throws IOException{
+        return Session.get(userid);
+    }
+    public static String postSession(Session session) throws IOException {
+        return Session.post(session);
+    }
+    public static String deleteSession(String sessionId) throws IOException{
+        return Session.delete(sessionId);
+    }
 
 }

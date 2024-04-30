@@ -39,3 +39,9 @@ build/
 /src/main/java/com/apollor/spycer/data/
 /aws/
 /src/main/java/com/apollor/spycer/Test.java
+/src/main/resources/com/apollor/spycer/geolocation/key
+/src/main/resources/com/apollor/spycer/geolocation/GeoLite2-ASN.mmdb
+/src/main/resources/com/apollor/spycer/geolocation/GeoLite2-ASN-Blocks-IPv4.csv
+/src/main/resources/com/apollor/spycer/geolocation/GeoLite2-ASN-Blocks-IPv6.csv
+/src/main/resources/com/apollor/spycer/geolocation/GeoLite2-City.mmdb
+/src/main/resources/com/apollor/spycer/geolocation/key.txt

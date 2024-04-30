@@ -11,18 +11,28 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Paths;
+import java.time.Duration;
 import java.util.Map;
 import java.util.Objects;
 
 public class Application extends javafx.application.Application {
     public static final String baseApplicationLink = "http://localhost:8080";
+    public static final Duration defaultTokenExpireTime = Duration.ofDays(30);
     public static AnchorPane rootAnchorPane;
     public static BorderPane rootBorderPane;
     public static String stylesheetLink;
     public static final File datadir = new File(Paths.get("").toAbsolutePath() + "/src/main/java/com/apollor/spycer/data/");
+    public static final String geolocationKey;
+
+    static {
+        try {
+            geolocationKey = new BufferedReader(new FileReader(Objects.requireNonNull(Application.class.getResource("geolocation/key.txt")).toString().substring(6))).readLine().trim();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @Override
     public void start(Stage stage) throws IOException {
