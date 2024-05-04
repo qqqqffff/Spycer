@@ -2,6 +2,7 @@ package com.apollor.spycer;
 
 import com.apollor.spycer.utils.JsonLoader;
 import com.apollor.spycer.utils.RecipeUpdater;
+import com.apollor.spycer.utils.SessionHandler;
 import com.apollor.spycer.utils.StateManager;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -36,6 +37,8 @@ public class Application extends javafx.application.Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+
+
         stylesheetLink = String.valueOf(Application.class.getResource("styles/Stylesheet.css"));
         if(!datadir.exists()){
             if(!datadir.mkdir()) throw new IOException("Unable to create data directory");
@@ -53,7 +56,11 @@ public class Application extends javafx.application.Application {
             }
         }
 
-        if(state != null && !state.get("file").get("file").equals("null")){
+        if(!SessionHandler.checkSessionToken()){
+            fxmlLoader = new FXMLLoader(Application.class.getResource("views/Login.fxml"));
+            rootBorderPane.setCenter(fxmlLoader.load());
+        }
+        else if (state != null && !state.get("file").get("file").equals("null")){
             System.out.println("Loading recipe: " + state.get("file").get("file"));
             File recipe = new File(datadir.getAbsolutePath() + "/" + state.get("file").get("file"));
             Map<String, Map<Integer, String[]>> data = JsonLoader.parseJsonRecipe(recipe);
@@ -61,6 +68,12 @@ public class Application extends javafx.application.Application {
             ScrollPane content = loader.load();
             RecipeUpdater.updateRecipePage(content, data);
             rootBorderPane.setCenter(content);
+        }
+        else {
+            fxmlLoader = new FXMLLoader(Application.class.getResource("views/Home.fxml"));
+            rootBorderPane.setCenter(fxmlLoader.load());
+            fxmlLoader = new FXMLLoader(Application.class.getResource("views/Header.fxml"));
+            rootBorderPane.setTop(fxmlLoader.load());
         }
 
         Scene scene = new Scene(rootAnchorPane, 1280, 800);

@@ -4,12 +4,10 @@ import com.apollor.spycer.Application;
 import com.apollor.spycer.database.Database;
 import com.apollor.spycer.database.Session;
 import com.apollor.spycer.database.User;
+import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -37,14 +35,31 @@ public class SessionHandler {
             null
     );
 
-    public static boolean checkSessionToken(User user) throws IOException {
-        Session session = Database.getSession(user.userId);
-        if(session != null){
-            createLocalSessionToken(session);
-
-            return true;
+    static {
+        if(!sessionToken.exists()) {
+            try {
+                if(!sessionToken.createNewFile()){
+                    throw new RuntimeException("failed to create session token");
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
-        return false;
+    }
+
+    public static boolean checkSessionToken() throws IOException {
+        Session session = null;
+        try{
+            session = readLocalSessionToken();
+        }catch(IOException ignored){}
+
+        if(session == null) return false;
+        Session db_session = Database.getSession(session.userId);
+        User user = Database.getUser(session.emailAddress);
+        if(user == null || db_session == null) return false;
+        userSession = session;
+        loggedInUser = user;
+        return true;
     }
 
     public static boolean attemptLogin(String email, String password_plaintext) throws IOException {
@@ -74,28 +89,12 @@ public class SessionHandler {
             if(success){
                 loggedInUser = tempUser;
 
-                String i = new Timestamp(System.currentTimeMillis()).toInstant().toString();
-                String zid = ZoneId.systemDefault().getRules().getOffset(Instant.parse(i)).toString();
-                String ts_a = i.substring(0,i.length() - 1) + "000" + zid;
-
-                i = new Timestamp(System.currentTimeMillis() + Application.defaultTokenExpireTime.toMillis()).toInstant().toString();
-                String ts_b = i.substring(0,i.length() - 1) + "000" + zid;
-
-                double[] latlong = Geolocation.findLatLong();
-
-                //TODO: session detection logic
                 Session uSess = Database.getSession(tempUser.userId);
 
-                Session session = new Session(
-                        UUID.randomUUID().toString(),
-                        tempUser.userId,
-                        latlong == null ? null : latlong[0],
-                        latlong == null ? null : latlong[1],
-                        ts_a,
-                        ts_b
-                );
+                Session session;
 
                 if(uSess == null){
+                    session = createNewSession(tempUser.userId, tempUser.emailAddress);
                     Database.postSession(session);
                     userSession = session;
                 }
@@ -176,25 +175,90 @@ public class SessionHandler {
         return loggedInUser;
     }
 
-    private static void createLocalSessionToken(Session session) throws IOException {
-//        Instant ts = new Timestamp(System.currentTimeMillis()).toInstant();
-//        Instant i = Instant.parse(session.sessionEnd);
-//
-//        if(ts.isBefore(i)){
-//            userSession = session;
-//        }else{
-//            Database.deleteSession(session.sessionId);
-//            userSession = null;
-//        }
+    public static Session getCurrentSession(){
+        if(sessionToken.exists())
+        if(userSession == null){
+            return null;
+        }
+        return userSession;
+    }
 
+    private static void createLocalSessionToken(Session session) throws IOException {
         JsonWriter writer = new JsonWriter(new BufferedWriter(new FileWriter(sessionToken)));
         writer.beginObject().name("session_id").value(session.sessionId);
         writer.name("userid").value(session.userId);
         writer.name("location_lat").value(session.locationLat);
         writer.name("location_long").value(session.locationLong);
         writer.name("session_start").value(session.sessionStart);
-        writer.name("session_end").value(session.sessionEnd).endObject().close();
+        writer.name("session_end").value(session.sessionEnd);
+        writer.name("email_address").value(session.emailAddress).endObject().close();
+    }
 
+    private static Session readLocalSessionToken() throws IOException{
+        JsonReader reader = new JsonReader(new BufferedReader(new FileReader(sessionToken)));
+        Session session = new Session(
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+        reader.beginObject();
+        while(reader.hasNext()){
+            String name = reader.nextName();
+            if(name.equals("userid")){
+                session.userId = reader.nextString();
+            }
+            else if(name.equals("session_end")){
+                session.sessionEnd = reader.nextString();
+            }
+            else{
+                reader.nextName();
+            }
+            switch(name){
+                case "session_id" -> session.sessionId = reader.nextString();
+                case "userid" -> session.userId = reader.nextString();
+                case "location_lat" -> session.locationLat = reader.nextDouble();
+                case "location_long" -> session.locationLong = reader.nextDouble();
+                case "session_start" -> session.sessionStart = reader.nextString();
+                case "session_end" -> session.sessionEnd = reader.nextString();
+                case "email_address" -> session.emailAddress = reader.nextString();
+            }
+        }
+        if(!validateSession(session)){
+            return null;
+        }
+        return session;
+    }
 
+    private static Session createNewSession(String userid, String email_address) throws IOException {
+        String i = new Timestamp(System.currentTimeMillis()).toInstant().toString();
+        String zid = ZoneId.systemDefault().getRules().getOffset(Instant.parse(i)).toString();
+        String ts_a = i.substring(0,i.length() - 1) + "000" + zid;
+
+        i = new Timestamp(System.currentTimeMillis() + Application.defaultTokenExpireTime.toMillis()).toInstant().toString();
+        String ts_b = i.substring(0,i.length() - 1) + "000" + zid;
+
+        double[] latlong = Geolocation.findLatLong();
+
+        return new Session(
+                UUID.randomUUID().toString(),
+                userid,
+                latlong == null ? null : latlong[0],
+                latlong == null ? null : latlong[1],
+                ts_a,
+                ts_b,
+                email_address
+        );
+    }
+
+    //TODO: implement me
+    private static boolean validateSession(Session session) {
+        Instant ts = new Timestamp(System.currentTimeMillis()).toInstant();
+        Instant i = Instant.parse(session.sessionEnd);
+
+        return ts.isBefore(i);
     }
 }

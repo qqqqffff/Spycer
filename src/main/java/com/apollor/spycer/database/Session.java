@@ -24,15 +24,16 @@ public class Session {
             Double locationLat,
             Double locationLong,
             String sessionStart,
-            String sessionEnd
+            String sessionEnd,
+            String emailAddress
     ){
-
         this.sessionId = sessionId;
         this.userId = userId;
         this.locationLat = locationLat;
         this.locationLong = locationLong;
         this.sessionStart = sessionStart;
         this.sessionEnd = sessionEnd;
+        this.emailAddress = emailAddress;
     }
 
     public String sessionId;
@@ -41,6 +42,7 @@ public class Session {
     public Double locationLong;
     public String sessionStart;
     public String sessionEnd;
+    public String emailAddress;
 
     protected static Session get(String userid) throws IOException {
         String urlString = Application.baseApplicationLink +"/session/" + userid;
@@ -133,6 +135,7 @@ public class Session {
                 }
                 case "session_start" -> session.sessionStart = value;
                 case "session_end" -> session.sessionEnd = value;
+                case "email_address" -> session.emailAddress = value;
             }
         }
 
@@ -146,7 +149,8 @@ public class Session {
                 "\t\"location_lat\": " + session.locationLat + ",\n" +
                 "\t\"location_long\": " + session.locationLong + ",\n" +
                 "\t\"session_start\": \"" + session.sessionStart + "\",\n" +
-                "\t\"session_end\": \"" + session.sessionEnd + "\"" +
+                "\t\"session_end\": \"" + session.sessionEnd + "\",\n" +
+                "\t\"email_address\": \"" + session.emailAddress + "\"" +
                 "}";
     }
 }
