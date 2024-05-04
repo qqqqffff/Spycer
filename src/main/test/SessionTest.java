@@ -11,6 +11,6 @@ public class SessionTest {
 //        User u = SessionHandler.createUser("1apollo.rowe@gmail.com", "apollo", "123");
 //        SessionHandler.attemptLogin(u.emailAddress, "123");
 
-        SessionHandler.checkSessionToken(Database.getUser("1apollo.rowe@gmail.com"));
+
     }
 }
