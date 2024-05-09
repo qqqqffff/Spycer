@@ -37,8 +37,6 @@ public class Application extends javafx.application.Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-
-
         stylesheetLink = String.valueOf(Application.class.getResource("styles/Stylesheet.css"));
         if(!datadir.exists()){
             if(!datadir.mkdir()) throw new IOException("Unable to create data directory");

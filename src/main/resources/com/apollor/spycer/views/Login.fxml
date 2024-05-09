@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
@@ -13,95 +14,93 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" prefHeight="800.0" prefWidth="1280.0" spacing="25.0"
-      stylesheets="@../styles/Stylesheet.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.apollor.spycer.controllers.Login">
+<VBox alignment="TOP_CENTER" prefHeight="800.0" prefWidth="1280.0" spacing="25.0" stylesheets="@../styles/Stylesheet.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.apollor.spycer.controllers.Login">
     <padding>
-        <Insets top="50.0"/>
+        <Insets top="50.0" />
     </padding>
     <GridPane vgap="75.0">
         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="25.0" prefWidth="100.0"/>
-            <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" percentWidth="50.0"
-                               prefWidth="100.0"/>
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="25.0" prefWidth="100.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="25.0" prefWidth="100.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" percentWidth="50.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="25.0" prefWidth="100.0" />
         </columnConstraints>
         <rowConstraints>
-            <RowConstraints minHeight="10.0" valignment="CENTER" vgrow="ALWAYS"/>
-            <RowConstraints minHeight="10.0" valignment="CENTER" vgrow="ALWAYS"/>
+            <RowConstraints minHeight="10.0" valignment="CENTER" vgrow="ALWAYS" />
+            <RowConstraints minHeight="10.0" valignment="CENTER" vgrow="ALWAYS" />
         </rowConstraints>
         <VBox.margin>
-            <Insets/>
+            <Insets />
         </VBox.margin>
-        <Label alignment="CENTER" style="-fx-font-size: 48;" text="Spycer" GridPane.columnIndex="1">
+        <Label fx:id="spycerTitleLabel" alignment="CENTER" style="-fx-font-size: 48;" text="Spycer" GridPane.columnIndex="1">
             <font>
-                <Font name="Arial Bold" size="48.0"/>
+                <Font name="Arial Bold" size="48.0" />
             </font>
         </Label>
-        <VBox alignment="CENTER" spacing="25.0"
-              style="-fx-background-color: #2C3E50; -fx-background-radius: 15; -fx-border-color: black; -fx-border-radius: 15; -fx-background-insets: 1,4,4; -fx-border-width: 2;"
-              GridPane.columnIndex="1" GridPane.rowIndex="1">
+        <VBox fx:id="loginForm" alignment="CENTER" spacing="25.0" style="-fx-background-color: #2C3E50; -fx-background-radius: 15; -fx-border-color: black; -fx-border-radius: 15; -fx-background-insets: 1,4,4; -fx-border-width: 2;" GridPane.columnIndex="1" GridPane.rowIndex="1">
             <BorderPane style="-fx-background-color: transparent;">
                 <left>
-                    <Label style="-fx-font-size: 36; -fx-font-weight: 900; -fx-font-family: Arial;" text="Login"
-                           BorderPane.alignment="CENTER"/>
+                    <Label style="-fx-font-size: 36; -fx-font-weight: 900; -fx-font-family: Arial;" text="Login" BorderPane.alignment="CENTER" />
                 </left>
                 <VBox.margin>
-                    <Insets bottom="40.0" left="50.0" top="25.0"/>
+                    <Insets bottom="40.0" left="50.0" top="25.0" />
                 </VBox.margin>
             </BorderPane>
             <VBox style="-fx-background-color: transparent;">
                 <VBox.margin>
-                    <Insets left="50.0" right="50.0"/>
+                    <Insets left="50.0" right="50.0" />
                 </VBox.margin>
                 <Label text="Account Email">
                     <VBox.margin>
-                        <Insets bottom="3.0" left="15.0"/>
+                        <Insets bottom="3.0" left="15.0" />
                     </VBox.margin>
                 </Label>
                 <TextField fx:id="emailTextField" promptText="Email" style="-fx-background-color: #566573;">
                     <VBox.margin>
-                        <Insets/>
+                        <Insets />
                     </VBox.margin>
                 </TextField>
             </VBox>
             <VBox style="-fx-background-color: transparent;">
                 <VBox.margin>
-                    <Insets bottom="25.0" left="50.0" right="50.0" top="25.0"/>
+                    <Insets bottom="20.0" left="50.0" right="50.0" top="25.0" />
                 </VBox.margin>
                 <Label text="Password">
                     <VBox.margin>
-                        <Insets bottom="3.0" left="15.0"/>
+                        <Insets bottom="3.0" left="15.0" />
                     </VBox.margin>
                 </Label>
                 <PasswordField fx:id="passwordField" promptText="Password" style="-fx-background-color: #566573;">
                     <VBox.margin>
-                        <Insets/>
+                        <Insets />
                     </VBox.margin>
                 </PasswordField>
+            <CheckBox mnemonicParsing="false" style="-fx-font-size: 20;" text="Remember Login">
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+            </CheckBox>
             </VBox>
+         <VBox style="-fx-background-color: transparent;" />
             <BorderPane style="-fx-background-color: transparent;" VBox.vgrow="ALWAYS">
                 <right>
-                    <Button fx:id="loginButton" alignment="CENTER" mnemonicParsing="false"
-                            style="-fx-background-color: #3498DB; -fx-text-fill: #EAECEE; -fx-font-size: 24;"
-                            text="Login" BorderPane.alignment="CENTER">
+                    <Button fx:id="loginButton" alignment="CENTER" mnemonicParsing="false" style="-fx-background-color: #3498DB; -fx-text-fill: #EAECEE; -fx-font-size: 24;" text="Login" BorderPane.alignment="CENTER">
                         <BorderPane.margin>
-                            <Insets right="50.0"/>
+                            <Insets right="50.0" />
                         </BorderPane.margin>
                     </Button>
                 </right>
                 <left>
                     <Hyperlink fx:id="createAccountLink" text="Create an Account" BorderPane.alignment="CENTER">
                         <BorderPane.margin>
-                            <Insets left="50.0"/>
+                            <Insets left="50.0" />
                         </BorderPane.margin>
                         <font>
-                            <Font name="Arial" size="18.0"/>
+                            <Font name="Arial" size="18.0" />
                         </font>
                     </Hyperlink>
                 </left>
                 <VBox.margin>
-                    <Insets bottom="50.0"/>
+                    <Insets bottom="50.0" />
                 </VBox.margin>
             </BorderPane>
         </VBox>
