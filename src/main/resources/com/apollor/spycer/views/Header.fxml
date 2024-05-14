@@ -4,31 +4,29 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.apollor.spycer.controllers.Header"
-      spacing="15.0" BorderPane.alignment="CENTER">
+<VBox spacing="15.0" BorderPane.alignment="CENTER" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.apollor.spycer.controllers.Header">
     <BorderPane.margin>
-        <Insets left="25.0" right="25.0" top="25.0"/>
+        <Insets left="25.0" right="25.0" top="25.0" />
     </BorderPane.margin>
     <BorderPane>
         <left>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #EAECEE;" text="Spycer"
-                  BorderPane.alignment="CENTER">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: -contrast-color;" text="Spycer" BorderPane.alignment="CENTER">
                 <font>
-                    <Font name="Arial Bold" size="32.0"/>
+                    <Font name="Arial Bold" size="32.0" />
                 </font>
             </Text>
         </left>
         <right>
             <Button fx:id="createRecipeButton" mnemonicParsing="false" text="Create" BorderPane.alignment="CENTER">
                 <font>
-                    <Font size="24.0"/>
+                    <Font size="24.0" />
                 </font>
             </Button>
         </right>
@@ -36,17 +34,17 @@
             <HBox alignment="CENTER" spacing="10.0" BorderPane.alignment="CENTER">
                 <TextField fx:id="recipeSearchField" prefWidth="750.0" promptText="Search Recipes">
                     <font>
-                        <Font size="24.0"/>
+                        <Font size="24.0" />
                     </font>
                 </TextField>
-                <ComboBox fx:id="sortParameterComboBox" promptText="Sort By:"/>
-                <Button fx:id="sortDirectionButton" mnemonicParsing="false" text="↑"/>
+                <ComboBox fx:id="sortParameterComboBox" promptText="Sort By:" />
+                <Button fx:id="sortDirectionButton" mnemonicParsing="false" text="↑" />
             </HBox>
         </center>
     </BorderPane>
     <Line endX="1230.0" stroke="#eaecee">
         <VBox.margin>
-            <Insets/>
+            <Insets />
         </VBox.margin>
     </Line>
 </VBox>

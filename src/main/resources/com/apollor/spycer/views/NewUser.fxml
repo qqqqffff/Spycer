@@ -36,7 +36,7 @@
                 <Font name="Arial Bold" size="48.0" />
             </font>
         </Label>
-        <VBox alignment="CENTER" spacing="20.0" style="-fx-background-color: #2C3E50; -fx-background-radius: 15; -fx-border-color: black; -fx-border-radius: 15; -fx-background-insets: 1,4,4; -fx-border-width: 2;" GridPane.columnIndex="1" GridPane.rowIndex="1">
+        <VBox alignment="CENTER" spacing="20.0" style="-fx-background-color: -t-secondary-color; -fx-background-radius: 15; -fx-border-color: black; -fx-border-radius: 15; -fx-background-insets: 1,4,4; -fx-border-width: 2;" GridPane.columnIndex="1" GridPane.rowIndex="1">
             <BorderPane style="-fx-background-color: transparent;">
                 <left>
                     <Label style="-fx-font-size: 36; -fx-font-weight: 900; -fx-font-family: Arial;" text="Create an Account" BorderPane.alignment="CENTER" />
@@ -47,17 +47,16 @@
             </BorderPane>
             <VBox layoutX="62.0" layoutY="139.0" style="-fx-background-color: transparent;">
                 <VBox.margin>
-                    <Insets left="50.0" right="50.0"/>
+                    <Insets left="50.0" right="50.0" />
                 </VBox.margin>
                 <Label text="Display Name">
                     <VBox.margin>
-                        <Insets bottom="3.0" left="15.0"/>
+                        <Insets bottom="3.0" left="15.0" />
                     </VBox.margin>
                 </Label>
-                <TextField fx:id="displayNameTextField" promptText="Display Name"
-                           style="-fx-background-color: #566573;">
+                <TextField fx:id="displayNameTextField" promptText="Display Name" style="-fx-background-color: -secondary-color;">
                     <VBox.margin>
-                        <Insets/>
+                        <Insets />
                     </VBox.margin>
                 </TextField>
             </VBox>
@@ -70,7 +69,7 @@
                         <Insets bottom="3.0" left="15.0" />
                     </VBox.margin>
                 </Label>
-                <TextField fx:id="emailTextField" promptText="Email" style="-fx-background-color: #566573;">
+                <TextField fx:id="emailTextField" promptText="Email" style="-fx-background-color: -secondary-color;">
                     <VBox.margin>
                         <Insets />
                     </VBox.margin>
@@ -85,7 +84,7 @@
                         <Insets bottom="3.0" left="15.0" />
                     </VBox.margin>
                 </Label>
-                <PasswordField fx:id="passwordField" promptText="Password" style="-fx-background-color: #566573;">
+                <PasswordField fx:id="passwordField" promptText="Password" style="-fx-background-color: -secondary-color;">
                     <VBox.margin>
                         <Insets />
                     </VBox.margin>
@@ -93,30 +92,29 @@
             </VBox>
             <VBox style="-fx-background-color: transparent;">
                 <VBox.margin>
-                    <Insets bottom="25.0" left="50.0" right="50.0"/>
+                    <Insets bottom="25.0" left="50.0" right="50.0" />
                 </VBox.margin>
                 <Label text="Confirm Password">
                     <VBox.margin>
-                        <Insets bottom="3.0" left="15.0"/>
+                        <Insets bottom="3.0" left="15.0" />
                     </VBox.margin>
                 </Label>
-                <PasswordField fx:id="confirmPasswordField" promptText="Confirm Password"
-                               style="-fx-background-color: #566573;">
+                <PasswordField fx:id="confirmPasswordField" promptText="Confirm Password" style="-fx-background-color: -secondary-color;">
                     <VBox.margin>
-                        <Insets/>
+                        <Insets />
                     </VBox.margin>
                 </PasswordField>
             </VBox>
             <BorderPane style="-fx-background-color: transparent;" VBox.vgrow="ALWAYS">
                 <right>
-                    <Button fx:id="createAccountButton" alignment="CENTER" mnemonicParsing="false" style="-fx-background-color: #3498DB; -fx-text-fill: #EAECEE; -fx-font-size: 24;" text="Create Account" BorderPane.alignment="CENTER">
+                    <Button fx:id="createAccountButton" alignment="CENTER" mnemonicParsing="false" style="-fx-background-color: -tertiary-color; -fx-text-fill: -contrast-color; -fx-font-size: 24;" text="Create Account" BorderPane.alignment="CENTER">
                         <BorderPane.margin>
                             <Insets right="50.0" />
                         </BorderPane.margin>
                     </Button>
                 </right>
                 <left>
-                    <Hyperlink fx:id="loginLink" text="Have Account Already?" BorderPane.alignment="CENTER">
+                    <Hyperlink fx:id="loginLink" style="-fx-text-fill: -tertiary-color;" text="Have Account Already?" BorderPane.alignment="CENTER">
                         <BorderPane.margin>
                             <Insets left="50.0" />
                         </BorderPane.margin>
@@ -132,75 +130,68 @@
         </VBox>
         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
             <GridPane.margin>
-                <Insets left="20.0" right="20.0"/>
+                <Insets left="20.0" right="20.0" />
             </GridPane.margin>
-            <VBox alignment="TOP_CENTER" spacing="20.0"
-                  style="-fx-background-color: #2C3E50; -fx-background-radius: 15; -fx-border-color: black; -fx-border-radius: 15; -fx-background-insets: 1,4,4; -fx-border-width: 2;">
-                <Label style="-fx-font-size: 24; -fx-font-weight: 900; -fx-font-family: Arial;"
-                       text="Password Rules">
+            <VBox alignment="TOP_CENTER" spacing="20.0" style="-fx-background-color: -t-secondary-color; -fx-background-radius: 15; -fx-border-color: black; -fx-border-radius: 15; -fx-background-insets: 1,4,4; -fx-border-width: 2;">
+                <Label style="-fx-font-size: 24; -fx-font-weight: 900; -fx-font-family: Arial;" text="Password Rules">
                     <VBox.margin>
-                        <Insets top="25.0"/>
+                        <Insets top="25.0" />
                     </VBox.margin>
                 </Label>
                 <BorderPane style="-fx-background-color: transparent;">
                     <left>
-                        <CheckBox fx:id="lengthCheckBox" mnemonicParsing="false" style="-fx-font-size: 20;"
-                                  text="12 Characters Long" BorderPane.alignment="CENTER"/>
+                        <CheckBox fx:id="lengthCheckBox" mnemonicParsing="false" style="-fx-font-size: 20;" text="12 Characters Long" BorderPane.alignment="CENTER" />
                     </left>
                     <VBox.margin>
-                        <Insets left="25.0"/>
+                        <Insets left="25.0" />
                     </VBox.margin>
                 </BorderPane>
                 <BorderPane layoutX="37.0" layoutY="84.0" style="-fx-background-color: transparent;">
                     <left>
-                        <CheckBox fx:id="capitalCheckBox" mnemonicParsing="false" style="-fx-font-size: 20;"
-                                  text="Capital Letter" BorderPane.alignment="CENTER">
+                        <CheckBox fx:id="capitalCheckBox" mnemonicParsing="false" style="-fx-font-size: 20;" text="Capital Letter" BorderPane.alignment="CENTER">
                             <BorderPane.margin>
-                                <Insets/>
+                                <Insets />
                             </BorderPane.margin>
                         </CheckBox>
                     </left>
                     <VBox.margin>
-                        <Insets left="25.0"/>
+                        <Insets left="25.0" />
                     </VBox.margin>
                 </BorderPane>
                 <BorderPane layoutX="12.0" layoutY="136.0" style="-fx-background-color: transparent;">
                     <left>
-                        <CheckBox fx:id="numberCheckBox" mnemonicParsing="false" style="-fx-font-size: 20;"
-                                  text="Number" BorderPane.alignment="CENTER">
+                        <CheckBox fx:id="numberCheckBox" mnemonicParsing="false" style="-fx-font-size: 20;" text="Number" BorderPane.alignment="CENTER">
                             <BorderPane.margin>
-                                <Insets/>
+                                <Insets />
                             </BorderPane.margin>
                         </CheckBox>
                     </left>
                     <VBox.margin>
-                        <Insets left="25.0"/>
+                        <Insets left="25.0" />
                     </VBox.margin>
                 </BorderPane>
                 <BorderPane layoutX="12.0" layoutY="188.0" style="-fx-background-color: transparent;">
                     <left>
-                        <CheckBox fx:id="specialCharacterCheckBox" mnemonicParsing="false"
-                                  style="-fx-font-size: 20;" text="Special Character" BorderPane.alignment="CENTER">
+                        <CheckBox fx:id="specialCharacterCheckBox" mnemonicParsing="false" style="-fx-font-size: 20;" text="Special Character" BorderPane.alignment="CENTER">
                             <BorderPane.margin>
-                                <Insets/>
+                                <Insets />
                             </BorderPane.margin>
                         </CheckBox>
                     </left>
                     <VBox.margin>
-                        <Insets left="25.0"/>
+                        <Insets left="25.0" />
                     </VBox.margin>
                 </BorderPane>
                 <BorderPane layoutX="37.0" layoutY="240.0" style="-fx-background-color: transparent;">
                     <left>
-                        <CheckBox mnemonicParsing="false" style="-fx-font-size: 20;" text="Password Match"
-                                  BorderPane.alignment="CENTER">
+                        <CheckBox mnemonicParsing="false" style="-fx-font-size: 20;" text="Password Match" BorderPane.alignment="CENTER">
                             <BorderPane.margin>
-                                <Insets/>
+                                <Insets />
                             </BorderPane.margin>
                         </CheckBox>
                     </left>
                     <VBox.margin>
-                        <Insets bottom="25.0" left="25.0"/>
+                        <Insets bottom="25.0" left="25.0" />
                     </VBox.margin>
                 </BorderPane>
             </VBox>

@@ -1,7 +1,9 @@
 package com.apollor.spycer.controllers;
 
 import com.apollor.spycer.Application;
+import com.apollor.spycer.database.Session;
 import com.apollor.spycer.utils.AnimationFactory;
+import com.apollor.spycer.utils.SessionHandler;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.fxml.FXML;
@@ -55,6 +57,21 @@ public class Login {
             );
             animation.play();
             animation2.play();
+        });
+
+        loginButton.setOnAction(event -> {
+            try {
+                if(SessionHandler.attemptLogin(
+                        emailTextField.getText(),
+                        passwordField.getText())){
+                    FXMLLoader loader = new FXMLLoader(Application.class.getResource("views/Home.fxml"));
+                    Application.rootBorderPane.setCenter(loader.load());
+                    loader = new FXMLLoader(Application.class.getResource("views/Header.fxml"));
+                    Application.rootBorderPane.setTop(loader.load());
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         });
     }
 }

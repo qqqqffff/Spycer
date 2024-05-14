@@ -11,6 +11,7 @@ import java.util.Map;
 public class StateManager {
     private static final File stateFile = new File(Application.datadir.getAbsolutePath() + "/application_state.json");
     public static Map<String, Map<String, String>> readSate() throws IOException {
+        System.out.println("Reading State");
         if(!checkStateFile()){
             updateState(null);
             return null;
@@ -47,7 +48,7 @@ public class StateManager {
         JsonWriter jw = new JsonWriter(new BufferedWriter(new FileWriter(stateFile)));
         jw.setIndent("  ");
         if(data == null){
-            jw.beginObject().name("page").value("views/Home.fxml").name("file").value("null").name("options").beginArray().endArray().endObject();
+            jw.beginObject().name("page").value("views/Login.fxml").name("file").value("null").name("options").beginArray().endArray().endObject();
         }
         else{
             jw.beginObject().name("page").value("views/RecipePage.fxml").name("file").value(data.get("file").get("file"));
