@@ -48,7 +48,8 @@ public class StateManager {
         JsonWriter jw = new JsonWriter(new BufferedWriter(new FileWriter(stateFile)));
         jw.setIndent("  ");
         if(data == null){
-            jw.beginObject().name("page").value("views/Login.fxml").name("file").value("null").name("options").beginArray().endArray().endObject();
+            String page = SessionHandler.getCurrentSession() != null ? "views/Home.fxml" : "views/Login.fxml";
+            jw.beginObject().name("page").value(page).name("file").value("null").name("options").beginArray().endArray().endObject();
         }
         else{
             jw.beginObject().name("page").value("views/RecipePage.fxml").name("file").value(data.get("file").get("file"));

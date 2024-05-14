@@ -62,7 +62,7 @@ public class SessionHandler {
         return true;
     }
 
-    public static boolean attemptLogin(String email, String password_plaintext) throws IOException {
+    public static boolean attemptLogin(String email, String password_plaintext, boolean stayLoggedIn) throws IOException {
         User tempUser = Database.getUser(email);
         if(tempUser == null) return false;
         try{
@@ -89,20 +89,21 @@ public class SessionHandler {
             if(success){
                 loggedInUser = tempUser;
 
-                Session uSess = Database.getSession(tempUser.userId);
+                if(stayLoggedIn) {
+                    Session uSess = Database.getSession(tempUser.userId);
 
-                Session session;
+                    Session session;
 
-                if(uSess == null){
-                    session = createNewSession(tempUser.userId, tempUser.emailAddress);
-                    Database.postSession(session);
-                    userSession = session;
+                    if (uSess == null) {
+                        session = createNewSession(tempUser.userId, tempUser.emailAddress, true);
+                        Database.postSession(session);
+                        userSession = session;
+                    } else {
+                        userSession = uSess;
+                    }
+
+                    createLocalSessionToken(userSession);
                 }
-                else{
-                    userSession = uSess;
-                }
-
-                createLocalSessionToken(userSession);
 
                 return true;
             }
@@ -185,6 +186,7 @@ public class SessionHandler {
 
     private static void createLocalSessionToken(Session session) throws IOException {
         JsonWriter writer = new JsonWriter(new BufferedWriter(new FileWriter(sessionToken)));
+        writer.setIndent("  ");
         writer.beginObject().name("session_id").value(session.sessionId);
         writer.name("userid").value(session.userId);
         writer.name("location_lat").value(session.locationLat);
@@ -203,20 +205,21 @@ public class SessionHandler {
                 null,
                 null,
                 null,
-                null
+                null,
+                false
         );
         reader.beginObject();
         while(reader.hasNext()){
             String name = reader.nextName();
-            if(name.equals("userid")){
-                session.userId = reader.nextString();
-            }
-            else if(name.equals("session_end")){
-                session.sessionEnd = reader.nextString();
-            }
-            else{
-                reader.nextName();
-            }
+//            if(name.equals("userid")){
+//                session.userId = reader.nextString();
+//            }
+//            else if(name.equals("session_end")){
+//                session.sessionEnd = reader.nextString();
+//            }
+//            else{
+//                reader.nextName();
+//            }
             switch(name){
                 case "session_id" -> session.sessionId = reader.nextString();
                 case "userid" -> session.userId = reader.nextString();
@@ -225,6 +228,7 @@ public class SessionHandler {
                 case "session_start" -> session.sessionStart = reader.nextString();
                 case "session_end" -> session.sessionEnd = reader.nextString();
                 case "email_address" -> session.emailAddress = reader.nextString();
+                case "stay_logged_in" -> session.stayLoggedIn = reader.nextBoolean();
             }
         }
         if(!validateSession(session)){
@@ -233,7 +237,7 @@ public class SessionHandler {
         return session;
     }
 
-    private static Session createNewSession(String userid, String email_address) throws IOException {
+    private static Session createNewSession(String userid, String email_address, boolean stay_logged_in) throws IOException {
         String i = new Timestamp(System.currentTimeMillis()).toInstant().toString();
         String zid = ZoneId.systemDefault().getRules().getOffset(Instant.parse(i)).toString();
         String ts_a = i.substring(0,i.length() - 1) + "000" + zid;
@@ -250,7 +254,8 @@ public class SessionHandler {
                 latlong == null ? null : latlong[1],
                 ts_a,
                 ts_b,
-                email_address
+                email_address,
+                stay_logged_in
         );
     }
 

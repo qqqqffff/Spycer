@@ -16,11 +16,13 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class Login {
-    public Label spycerTitleLabel;
+
+    @FXML private Label spycerTitleLabel;
     @FXML private Button loginButton;
     @FXML private Hyperlink createAccountLink;
     @FXML private PasswordField passwordField;
     @FXML private TextField emailTextField;
+    @FXML private CheckBox stayLoggedInCheckBox;
     @FXML private VBox loginForm;
 
     @FXML
@@ -63,7 +65,8 @@ public class Login {
             try {
                 if(SessionHandler.attemptLogin(
                         emailTextField.getText(),
-                        passwordField.getText())){
+                        passwordField.getText(),
+                        stayLoggedInCheckBox.isSelected())){
                     FXMLLoader loader = new FXMLLoader(Application.class.getResource("views/Home.fxml"));
                     Application.rootBorderPane.setCenter(loader.load());
                     loader = new FXMLLoader(Application.class.getResource("views/Header.fxml"));

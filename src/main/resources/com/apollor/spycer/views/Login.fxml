@@ -80,7 +80,7 @@
                         <Insets />
                     </VBox.margin>
                 </PasswordField>
-            <CheckBox mnemonicParsing="false" style="-fx-font-size: 20;" text="Remember Login">
+            <CheckBox fx:id="stayLoggedInCheckBox" mnemonicParsing="false" style="-fx-font-size: 20;" text="Remember Login">
                <VBox.margin>
                   <Insets top="20.0" />
                </VBox.margin>

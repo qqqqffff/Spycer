@@ -25,7 +25,8 @@ public class Session {
             Double locationLong,
             String sessionStart,
             String sessionEnd,
-            String emailAddress
+            String emailAddress,
+            boolean stayLoggedIn
     ){
         this.sessionId = sessionId;
         this.userId = userId;
@@ -34,6 +35,7 @@ public class Session {
         this.sessionStart = sessionStart;
         this.sessionEnd = sessionEnd;
         this.emailAddress = emailAddress;
+        this.stayLoggedIn = stayLoggedIn;
     }
 
     public String sessionId;
@@ -43,6 +45,7 @@ public class Session {
     public String sessionStart;
     public String sessionEnd;
     public String emailAddress;
+    public boolean stayLoggedIn;
 
     protected static Session get(String userid) throws IOException {
         String urlString = Application.baseApplicationLink +"/session/" + userid;
@@ -68,6 +71,7 @@ public class Session {
         HttpPost post = new HttpPost(urlString);
 
         final String jsonString = createJsonString(session);
+        System.out.println(jsonString);
         final StringEntity entity = new StringEntity(jsonString);
         post.setEntity(entity);
         post.setHeader("Accept", "application/json");
@@ -136,6 +140,7 @@ public class Session {
                 case "session_start" -> session.sessionStart = value;
                 case "session_end" -> session.sessionEnd = value;
                 case "email_address" -> session.emailAddress = value;
+                case "stay_logged_in" -> session.stayLoggedIn = Boolean.parseBoolean(value);
             }
         }
 
@@ -144,13 +149,14 @@ public class Session {
 
     private static String createJsonString(Session session){
         return "{\n" +
-                "\t\"session_id\": \"" + session.sessionId + "\"," +
+                "\t\"session_id\": \"" + session.sessionId + "\",\n" +
                 "\t\"userid\": \"" + session.userId + "\",\n" +
                 "\t\"location_lat\": " + session.locationLat + ",\n" +
                 "\t\"location_long\": " + session.locationLong + ",\n" +
                 "\t\"session_start\": \"" + session.sessionStart + "\",\n" +
                 "\t\"session_end\": \"" + session.sessionEnd + "\",\n" +
-                "\t\"email_address\": \"" + session.emailAddress + "\"" +
+                "\t\"email_address\": \"" + session.emailAddress + "\",\n" +
+                "\t\"stay_logged_in\": " + session.stayLoggedIn + "\n" +
                 "}";
     }
 }

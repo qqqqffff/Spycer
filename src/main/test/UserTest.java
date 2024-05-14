@@ -13,7 +13,7 @@ public class UserTest {
     public void testUser() throws IOException {
         User user = SessionHandler.createUser("2apollo.rowe@gmail.com", "apollo", "123");
         assertEquals(user.displayName, "apollo");
-        assertTrue(SessionHandler.attemptLogin("2apollo.rowe@gmail.com", "123"));
+        assertTrue(SessionHandler.attemptLogin("2apollo.rowe@gmail.com", "123", false));
         user.displayName = "apollinaris";
         Database.putUser(user);
         assertEquals(Database.getUser("2apollo.rowe@gmail.com").displayName, "apollinaris");
