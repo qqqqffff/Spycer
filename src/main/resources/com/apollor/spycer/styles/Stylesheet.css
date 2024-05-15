@@ -147,7 +147,7 @@ AnchorPane{
 }
 
 .combo-box {
-    -fx-background-color: -contrast-color;
+    -fx-background-color: -tertiary-color;
     -fx-background-radius: 5;
     -fx-border-radius: 5;
     -fx-border-color: black;

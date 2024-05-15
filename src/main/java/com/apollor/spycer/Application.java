@@ -1,9 +1,6 @@
 package com.apollor.spycer;
 
-import com.apollor.spycer.utils.JsonLoader;
-import com.apollor.spycer.utils.RecipeUpdater;
-import com.apollor.spycer.utils.SessionHandler;
-import com.apollor.spycer.utils.StateManager;
+import com.apollor.spycer.utils.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -38,6 +35,7 @@ public class Application extends javafx.application.Application {
     @Override
     public void start(Stage stage) throws IOException {
         stylesheetLink = String.valueOf(Application.class.getResource("styles/Stylesheet.css"));
+        stylesheetLink = stylesheetLink.substring(stylesheetLink.indexOf("file:") + 5);
         if(!datadir.exists()){
             if(!datadir.mkdir()) throw new IOException("Unable to create data directory");
         }
@@ -66,6 +64,8 @@ public class Application extends javafx.application.Application {
             ScrollPane content = loader.load();
             RecipeUpdater.updateRecipePage(content, data);
             rootBorderPane.setCenter(content);
+            loader = new FXMLLoader(Application.class.getResource("views/Header.fxml"));
+            rootBorderPane.setTop(loader.load());
         }
         else {
             fxmlLoader = new FXMLLoader(Application.class.getResource("views/Home.fxml"));
@@ -75,6 +75,7 @@ public class Application extends javafx.application.Application {
         }
 
         Scene scene = new Scene(rootAnchorPane, 1280, 800);
+        ColorHandler.applyPalette(0);
         stage.setTitle("Respicy");
         stage.setScene(scene);
         stage.show();

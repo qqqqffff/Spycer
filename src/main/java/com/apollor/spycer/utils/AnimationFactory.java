@@ -12,7 +12,9 @@ import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
 public class AnimationFactory {
-    private AnimationFactory(){}
+    private AnimationFactory(){
+        //TODO: read default colors
+    }
 
     /**
      * Fill animation based on HSL for color.
