@@ -13,7 +13,7 @@
 
 <BorderPane fx:id="rootPane" stylesheets="@../styles/Stylesheet.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.apollor.spycer.controllers.Recipe">
    <center>
-      <BorderPane fx:id="contentPane" style="-fx-background-color: -t-secondary-color; -fx-border-color: -contrast-color; -fx-border-width: 3; -fx-border-radius: 15; -fx-background-radius: 15; -fx-background-insets: 1,4,4;" BorderPane.alignment="CENTER">
+      <BorderPane fx:id="contentPane" style="-fx-background-color: -secondary-color; -fx-border-color: -contrast-color; -fx-border-width: 3; -fx-border-radius: 15; -fx-background-radius: 15; -fx-background-insets: 1,4,4;" BorderPane.alignment="CENTER">
          <padding>
             <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
          </padding>

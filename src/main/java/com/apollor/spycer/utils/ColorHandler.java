@@ -139,8 +139,6 @@ public class ColorHandler {
         g = Integer.parseInt(vals.substring(2,4), 16)/255.0;
         b = Integer.parseInt(vals.substring(4,6), 16)/255.0;
 
-        System.out.println(r*255 + "," + g*255 + "," + b*255);
-
         double max = compare(true, r, g, b), min = compare(false, r, g, b);
         double d = max - min;
         double h = -1, s, v;

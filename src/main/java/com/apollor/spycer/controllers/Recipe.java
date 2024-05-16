@@ -2,17 +2,15 @@ package com.apollor.spycer.controllers;
 
 import com.apollor.spycer.Application;
 import com.apollor.spycer.utils.AnimationFactory;
+import com.apollor.spycer.utils.ColorHandler;
 import com.apollor.spycer.utils.RecipeUpdater;
 import com.apollor.spycer.utils.StateManager;
-import com.apollor.spycer.utils.Statistics;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.Transition;
-import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
@@ -27,7 +25,9 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class Recipe {
@@ -50,45 +50,51 @@ public class Recipe {
 
     @FXML
     public void initialize(){
-        final String descBoxDefaultStyle = "-fx-background-color: #2C3E50";
         final double deleteButtonThreshold = 205.0; //includes margin
-
-        descBox.setStyle(descBoxDefaultStyle);
 
         AtomicReference<Double> initialDragPos = new AtomicReference<>(Double.MAX_VALUE);
         AtomicReference<Double> finalDragPos = new AtomicReference<>(Double.MAX_VALUE);
         AtomicReference<Double> deltaDragPos = new AtomicReference<>(0.0);
 
         deletePane.setOnMouseEntered(event -> {
-            deletePane.getChildren().stream().filter(x -> x.getClass().equals(Text.class)).forEach(x -> ((Text) x).setFill(Color.web("#EAECEE")));
-            deleteButton.setStroke(Color.web("#3498DB"));
-            //TODO: fix me
-//            Animation animation = AnimationFactory.generateFillTransition(
-//                    deleteButton,
-//                    Interpolator.EASE_IN,
-//                    Duration.millis(150),
-//                    "-fx-fill: ",
-//                    9.0,
-//                    92.0,
-//                    5.0,
-//                    -53.0
-//            );
-//            animation.play();
+            deletePane.getChildren().stream().filter(x -> x.getClass().equals(Text.class)).forEach(x -> ((Text) x).setFill(Color.web("#616161")));
+            deleteButton.setStroke(Color.web("#616161"));
+            double[] hsl1 = ColorHandler.hsvToHSL(ColorHandler.hexToHSV(ColorHandler.palette.get("-tertiary-color")));
+            double[] hsl2 = ColorHandler.hsvToHSL(ColorHandler.hexToHSV(ColorHandler.palette.get("-t-tertiary-color")));
+
+            double[] delta_hsl = new double[3];
+            for(int i = 0; i < hsl1.length; i++){
+                delta_hsl[i] = hsl2[i] - hsl1[i];
+            }
+            Animation animation = AnimationFactory.generateFillTransition(
+                    deleteButton,
+                    Interpolator.EASE_IN,
+                    Duration.millis(150),
+                    "-fx-fill: ",
+                    hsl1,
+                    delta_hsl
+            );
+            animation.play();
         });
         deletePane.setOnMouseExited(event -> {
-            deletePane.getChildren().stream().filter(x -> x.getClass().equals(Text.class)).forEach(x -> ((Text) x).setFill(Color.web("#2C3E50")));
+            deletePane.getChildren().stream().filter(x -> x.getClass().equals(Text.class)).forEach(x -> ((Text) x).setFill(Color.web("#000000")));
             deleteButton.setStroke(Color.BLACK);
-//            Animation animation = AnimationFactory.generateFillTransition(
-//                    deleteButton,
-//                    Interpolator.EASE_OUT,
-//                    Duration.millis(150),
-//                    "-fx-border-color-fx-background-color: ",
-//                    14,
-//                    39,
-//                    -5.0,
-//                    53.0
-//            );
-//            animation.play();
+            double[] hsl1 = ColorHandler.hsvToHSL(ColorHandler.hexToHSV(ColorHandler.palette.get("-tertiary-color")));
+            double[] hsl2 = ColorHandler.hsvToHSL(ColorHandler.hexToHSV(ColorHandler.palette.get("-t-tertiary-color")));
+
+            double[] delta_hsl = new double[3];
+            for(int i = 0; i < hsl1.length; i++){
+                delta_hsl[i] = hsl1[i] - hsl2[i];
+            }
+            Animation animation = AnimationFactory.generateFillTransition(
+                    deleteButton,
+                    Interpolator.EASE_OUT,
+                    Duration.millis(150),
+                    "-fx-fill: ",
+                    hsl2,
+                    delta_hsl
+            );
+            animation.play();
         });
         deletePane.setOnMouseClicked(event -> {
             Animation animation = AnimationFactory.generateOpacityTransition(
@@ -105,54 +111,40 @@ public class Recipe {
         });
 
         contentPane.setOnMouseEntered(event -> {
-            //todo: fix me
-//            Animation animation1 = AnimationFactory.generateFillTransition(
-//                    contentPane,
-//                    Interpolator.EASE_IN,
-//                    Duration.millis(100),
-//                    "-fx-border-width: 3; -fx-border-radius: 15; -fx-border-color: #3498DB; -fx-background-radius: 15; -fx-background-color: ",
-//                    29.0,
-//                    24.0,
-//                    -15.0,
-//                    15.0
-//            );
-//            Animation animation2 = AnimationFactory.generateFillTransition(
-//                    descBox,
-//                    Interpolator.EASE_IN,
-//                    Duration.millis(100),
-//                    "-fx-background-color: ",
-//                    29.0,
-//                    24.0,
-//                    -15.0,
-//                    15.0
-//            );
-//            animation1.play();
-//            animation2.play();
+            double[] hsl1 = ColorHandler.hsvToHSL(ColorHandler.hexToHSV(ColorHandler.palette.get("-secondary-color")));
+            double[] hsl2 = ColorHandler.hsvToHSL(ColorHandler.hexToHSV(ColorHandler.palette.get("-t-secondary-color")));
+
+            double[] delta_hsl = new double[3];
+            for(int i = 0; i < hsl1.length; i++){
+                delta_hsl[i] = hsl2[i] - hsl1[i];
+            }
+            Animation animation1 = AnimationFactory.generateFillTransition(
+                    contentPane,
+                    Interpolator.EASE_IN,
+                    Duration.millis(100),
+                    "-fx-border-width: 3; -fx-border-radius: 15; -fx-border-color: -t-contrast-color; -fx-background-radius: 15; -fx-background-color: ",
+                    hsl1,
+                    delta_hsl
+            );
+            animation1.play();
         });
         contentPane.setOnMouseExited(event -> {
-            //todo: fix me
-//            Animation animation1 = AnimationFactory.generateFillTransition(
-//                    contentPane,
-//                    Interpolator.EASE_OUT,
-//                    Duration.millis(100),
-//                    "-fx-border-radius: 15; -fx-background-radius: 15; -fx-border-width: 3; -fx-border-radius: 15; -fx-border-color: #000000; -fx-background-radius: 15; -fx-background-color: ",
-//                    14.0,
-//                    39.0,
-//                    15.0,
-//                    -15.0
-//            );
-//            Animation animation2 = AnimationFactory.generateFillTransition(
-//                    descBox,
-//                    Interpolator.EASE_OUT,
-//                    Duration.millis(100),
-//                    "-fx-background-color: ",
-//                    14.0,
-//                    39.0,
-//                    15.0,
-//                    -15.0
-//            );
-//            animation1.play();
-//            animation2.play();
+            double[] hsl1 = ColorHandler.hsvToHSL(ColorHandler.hexToHSV(ColorHandler.palette.get("-secondary-color")));
+            double[] hsl2 = ColorHandler.hsvToHSL(ColorHandler.hexToHSV(ColorHandler.palette.get("-t-secondary-color")));
+
+            double[] delta_hsl = new double[3];
+            for(int i = 0; i < hsl1.length; i++){
+                delta_hsl[i] = hsl1[i] - hsl2[i];
+            }
+            Animation animation1 = AnimationFactory.generateFillTransition(
+                    contentPane,
+                    Interpolator.EASE_OUT,
+                    Duration.millis(100),
+                    "-fx-border-radius: 15; -fx-background-radius: 15; -fx-border-width: 3; -fx-border-radius: 15; -fx-border-color: -contrast-color; -fx-background-radius: 15; -fx-background-color: ",
+                    hsl2,
+                    delta_hsl
+            );
+            animation1.play();
         });
 
         contentPane.setOnMouseDragged(event -> {
