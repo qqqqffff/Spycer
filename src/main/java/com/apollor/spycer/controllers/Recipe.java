@@ -62,32 +62,33 @@ public class Recipe {
         deletePane.setOnMouseEntered(event -> {
             deletePane.getChildren().stream().filter(x -> x.getClass().equals(Text.class)).forEach(x -> ((Text) x).setFill(Color.web("#EAECEE")));
             deleteButton.setStroke(Color.web("#3498DB"));
-            Animation animation = AnimationFactory.generateFillTransition(
-                    deleteButton,
-                    Interpolator.EASE_IN,
-                    Duration.millis(150),
-                    "-fx-fill: ",
-                    9.0,
-                    92.0,
-                    5.0,
-                    -53.0
-            );
-            animation.play();
+            //TODO: fix me
+//            Animation animation = AnimationFactory.generateFillTransition(
+//                    deleteButton,
+//                    Interpolator.EASE_IN,
+//                    Duration.millis(150),
+//                    "-fx-fill: ",
+//                    9.0,
+//                    92.0,
+//                    5.0,
+//                    -53.0
+//            );
+//            animation.play();
         });
         deletePane.setOnMouseExited(event -> {
             deletePane.getChildren().stream().filter(x -> x.getClass().equals(Text.class)).forEach(x -> ((Text) x).setFill(Color.web("#2C3E50")));
             deleteButton.setStroke(Color.BLACK);
-            Animation animation = AnimationFactory.generateFillTransition(
-                    deleteButton,
-                    Interpolator.EASE_OUT,
-                    Duration.millis(150),
-                    "-fx-border-color-fx-background-color: ",
-                    14,
-                    39,
-                    -5.0,
-                    53.0
-            );
-            animation.play();
+//            Animation animation = AnimationFactory.generateFillTransition(
+//                    deleteButton,
+//                    Interpolator.EASE_OUT,
+//                    Duration.millis(150),
+//                    "-fx-border-color-fx-background-color: ",
+//                    14,
+//                    39,
+//                    -5.0,
+//                    53.0
+//            );
+//            animation.play();
         });
         deletePane.setOnMouseClicked(event -> {
             Animation animation = AnimationFactory.generateOpacityTransition(
@@ -104,52 +105,54 @@ public class Recipe {
         });
 
         contentPane.setOnMouseEntered(event -> {
-            Animation animation1 = AnimationFactory.generateFillTransition(
-                    contentPane,
-                    Interpolator.EASE_IN,
-                    Duration.millis(100),
-                    "-fx-border-width: 3; -fx-border-radius: 15; -fx-border-color: #3498DB; -fx-background-radius: 15; -fx-background-color: ",
-                    29.0,
-                    24.0,
-                    -15.0,
-                    15.0
-            );
-            Animation animation2 = AnimationFactory.generateFillTransition(
-                    descBox,
-                    Interpolator.EASE_IN,
-                    Duration.millis(100),
-                    "-fx-background-color: ",
-                    29.0,
-                    24.0,
-                    -15.0,
-                    15.0
-            );
-            animation1.play();
-            animation2.play();
+            //todo: fix me
+//            Animation animation1 = AnimationFactory.generateFillTransition(
+//                    contentPane,
+//                    Interpolator.EASE_IN,
+//                    Duration.millis(100),
+//                    "-fx-border-width: 3; -fx-border-radius: 15; -fx-border-color: #3498DB; -fx-background-radius: 15; -fx-background-color: ",
+//                    29.0,
+//                    24.0,
+//                    -15.0,
+//                    15.0
+//            );
+//            Animation animation2 = AnimationFactory.generateFillTransition(
+//                    descBox,
+//                    Interpolator.EASE_IN,
+//                    Duration.millis(100),
+//                    "-fx-background-color: ",
+//                    29.0,
+//                    24.0,
+//                    -15.0,
+//                    15.0
+//            );
+//            animation1.play();
+//            animation2.play();
         });
         contentPane.setOnMouseExited(event -> {
-            Animation animation1 = AnimationFactory.generateFillTransition(
-                    contentPane,
-                    Interpolator.EASE_OUT,
-                    Duration.millis(100),
-                    "-fx-border-radius: 15; -fx-background-radius: 15; -fx-border-width: 3; -fx-border-radius: 15; -fx-border-color: #000000; -fx-background-radius: 15; -fx-background-color: ",
-                    14.0,
-                    39.0,
-                    15.0,
-                    -15.0
-            );
-            Animation animation2 = AnimationFactory.generateFillTransition(
-                    descBox,
-                    Interpolator.EASE_OUT,
-                    Duration.millis(100),
-                    "-fx-background-color: ",
-                    14.0,
-                    39.0,
-                    15.0,
-                    -15.0
-            );
-            animation1.play();
-            animation2.play();
+            //todo: fix me
+//            Animation animation1 = AnimationFactory.generateFillTransition(
+//                    contentPane,
+//                    Interpolator.EASE_OUT,
+//                    Duration.millis(100),
+//                    "-fx-border-radius: 15; -fx-background-radius: 15; -fx-border-width: 3; -fx-border-radius: 15; -fx-border-color: #000000; -fx-background-radius: 15; -fx-background-color: ",
+//                    14.0,
+//                    39.0,
+//                    15.0,
+//                    -15.0
+//            );
+//            Animation animation2 = AnimationFactory.generateFillTransition(
+//                    descBox,
+//                    Interpolator.EASE_OUT,
+//                    Duration.millis(100),
+//                    "-fx-background-color: ",
+//                    14.0,
+//                    39.0,
+//                    15.0,
+//                    -15.0
+//            );
+//            animation1.play();
+//            animation2.play();
         });
 
         contentPane.setOnMouseDragged(event -> {

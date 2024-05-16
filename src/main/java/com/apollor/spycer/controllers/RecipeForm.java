@@ -77,36 +77,15 @@ public class RecipeForm {
         //TODO: make it so that adding a new item turns off remove mode
         //TODO: fix formatting of cancel and create button when scroll overflow
 
+        titleTextField.setOnMouseEntered(AnimationFactory.generateDefaultTextFieldMouseEnterAnimation(titleTextField));
+        titleTextField.setOnMouseExited(AnimationFactory.generateDefaultTextFieldMouseExitAnimation(titleTextField));
+
         addIngredientButton.setOnAction(event -> {
             HBox box = createGroup(0);
             ingredientBox.getChildren().add(box);
         });
-        addIngredientButton.setOnMouseEntered(event -> {
-            Animation animation = AnimationFactory.generateFillTransition(
-                    addIngredientButton,
-                    Interpolator.EASE_IN,
-                    Duration.millis(150),
-                    "-fx-background-color: ",
-                    9.0,
-                    92.0,
-                    5.0,
-                    -53.0
-            );
-            animation.play();
-        });
-        addIngredientButton.setOnMouseExited(event -> {
-            Animation animation = AnimationFactory.generateFillTransition(
-                    addIngredientButton,
-                    Interpolator.EASE_OUT,
-                    Duration.millis(150),
-                    "-fx-background-color: ",
-                    14,
-                    39,
-                    -5.0,
-                    53.0
-            );
-            animation.play();
-        });
+        addIngredientButton.setOnMouseEntered(AnimationFactory.generateDefaultButtonMouseEnterAnimation(addIngredientButton));
+        addIngredientButton.setOnMouseExited(AnimationFactory.generateDefaultButtonMouseExitAnimation(addIngredientButton));
 
         removeIngredientButton.setOnAction(event -> {
             if(removeIngredientButton.getText().equals("-")){
@@ -120,64 +99,16 @@ public class RecipeForm {
                 revertItems(ingredientBox);
             }
         });
-        removeIngredientButton.setOnMouseEntered(event -> {
-            Animation animation = AnimationFactory.generateFillTransition(
-                    removeIngredientButton,
-                    Interpolator.EASE_IN,
-                    Duration.millis(150),
-                    "-fx-background-color: ",
-                    9.0,
-                    92.0,
-                    5.0,
-                    -53.0
-            );
-            animation.play();
-        });
-        removeIngredientButton.setOnMouseExited(event -> {
-            Animation animation = AnimationFactory.generateFillTransition(
-                    removeIngredientButton,
-                    Interpolator.EASE_OUT,
-                    Duration.millis(150),
-                    "-fx-background-color: ",
-                    14,
-                    39,
-                    -5.0,
-                    53.0
-            );
-            animation.play();
-        });
+        removeIngredientButton.setOnMouseEntered(AnimationFactory.generateDefaultButtonMouseEnterAnimation(removeIngredientButton));
+        removeIngredientButton.setOnMouseExited(AnimationFactory.generateDefaultButtonMouseExitAnimation(removeIngredientButton));
 
 
         addProcedureButton.setOnAction(event -> {
             HBox box = createGroup(1);
             procedureBox.getChildren().add(box);
         });
-        addProcedureButton.setOnMouseEntered(event -> {
-            Animation animation = AnimationFactory.generateFillTransition(
-                    addProcedureButton,
-                    Interpolator.EASE_IN,
-                    Duration.millis(150),
-                    "-fx-background-color: ",
-                    9.0,
-                    92.0,
-                    5.0,
-                    -53.0
-            );
-            animation.play();
-        });
-        addProcedureButton.setOnMouseExited(event -> {
-            Animation animation = AnimationFactory.generateFillTransition(
-                    addProcedureButton,
-                    Interpolator.EASE_OUT,
-                    Duration.millis(150),
-                    "-fx-background-color: ",
-                    14,
-                    39,
-                    -5.0,
-                    53.0
-            );
-            animation.play();
-        });
+        addProcedureButton.setOnMouseEntered(AnimationFactory.generateDefaultButtonMouseEnterAnimation(addProcedureButton));
+        addProcedureButton.setOnMouseExited(AnimationFactory.generateDefaultButtonMouseExitAnimation(addProcedureButton));
 
         removeProcedureButton.setOnAction(event -> {
             if(removeProcedureButton.getText().equals("-")){
@@ -191,63 +122,15 @@ public class RecipeForm {
                 revertItems(procedureBox);
             }
         });
-        removeProcedureButton.setOnMouseEntered(event -> {
-            Animation animation = AnimationFactory.generateFillTransition(
-                    removeProcedureButton,
-                    Interpolator.EASE_IN,
-                    Duration.millis(150),
-                    "-fx-background-color: ",
-                    9.0,
-                    92.0,
-                    5.0,
-                    -53.0
-            );
-            animation.play();
-        });
-        removeProcedureButton.setOnMouseExited(event -> {
-            Animation animation = AnimationFactory.generateFillTransition(
-                    removeProcedureButton,
-                    Interpolator.EASE_OUT,
-                    Duration.millis(150),
-                    "-fx-background-color: ",
-                    14,
-                    39,
-                    -5.0,
-                    53.0
-            );
-            animation.play();
-        });
+        removeProcedureButton.setOnMouseEntered(AnimationFactory.generateDefaultButtonMouseEnterAnimation(removeProcedureButton));
+        removeProcedureButton.setOnMouseExited(AnimationFactory.generateDefaultButtonMouseExitAnimation(removeProcedureButton));
 
         addNotesButton.setOnAction(event -> {
             HBox box = createGroup(2);
             noteBox.getChildren().add(box);
         });
-        addNotesButton.setOnMouseEntered(event -> {
-            Animation animation = AnimationFactory.generateFillTransition(
-                    addNotesButton,
-                    Interpolator.EASE_IN,
-                    Duration.millis(150),
-                    "-fx-background-color: ",
-                    9.0,
-                    92.0,
-                    5.0,
-                    -53.0
-            );
-            animation.play();
-        });
-        addNotesButton.setOnMouseExited(event -> {
-            Animation animation = AnimationFactory.generateFillTransition(
-                    addNotesButton,
-                    Interpolator.EASE_OUT,
-                    Duration.millis(150),
-                    "-fx-background-color: ",
-                    14,
-                    39,
-                    -5.0,
-                    53.0
-            );
-            animation.play();
-        });
+        addNotesButton.setOnMouseEntered(AnimationFactory.generateDefaultButtonMouseEnterAnimation(addNotesButton));
+        addNotesButton.setOnMouseExited(AnimationFactory.generateDefaultButtonMouseExitAnimation(addNotesButton));
 
         removeNotesButton.setOnAction(event -> {
             if(removeNotesButton.getText().equals("-")){
@@ -261,32 +144,8 @@ public class RecipeForm {
                 revertItems(noteBox);
             }
         });
-        removeNotesButton.setOnMouseEntered(event -> {
-            Animation animation = AnimationFactory.generateFillTransition(
-                    removeNotesButton,
-                    Interpolator.EASE_IN,
-                    Duration.millis(150),
-                    "-fx-background-color: ",
-                    9.0,
-                    92.0,
-                    5.0,
-                    -53.0
-            );
-            animation.play();
-        });
-        removeNotesButton.setOnMouseExited(event -> {
-            Animation animation = AnimationFactory.generateFillTransition(
-                    removeNotesButton,
-                    Interpolator.EASE_OUT,
-                    Duration.millis(150),
-                    "-fx-background-color: ",
-                    14,
-                    39,
-                    -5.0,
-                    53.0
-            );
-            animation.play();
-        });
+        removeNotesButton.setOnMouseEntered(AnimationFactory.generateDefaultButtonMouseEnterAnimation(removeNotesButton));
+        removeNotesButton.setOnMouseExited(AnimationFactory.generateDefaultButtonMouseExitAnimation(removeNotesButton));
 
         addTagsButton.setOnAction(event -> {
             if(tagsList.size() < 3){
@@ -298,32 +157,8 @@ public class RecipeForm {
                 addTagsButton.setDisable(true);
             }
         });
-        addTagsButton.setOnMouseEntered(event -> {
-            Animation animation = AnimationFactory.generateFillTransition(
-                    addTagsButton,
-                    Interpolator.EASE_IN,
-                    Duration.millis(150),
-                    "-fx-background-color: ",
-                    9.0,
-                    92.0,
-                    5.0,
-                    -53.0
-            );
-            animation.play();
-        });
-        addTagsButton.setOnMouseExited(event -> {
-            Animation animation = AnimationFactory.generateFillTransition(
-                    addTagsButton,
-                    Interpolator.EASE_OUT,
-                    Duration.millis(150),
-                    "-fx-background-color: ",
-                    14,
-                    39,
-                    -5.0,
-                    53.0
-            );
-            animation.play();
-        });
+        addTagsButton.setOnMouseEntered(AnimationFactory.generateDefaultButtonMouseEnterAnimation(addTagsButton));
+        addTagsButton.setOnMouseExited(AnimationFactory.generateDefaultButtonMouseExitAnimation(addTagsButton));
 
         removeTagsButton.setOnAction(event -> {
             if(removeTagsButton.getText().equals("-")){
@@ -337,32 +172,8 @@ public class RecipeForm {
                 revertItems(tagsBox);
             }
         });
-        removeTagsButton.setOnMouseEntered(event -> {
-            Animation animation = AnimationFactory.generateFillTransition(
-                    removeNotesButton,
-                    Interpolator.EASE_IN,
-                    Duration.millis(150),
-                    "-fx-background-color: ",
-                    9.0,
-                    92.0,
-                    5.0,
-                    -53.0
-            );
-            animation.play();
-        });
-        removeTagsButton.setOnMouseExited(event -> {
-            Animation animation = AnimationFactory.generateFillTransition(
-                    removeNotesButton,
-                    Interpolator.EASE_OUT,
-                    Duration.millis(150),
-                    "-fx-background-color: ",
-                    14,
-                    39,
-                    -5.0,
-                    53.0
-            );
-            animation.play();
-        });
+        removeTagsButton.setOnMouseEntered(AnimationFactory.generateDefaultButtonMouseEnterAnimation(removeTagsButton));
+        removeTagsButton.setOnMouseExited(AnimationFactory.generateDefaultButtonMouseExitAnimation(removeTagsButton));
 
         createRecipeButton.setOnAction(event -> {
             try {
@@ -379,64 +190,17 @@ public class RecipeForm {
             Application.rootBorderPane.setEffect(null);
             Application.rootBorderPane.setDisable(false);
         });
-        createRecipeButton.setOnMouseEntered(event -> {
-            Animation animation = AnimationFactory.generateFillTransition(
-                    createRecipeButton,
-                    Interpolator.EASE_IN,
-                    Duration.millis(150),
-                    "-fx-background-color: ",
-                    9.0,
-                    92.0,
-                    5.0,
-                    -53.0
-            );
-            animation.play();
-        });
-        createRecipeButton.setOnMouseExited(event -> {
-            Animation animation = AnimationFactory.generateFillTransition(
-                    createRecipeButton,
-                    Interpolator.EASE_OUT,
-                    Duration.millis(150),
-                    "-fx-background-color: ",
-                    14,
-                    39,
-                    -5.0,
-                    53.0
-            );
-            animation.play();
-        });
+        createRecipeButton.setOnMouseEntered(AnimationFactory.generateDefaultButtonMouseEnterAnimation(createRecipeButton));
+        createRecipeButton.setOnMouseExited(AnimationFactory.generateDefaultButtonMouseExitAnimation(createRecipeButton));
 
         cancelFormButton.setOnAction(event -> {
+            //TODO: add in progress recipe saving
             Application.rootAnchorPane.getChildren().removeIf(i -> Objects.equals(i.getId(), "recipe_form"));
             Application.rootBorderPane.setEffect(null);
             Application.rootBorderPane.setDisable(false);
         });
-        cancelFormButton.setOnMouseEntered(event -> {
-            Animation animation = AnimationFactory.generateFillTransition(
-                    cancelFormButton,
-                    Interpolator.EASE_IN,
-                    Duration.millis(150),
-                    "-fx-background-color: ",
-                    9.0,
-                    92.0,
-                    5.0,
-                    -53.0
-            );
-            animation.play();
-        });
-        cancelFormButton.setOnMouseExited(event -> {
-            Animation animation = AnimationFactory.generateFillTransition(
-                    cancelFormButton,
-                    Interpolator.EASE_OUT,
-                    Duration.millis(150),
-                    "-fx-background-color: ",
-                    14,
-                    39,
-                    -5.0,
-                    53.0
-            );
-            animation.play();
-        });
+        cancelFormButton.setOnMouseEntered(AnimationFactory.generateDefaultButtonMouseEnterAnimation(cancelFormButton));
+        cancelFormButton.setOnMouseExited(AnimationFactory.generateDefaultButtonMouseExitAnimation(cancelFormButton));
     }
 
     public void parseLists(Map<String, String> ingredientsList,
@@ -461,63 +225,15 @@ public class RecipeForm {
         input_a.setPrefWidth(315);
         input_a.setMaxHeight(35);
         input_a.setWrapText(true);
-        input_a.setOnMouseEntered(event -> {
-            Animation animation = AnimationFactory.generateFillTransition(
-                    input_a,
-                    Interpolator.EASE_IN,
-                    Duration.millis(100),
-                    "-fx-background-color: ",
-                    29.0,
-                    24.0,
-                    -15.0,
-                    15.0
-            );
-            animation.play();
-        });
-        input_a.setOnMouseExited(event -> {
-            Animation animation = AnimationFactory.generateFillTransition(
-                    input_a,
-                    Interpolator.EASE_OUT,
-                    Duration.millis(100),
-                    "-fx-background-color: ",
-                    14.0,
-                    39,
-                    15.0,
-                    -15.0
-            );
-            animation.play();
-        });
+        input_a.setOnMouseEntered(AnimationFactory.generateDefaultTextFieldMouseEnterAnimation(input_a));
+        input_a.setOnMouseExited(AnimationFactory.generateDefaultTextFieldMouseExitAnimation(input_a));
 
         TextArea input_b = new TextArea();
         input_b.setPrefWidth(315);
         input_b.setMaxHeight(35);
         input_b.setWrapText(true);
-        input_b.setOnMouseEntered(event -> {
-            Animation animation = AnimationFactory.generateFillTransition(
-                    input_b,
-                    Interpolator.EASE_IN,
-                    Duration.millis(100),
-                    "-fx-background-color: ",
-                    29.0,
-                    24.0,
-                    -15.0,
-                    15.0
-            );
-            animation.play();
-        });
-        input_b.setOnMouseExited(event -> {
-            Animation animation = AnimationFactory.generateFillTransition(
-                    input_b,
-                    Interpolator.EASE_OUT,
-                    Duration.millis(100),
-                    "-fx-background-color: ",
-                    14.0,
-                    39,
-                    15.0,
-                    -15.0
-            );
-            animation.play();
-        });
+        input_b.setOnMouseEntered(AnimationFactory.generateDefaultTextFieldMouseEnterAnimation(input_b));
+        input_b.setOnMouseExited(AnimationFactory.generateDefaultTextFieldMouseExitAnimation(input_b));
 
         SimpleStringProperty sp_a = new SimpleStringProperty();
         SimpleStringProperty sp_b = new SimpleStringProperty();
@@ -581,32 +297,8 @@ public class RecipeForm {
         numericalFields.setAlignment(Pos.CENTER_LEFT);
         TextArea hrInput = createNumericalInput();
         numericalFields.getChildren().add(hrInput);
-        hrInput.setOnMouseEntered(event -> {
-            Animation animation = AnimationFactory.generateFillTransition(
-                    hrInput,
-                    Interpolator.EASE_IN,
-                    Duration.millis(100),
-                    "-fx-background-color: ",
-                    29.0,
-                    24.0,
-                    -15.0,
-                    15.0
-            );
-            animation.play();
-        });
-        hrInput.setOnMouseExited(event -> {
-            Animation animation = AnimationFactory.generateFillTransition(
-                    hrInput,
-                    Interpolator.EASE_OUT,
-                    Duration.millis(100),
-                    "-fx-background-color: ",
-                    14.0,
-                    39,
-                    15.0,
-                    -15.0
-            );
-            animation.play();
-        });
+        hrInput.setOnMouseEntered(AnimationFactory.generateDefaultTextFieldMouseEnterAnimation(hrInput));
+        hrInput.setOnMouseExited(AnimationFactory.generateDefaultTextFieldMouseExitAnimation(hrInput));
 
         Label hrLabel = new Label("H");
         HBox.setMargin(hrLabel, new Insets(0,10,0,5));
@@ -616,32 +308,8 @@ public class RecipeForm {
 
         TextArea minInput = createNumericalInput();
         numericalFields.getChildren().add(minInput);
-        minInput.setOnMouseEntered(event -> {
-            Animation animation = AnimationFactory.generateFillTransition(
-                    minInput,
-                    Interpolator.EASE_IN,
-                    Duration.millis(100),
-                    "-fx-background-color: ",
-                    29.0,
-                    24.0,
-                    -15.0,
-                    15.0
-            );
-            animation.play();
-        });
-        minInput.setOnMouseExited(event -> {
-            Animation animation = AnimationFactory.generateFillTransition(
-                    minInput,
-                    Interpolator.EASE_OUT,
-                    Duration.millis(100),
-                    "-fx-background-color: ",
-                    14.0,
-                    39,
-                    15.0,
-                    -15.0
-            );
-            animation.play();
-        });
+        minInput.setOnMouseEntered(AnimationFactory.generateDefaultTextFieldMouseEnterAnimation(minInput));
+        minInput.setOnMouseExited(AnimationFactory.generateDefaultTextFieldMouseExitAnimation(minInput));
 
         Label minLabel = new Label("M");
         HBox.setMargin(minLabel, new Insets(0,10,0,5));
@@ -651,32 +319,8 @@ public class RecipeForm {
 
         TextArea secInput = createNumericalInput();
         numericalFields.getChildren().add(secInput);
-        secInput.setOnMouseEntered(event -> {
-            Animation animation = AnimationFactory.generateFillTransition(
-                    secInput,
-                    Interpolator.EASE_IN,
-                    Duration.millis(100),
-                    "-fx-background-color: ",
-                    29.0,
-                    24.0,
-                    -15.0,
-                    15.0
-            );
-            animation.play();
-        });
-        secInput.setOnMouseExited(event -> {
-            Animation animation = AnimationFactory.generateFillTransition(
-                    secInput,
-                    Interpolator.EASE_OUT,
-                    Duration.millis(100),
-                    "-fx-background-color: ",
-                    14.0,
-                    39,
-                    15.0,
-                    -15.0
-            );
-            animation.play();
-        });
+        secInput.setOnMouseEntered(AnimationFactory.generateDefaultTextFieldMouseEnterAnimation(secInput));
+        secInput.setOnMouseExited(AnimationFactory.generateDefaultTextFieldMouseExitAnimation(secInput));
 
         Label secLabel = new Label("S");
         secLabel.setFont(new Font(16));
@@ -771,34 +415,8 @@ public class RecipeForm {
                 }
 
                 n.setStyle("-fx-border-width: 2; -fx-border-radius: 5; -fx-background-radius: 5; -fx-border-color: #000000;");
-                n.setOnMouseEntered(event -> {
-                    Animation animation = AnimationFactory.generateFillTransition(
-                            n,
-                            Interpolator.EASE_IN,
-                            Duration.millis(100),
-                            "-fx-border-width: 2; -fx-border-radius: 5; -fx-border-color: #3498DB; -fx-background-radius: 5; -fx-background-color: ",
-                            29.0,
-                            13.0,
-                            -15.0,
-                            26.0
-
-                    );
-                    animation.play();
-                });
-                n.setOnMouseExited(event -> {
-                    Animation animation = AnimationFactory.generateFillTransition(
-                            n,
-                            Interpolator.EASE_OUT,
-                            Duration.millis(100),
-                            "-fx-border-width: 2; -fx-border-radius: 5; -fx-border-color: #000000; -fx-background-radius: 5; -fx-background-color: ",
-                            14.0,
-                            39,
-                            15.0,
-                            -26.0
-
-                    );
-                    animation.play();
-                });
+                n.setOnMouseEntered(AnimationFactory.generateDefaultTextFieldMouseEnterAnimation(n));
+                n.setOnMouseExited(AnimationFactory.generateDefaultTextFieldMouseExitAnimation(n));
                 n.setOnMouseClicked(event -> {
                     map.remove(Integer.parseInt(n.getId()));
                     shiftMap(map);

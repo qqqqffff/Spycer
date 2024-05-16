@@ -23,13 +23,11 @@ public class AnimationFactory {
      * @param interpolator interpolator transition type
      * @param duration duration of transition
      * @param style style to change
-     * @param saturation initial saturation
-     * @param lightness initial lightness
-     * @param delta_saturation change in saturation
-     * @param delta_lightness change in lightness
+     * @param hsl array of the hue saturation and lightness
+     * @param delta_hsl array of the delta hue, delta saturation, and delta lightness
      * @return animation to play
      */
-    public static Animation generateFillTransition(Node n, Interpolator interpolator, Duration duration, String style, double saturation, double lightness, double delta_saturation, double delta_lightness){
+    public static Animation generateFillTransition(Node n, Interpolator interpolator, Duration duration, String style, double[] hsl, double[] delta_hsl){
         return new Transition() {
             {
                 setCycleDuration(duration);
@@ -37,10 +35,11 @@ public class AnimationFactory {
             }
             @Override
             protected void interpolate(double v) {
-                double s = saturation + (delta_saturation * v);
-                double l = lightness + (delta_lightness * v);
+                double h = hsl[0] + (delta_hsl[0] * v);
+                double s = hsl[1] + (delta_hsl[1] * v);
+                double l = hsl[2] + (delta_hsl[2] * v);
 
-                n.setStyle(style + ColorHandler.hslToHex(210, s, l) + ";");
+                n.setStyle(style + ColorHandler.hslToHex(h, s, l) + ";");
             }
         };
     }
@@ -129,61 +128,87 @@ public class AnimationFactory {
     }
 
     public static EventHandler<MouseEvent> generateDefaultButtonMouseEnterAnimation(Node n){
+        //TODO: make it so there are no repeated computation
+        double[] hsl1 = ColorHandler.hsvToHSL(ColorHandler.hexToHSV(ColorHandler.palette.get("-tertiary-color")));
+        double[] hsl2 = ColorHandler.hsvToHSL(ColorHandler.hexToHSV(ColorHandler.palette.get("-t-tertiary-color")));
+
+        double[] delta_hsl = new double[3];
+        for(int i = 0; i < hsl1.length; i++){
+            delta_hsl[i] = hsl2[i] - hsl1[i];
+        }
+
         return event -> {
             Animation animation = generateFillTransition(
                     n,
                     Interpolator.EASE_IN,
                     Duration.millis(150),
                     "-fx-background-color: ",
-                    9.0,
-                    92.0,
-                    5.0,
-                    -53.0
+                    hsl1,
+                    delta_hsl
             );
             animation.play();
         };
     }
     public static EventHandler<MouseEvent> generateDefaultButtonMouseExitAnimation(Node n){
+        double[] hsl1 = ColorHandler.hsvToHSL(ColorHandler.hexToHSV(ColorHandler.palette.get("-tertiary-color")));
+        double[] hsl2 = ColorHandler.hsvToHSL(ColorHandler.hexToHSV(ColorHandler.palette.get("-t-tertiary-color")));
+
+        double[] delta_hsl = new double[3];
+        for(int i = 0; i < hsl1.length; i++){
+            delta_hsl[i] = hsl1[i] - hsl2[i];
+        }
+
         return event -> {
             Animation animation = AnimationFactory.generateFillTransition(
                     n,
                     Interpolator.EASE_OUT,
                     Duration.millis(150),
                     "-fx-background-color: ",
-                    14,
-                    39,
-                    -5.0,
-                    53.0
+                    hsl2,
+                    delta_hsl
             );
             animation.play();
         };
     }
+
     public static EventHandler<MouseEvent> generateDefaultTextFieldMouseEnterAnimation(Node n){
+        double[] hsl1 = ColorHandler.hsvToHSL(ColorHandler.hexToHSV(ColorHandler.palette.get("-secondary-color")));
+        double[] hsl2 = ColorHandler.hsvToHSL(ColorHandler.hexToHSV(ColorHandler.palette.get("-t-secondary-color")));
+
+        double[] delta_hsl = new double[3];
+        for(int i = 0; i < hsl1.length; i++){
+            delta_hsl[i] = hsl2[i] - hsl1[i];
+        }
+
         return event -> {
             Animation animation = AnimationFactory.generateFillTransition(
                     n,
                     Interpolator.EASE_IN,
-                    Duration.millis(100),
+                    Duration.millis(150),
                     "-fx-background-color: ",
-                    29.0,
-                    24.0,
-                    -15.0,
-                    15.0
+                    hsl1,
+                    delta_hsl
             );
             animation.play();
         };
     }
     public static EventHandler<MouseEvent> generateDefaultTextFieldMouseExitAnimation(Node n){
+        double[] hsl1 = ColorHandler.hsvToHSL(ColorHandler.hexToHSV(ColorHandler.palette.get("-secondary-color")));
+        double[] hsl2 = ColorHandler.hsvToHSL(ColorHandler.hexToHSV(ColorHandler.palette.get("-t-secondary-color")));
+
+        double[] delta_hsl = new double[3];
+        for(int i = 0; i < hsl1.length; i++){
+            delta_hsl[i] = hsl1[i] - hsl2[i];
+        }
+
         return event -> {
             Animation animation = AnimationFactory.generateFillTransition(
                     n,
                     Interpolator.EASE_OUT,
-                    Duration.millis(100),
+                    Duration.millis(150),
                     "-fx-background-color: ",
-                    14.0,
-                    39,
-                    15.0,
-                    -15.0
+                    hsl2,
+                    delta_hsl
             );
             animation.play();
         };

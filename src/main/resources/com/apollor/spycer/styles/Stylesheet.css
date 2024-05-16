@@ -7,11 +7,12 @@
 
     -primary-color: #FCF3CF;
     -secondary-color: #FAD7A0;
-    -t-secondary-color: #F8C471;
+    -t-secondary-color: #F7DC6F;
     -t-tertiary-color: #F1948A;
     -tertiary-color: #EC7063;
     -error-color: #E74C3C;
     -contrast-color: #000000;
+    -t-contrast-color: #616161;
 }
 
 .text-area .scroll-bar:vertical {
@@ -20,7 +21,7 @@
 }
 
 .text-area .content{
-    -fx-border-color: black;
+    -fx-border-color: -contrast-color;
     -fx-border-width: 2;
     -fx-prompt-text-fill: white;
     -fx-background-radius: 5;
@@ -70,7 +71,7 @@
 }
 
 .text-field{
-    -fx-border-color: black;
+    -fx-border-color: -contrast-color;
     -fx-border-width: 2;
     -fx-background-color: -secondary-color;
     -fx-prompt-text-fill: rgba(255, 255, 255, 0.5);
@@ -111,7 +112,7 @@ AnchorPane{
     -fx-background-color: -tertiary-color;
     -fx-background-radius: 5;
     -fx-border-radius: 5;
-    -fx-border-color: black;
+    -fx-border-color: -contrast-color;
     -fx-border-width: 2;
     -fx-background-insets: 1,4,4;
     -fx-text-fill: -contrast-color;
@@ -121,8 +122,8 @@ AnchorPane{
 }
 
 .button:hover {
-    -fx-text-fill: -contrast-color;
-    -fx-border-color: -t-tertiary-color;
+    -fx-text-fill: -t-contrast-color;
+    -fx-border-color: -t-contrast-color;
 }
 
 .slider .axis{
@@ -159,11 +160,11 @@ AnchorPane{
 }
 
 .combo-box:hover .text{
-    -fx-fill: -contrast-color;
+    -fx-fill: -t-contrast-color;
 }
 
 .combo-box:hover{
-    -fx-border-color: -tertiary-color;
+    -fx-border-color: -t-contrast-color;
 }
 
 .check-box .box{

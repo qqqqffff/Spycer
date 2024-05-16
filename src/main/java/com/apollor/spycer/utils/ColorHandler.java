@@ -4,19 +4,14 @@ import com.apollor.spycer.Application;
 import javafx.scene.paint.Color;
 
 import java.io.*;
-import java.sql.Timestamp;
-import java.time.Duration;
-import java.time.Instant;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Timer;
-import java.util.regex.Pattern;
 
 public class ColorHandler {
     private ColorHandler(){}
 
-    public static Map<String, String> defaultPalette;
+    private static final Map<String, String> defaultPalette;
+    public static Map<String, String> palette;
 
     static {
         defaultPalette = new HashMap<>();
@@ -27,6 +22,8 @@ public class ColorHandler {
         defaultPalette.put("-tertiary-color", "#EC7063");
         defaultPalette.put("-error-color", "#E74C3C");
         defaultPalette.put("-contrast-color", "#000000");
+        defaultPalette.put("-t-contrast-color", "#616161");
+        palette = defaultPalette;
     }
 
     /**
@@ -34,7 +31,6 @@ public class ColorHandler {
      * @param identifier 0 = default,
      */
     public static void applyPalette(int identifier) throws IOException {
-        Map<String, String> palette = null;
         switch (identifier){
             case 0 -> palette = defaultPalette;
             case 1 -> {
