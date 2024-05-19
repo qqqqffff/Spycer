@@ -177,11 +177,9 @@ public class SessionHandler {
     }
 
     public static Session getCurrentSession(){
-        if(sessionToken.exists())
-        if(userSession == null){
-            return null;
-        }
-        return userSession;
+        if(!sessionToken.exists()) return null;
+        if(userSession != null) return userSession;
+        return null;
     }
 
     private static void createLocalSessionToken(Session session) throws IOException {
@@ -211,15 +209,7 @@ public class SessionHandler {
         reader.beginObject();
         while(reader.hasNext()){
             String name = reader.nextName();
-//            if(name.equals("userid")){
-//                session.userId = reader.nextString();
-//            }
-//            else if(name.equals("session_end")){
-//                session.sessionEnd = reader.nextString();
-//            }
-//            else{
-//                reader.nextName();
-//            }
+
             switch(name){
                 case "session_id" -> session.sessionId = reader.nextString();
                 case "userid" -> session.userId = reader.nextString();
@@ -265,5 +255,14 @@ public class SessionHandler {
         Instant i = Instant.parse(session.sessionEnd);
 
         return ts.isBefore(i);
+    }
+
+    public static void invalidateSession() throws IOException {
+        Database.deleteSession(userSession.sessionId);
+        userSession = null;
+        loggedInUser = null;
+        FileWriter writer = new FileWriter(sessionToken);
+        writer.write(' ');
+        writer.close();
     }
 }

@@ -27,6 +27,8 @@ public class Login {
 
     @FXML
     public void initialize(){
+        //TODO: clear state when logging in
+        //TODO: add animations
         createAccountLink.setOnMouseClicked(event -> {
             //TODO: display animation
             Animation animation = AnimationFactory.generateTranslateTransition2(

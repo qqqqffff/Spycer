@@ -52,7 +52,7 @@ public class StateManager {
             jw.beginObject().name("page").value(page).name("file").value("null").name("options").beginArray().endArray().endObject();
         }
         else{
-            jw.beginObject().name("page").value("views/RecipePage.fxml").name("file").value(data.get("file").get("file"));
+            jw.beginObject().name("page").value(data.get("page").get("page")).name("file").value(data.get("file").get("file"));
             jw.name("options").beginArray();
             //TODO: implement some special data map parsing
             jw.endArray().endObject();

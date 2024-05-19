@@ -40,7 +40,7 @@
             </VBox>
             <HBox alignment="CENTER" GridPane.columnIndex="1">
                <children>
-                  <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="profilePicture" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/placeholders/100x100.png" />
                      </image>
@@ -49,7 +49,7 @@
             </HBox>
             <HBox alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: 900; -fx-font-size: 32;" text="Welcome Back, (display_name)" />
+                  <Text fx:id="welcomeText" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: 900; -fx-font-size: 32;" text="Welcome Back, $" />
                </children>
             </HBox>
             <GridPane hgap="50.0" style="-fx-border-color: -contrast-color; -fx-border-width: 2; -fx-border-radius: 15; -fx-background-color: -secondary-color; -fx-background-radius: 15; -fx-background-insets: 1,4,4;" vgap="20.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
@@ -68,12 +68,12 @@
                         <Label text="Email:" BorderPane.alignment="CENTER" />
                      </left>
                      <right>
-                        <TextField style="-fx-font-size: 16; -fx-background-color: -primary-color;" BorderPane.alignment="CENTER" />
+                        <TextField fx:id="emailTextField" style="-fx-font-size: 16; -fx-background-color: -primary-color;" BorderPane.alignment="CENTER" />
                      </right>
                   </BorderPane>
                   <BorderPane layoutX="32.0" layoutY="32.0" style="-fx-background-color: transparent;" GridPane.rowIndex="1">
                      <right>
-                        <TextField style="-fx-font-size: 16; -fx-background-color: -primary-color;" BorderPane.alignment="CENTER" />
+                        <TextField fx:id="displayNameTextField" style="-fx-font-size: 16; -fx-background-color: -primary-color;" BorderPane.alignment="CENTER" />
                      </right>
                      <left>
                         <Label text="Display Name:" BorderPane.alignment="CENTER" />
@@ -84,7 +84,7 @@
                         <Label text="Color Scheme" BorderPane.alignment="CENTER" />
                      </left>
                      <right>
-                        <ComboBox prefWidth="150.0" promptText="Default" BorderPane.alignment="CENTER" />
+                        <ComboBox fx:id="colorProfileComboBox" prefWidth="150.0" promptText="Default" BorderPane.alignment="CENTER" />
                      </right>
                   </BorderPane>
                   <HBox alignment="CENTER" GridPane.columnIndex="1">
@@ -94,8 +94,8 @@
                   </HBox>
                   <HBox alignment="CENTER_RIGHT" spacing="15.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <children>
-                        <Button mnemonicParsing="false" text="Update" />
-                        <Button layoutX="314.0" layoutY="10.0" mnemonicParsing="false" text="Logout" />
+                        <Button fx:id="updateFieldsButton" mnemonicParsing="false" text="Update" />
+                        <Button fx:id="logoutUserButton" layoutX="314.0" layoutY="10.0" mnemonicParsing="false" text="Logout" />
                      </children>
                   </HBox>
                   <GridPane vgap="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
@@ -111,32 +111,32 @@
                      <children>
                         <BorderPane style="-fx-background-color: transparent;">
                            <center>
-                              <RadioButton mnemonicParsing="false" text="Email" BorderPane.alignment="CENTER" />
+                              <RadioButton fx:id="tfaEmailRadioButton" mnemonicParsing="false" text="Email" BorderPane.alignment="CENTER" />
                            </center>
                         </BorderPane>
                         <BorderPane layoutX="10.0" layoutY="10.0" style="-fx-background-color: transparent;" GridPane.columnIndex="1">
                            <center>
-                              <RadioButton mnemonicParsing="false" text="App" BorderPane.alignment="CENTER" />
+                              <RadioButton fx:id="tfaAppRadioButton" mnemonicParsing="false" text="App" BorderPane.alignment="CENTER" />
                            </center>
                         </BorderPane>
                         <BorderPane layoutX="10.0" layoutY="10.0" style="-fx-background-color: transparent;" GridPane.rowIndex="1">
                            <center>
-                              <Button mnemonicParsing="false" text="Connect" BorderPane.alignment="CENTER" />
+                              <Button fx:id="connectTFAEmailButton" mnemonicParsing="false" text="Connect" BorderPane.alignment="CENTER" />
                            </center>
                         </BorderPane>
                         <BorderPane layoutX="10.0" layoutY="10.0" style="-fx-background-color: transparent;" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <center>
-                              <Button mnemonicParsing="false" text="Connect" BorderPane.alignment="CENTER" />
+                              <Button fx:id="connectTFAAppButton" mnemonicParsing="false" text="Connect" BorderPane.alignment="CENTER" />
                            </center>
                         </BorderPane>
                         <BorderPane layoutX="136.0" layoutY="10.0" style="-fx-background-color: transparent;" GridPane.columnIndex="2">
                            <center>
-                              <RadioButton mnemonicParsing="false" text="Phone" BorderPane.alignment="CENTER" />
+                              <RadioButton fx:id="tfaPhoneRadioButton" mnemonicParsing="false" text="Phone" BorderPane.alignment="CENTER" />
                            </center>
                         </BorderPane>
                         <BorderPane layoutX="10.0" layoutY="38.0" style="-fx-background-color: transparent;" GridPane.columnIndex="2" GridPane.rowIndex="1">
                            <center>
-                              <Button mnemonicParsing="false" text="Connect" BorderPane.alignment="CENTER" />
+                              <Button fx:id="connectTFAPhoneButton" mnemonicParsing="false" text="Connect" BorderPane.alignment="CENTER" />
                            </center>
                         </BorderPane>
                      </children>

@@ -3,6 +3,7 @@ package com.apollor.spycer.controllers;
 import com.apollor.spycer.Application;
 import com.apollor.spycer.utils.AnimationFactory;
 import com.apollor.spycer.utils.SortParam;
+import com.apollor.spycer.utils.StateManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -12,6 +13,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.effect.GaussianBlur;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Header {
     @FXML private Button profileButton;
@@ -65,7 +68,16 @@ public class Header {
 
         profileButton.setOnAction(action -> {
             FXMLLoader loader = new FXMLLoader(Application.class.getResource("views/Profile.fxml"));
+            Map<String, Map<String, String>> data = new HashMap<>();
+            Map<String, String> fileMap = new HashMap<>();
+            Map<String, String> pageMap = new HashMap<>();
+            fileMap.put("file", "null");
+            pageMap.put("page", "views/Profile.fxml");
+            data.put("file", fileMap);
+            data.put("page", pageMap);
+
             try{
+                StateManager.updateState(data);
                 Application.rootBorderPane.setCenter(loader.load());
             } catch (IOException e) {
                 throw new RuntimeException(e);

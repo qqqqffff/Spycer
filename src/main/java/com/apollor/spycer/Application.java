@@ -67,6 +67,11 @@ public class Application extends javafx.application.Application {
                 rootBorderPane.setCenter(content);
                 loader = new FXMLLoader(Application.class.getResource("views/Header.fxml"));
                 rootBorderPane.setTop(loader.load());
+            } else if (state != null && !Objects.equals(state.get("page").get("page"), "views/Home.fxml")){
+                fxmlLoader = new FXMLLoader(Application.class.getResource(state.get("page").get("page")));
+                rootBorderPane.setCenter(fxmlLoader.load());
+                fxmlLoader = new FXMLLoader(Application.class.getResource("views/Header.fxml"));
+                rootBorderPane.setTop(fxmlLoader.load());
             } else {
                 fxmlLoader = new FXMLLoader(Application.class.getResource("views/Home.fxml"));
                 rootBorderPane.setCenter(fxmlLoader.load());
@@ -79,6 +84,8 @@ public class Application extends javafx.application.Application {
             System.out.println("Logging in as a guest");
             fxmlLoader = new FXMLLoader(Application.class.getResource("views/Home.fxml"));
             rootBorderPane.setCenter(fxmlLoader.load());
+            fxmlLoader = new FXMLLoader(Application.class.getResource("views/Header.fxml"));
+            rootBorderPane.setTop(fxmlLoader.load());
         }
 
         Scene scene = new Scene(rootAnchorPane, 1280, 800);

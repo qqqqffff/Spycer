@@ -234,5 +234,9 @@ AnchorPane{
 .radio-button .text{
     -fx-font-size: 16;
     -fx-font-weight: 900;
-    -fx-font: Arial serif;
+    -fx-font-family: Arial serif;
+}
+
+.radio-button:hover .radio{
+    -fx-border-color: -tertiary-color;
 }
