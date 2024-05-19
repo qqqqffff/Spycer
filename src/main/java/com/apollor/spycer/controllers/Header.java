@@ -14,6 +14,7 @@ import javafx.scene.effect.GaussianBlur;
 import java.io.IOException;
 
 public class Header {
+    @FXML private Button profileButton;
     @FXML private TextField recipeSearchField;
     @FXML private Button createRecipeButton;
     @FXML private Button sortDirectionButton;
@@ -61,5 +62,16 @@ public class Header {
 
         sortParameterComboBox.setOnMouseEntered(AnimationFactory.generateDefaultButtonMouseEnterAnimation(sortParameterComboBox));
         sortParameterComboBox.setOnMouseExited(AnimationFactory.generateDefaultButtonMouseExitAnimation(sortParameterComboBox));
+
+        profileButton.setOnAction(action -> {
+            FXMLLoader loader = new FXMLLoader(Application.class.getResource("views/Profile.fxml"));
+            try{
+                Application.rootBorderPane.setCenter(loader.load());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        profileButton.setOnMouseEntered(AnimationFactory.generateDefaultButtonMouseEnterAnimation(profileButton));
+        profileButton.setOnMouseExited(AnimationFactory.generateDefaultButtonMouseExitAnimation(profileButton));
     }
 }

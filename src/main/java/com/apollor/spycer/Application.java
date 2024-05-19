@@ -24,6 +24,7 @@ public class Application extends javafx.application.Application {
     public static final File datadir = new File(Paths.get("").toAbsolutePath() + "/src/main/java/com/apollor/spycer/data/");
     public static final String geolocationKey;
 
+    //TODO: this will be preformed on the backend eventually
     static {
         try {
             geolocationKey = new BufferedReader(new FileReader(Paths.get("").toAbsolutePath() + "/src/main/resources/com/apollor/spycer/geolocation/key.txt")).readLine().trim();
@@ -52,26 +53,32 @@ public class Application extends javafx.application.Application {
             }
         }
 
-        if(!SessionHandler.checkSessionToken()){
-            fxmlLoader = new FXMLLoader(Application.class.getResource("views/Login.fxml"));
-            rootBorderPane.setCenter(fxmlLoader.load());
-        }
-        else if (state != null && !state.get("file").get("file").equals("null")){
-            System.out.println("Loading recipe: " + state.get("file").get("file"));
-            File recipe = new File(datadir.getAbsolutePath() + "/" + state.get("file").get("file"));
-            Map<String, Map<Integer, String[]>> data = JsonLoader.parseJsonRecipe(recipe);
-            FXMLLoader loader = new FXMLLoader(Application.class.getResource(state.get("page").get("page")));
-            ScrollPane content = loader.load();
-            RecipeUpdater.updateRecipePage(content, data);
-            rootBorderPane.setCenter(content);
-            loader = new FXMLLoader(Application.class.getResource("views/Header.fxml"));
-            rootBorderPane.setTop(loader.load());
-        }
-        else {
+        try {
+            if (!SessionHandler.checkSessionToken()) {
+                fxmlLoader = new FXMLLoader(Application.class.getResource("views/Login.fxml"));
+                rootBorderPane.setCenter(fxmlLoader.load());
+            } else if (state != null && !state.get("file").get("file").equals("null")) {
+                System.out.println("Loading recipe: " + state.get("file").get("file"));
+                File recipe = new File(datadir.getAbsolutePath() + "/" + state.get("file").get("file"));
+                Map<String, Map<Integer, String[]>> data = JsonLoader.parseJsonRecipe(recipe);
+                FXMLLoader loader = new FXMLLoader(Application.class.getResource(state.get("page").get("page")));
+                ScrollPane content = loader.load();
+                RecipeUpdater.updateRecipePage(content, data);
+                rootBorderPane.setCenter(content);
+                loader = new FXMLLoader(Application.class.getResource("views/Header.fxml"));
+                rootBorderPane.setTop(loader.load());
+            } else {
+                fxmlLoader = new FXMLLoader(Application.class.getResource("views/Home.fxml"));
+                rootBorderPane.setCenter(fxmlLoader.load());
+                fxmlLoader = new FXMLLoader(Application.class.getResource("views/Header.fxml"));
+                rootBorderPane.setTop(fxmlLoader.load());
+            }
+        } catch(IOException ignored){
+            //note: exception only occurs with a failed connection to DB, thus skipping login and logging in as a Guest
+            //TODO: display to the user that they are currently a guest user
+            System.out.println("Logging in as a guest");
             fxmlLoader = new FXMLLoader(Application.class.getResource("views/Home.fxml"));
             rootBorderPane.setCenter(fxmlLoader.load());
-            fxmlLoader = new FXMLLoader(Application.class.getResource("views/Header.fxml"));
-            rootBorderPane.setTop(fxmlLoader.load());
         }
 
         Scene scene = new Scene(rootAnchorPane, 1280, 800);

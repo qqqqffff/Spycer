@@ -28,7 +28,7 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <Button fx:id="homeButton" mnemonicParsing="false" text="Home" />
-         <Label fx:id="titleText" text="Label" GridPane.columnIndex="1" />
+         <Label fx:id="titleText" text="Title" GridPane.columnIndex="1" />
             <HBox alignment="CENTER_RIGHT" spacing="15.0" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
                 <children>
                     <Button fx:id="uploadRecipeButton" mnemonicParsing="false" text="Upload" />
@@ -68,7 +68,7 @@
             <VBox.margin>
                 <Insets top="10.0" />
             </VBox.margin>
-            <VBox fx:id="ingredientsBox" spacing="15.0" style="-fx-border-color: black; -fx-border-width: 2; -fx-border-radius: 5; -fx-background-color: #2C3E50; -fx-background-radius: 5; -fx-background-insets: 1,1,4;">
+            <VBox fx:id="ingredientsBox" spacing="15.0" style="-fx-border-color: -contrast-color; -fx-border-width: 2; -fx-border-radius: 5; -fx-background-color: -secondary-color; -fx-background-radius: 5; -fx-background-insets: 1,1,4;">
             <GridPane.margin>
                <Insets />
             </GridPane.margin>
@@ -85,7 +85,7 @@
             <padding>
                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
             </padding></VBox>
-            <VBox fx:id="proceduresBox" spacing="15.0" style="-fx-border-color: black; -fx-border-width: 2; -fx-border-radius: 5; -fx-background-color: #2C3E50; -fx-background-radius: 5; -fx-background-insets: 1,1,4;" GridPane.columnIndex="1">
+            <VBox fx:id="proceduresBox" spacing="15.0" style="-fx-border-color: -contrast-color; -fx-border-width: 2; -fx-border-radius: 5; -fx-background-color: -secondary-color; -fx-background-radius: 5; -fx-background-insets: 1,1,4;" GridPane.columnIndex="1">
             <GridPane.margin>
                <Insets />
             </GridPane.margin>
@@ -129,7 +129,7 @@
             <rowConstraints>
                 <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" vgrow="ALWAYS" />
             </rowConstraints>
-            <VBox fx:id="notesBox" spacing="15.0" style="-fx-border-color: black; -fx-border-width: 2; -fx-border-radius: 5; -fx-background-color: #2C3E50; -fx-background-radius: 5; -fx-background-insets: 1,1,4;">
+            <VBox fx:id="notesBox" spacing="15.0" style="-fx-border-color: -contrast-color; -fx-border-width: 2; -fx-border-radius: 5; -fx-background-color: -secondary-color; -fx-background-radius: 5; -fx-background-insets: 1,1,4;">
                 <GridPane.margin>
                     <Insets />
                 </GridPane.margin>

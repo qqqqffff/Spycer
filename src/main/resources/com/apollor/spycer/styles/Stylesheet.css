@@ -193,3 +193,46 @@ AnchorPane{
     -fx-background-color: -t-secondary-color;
     -fx-border-color: -tertiary-color;
 }
+
+.radio-button .radio{
+    -fx-border-width: 1;
+    -fx-border-color: -contrast-color;
+    -fx-background-color: -primary-color;
+    -fx-background-image: null;
+    -fx-border-radius: 15;
+    -fx-pref-width: 25;
+    -fx-pref-height: 25;
+}
+
+/*.radio-button .radio:selected {*/
+/*    -fx-background-color: -primary-color;*/
+/*    -fx-background-image: null;*/
+/*}*/
+
+.radio-button .radio:armed {
+    -fx-background-color: -primary-color;
+    -fx-background-image: null;
+}
+
+.radio-button .radio:determinate {
+    -fx-background-color: -primary-color;
+    -fx-background-image: null;
+}
+
+.radio-button .radio:indeterminate {
+    -fx-background-color: -primary-color;
+    -fx-background-image: null;
+}
+
+.radio-button:selected .radio .dot{
+    -fx-background-color: -tertiary-color;
+    -fx-background-insets: 0,0,0,3;
+    -fx-pref-width: 15;
+    -fx-pref-height: 15;
+}
+
+.radio-button .text{
+    -fx-font-size: 16;
+    -fx-font-weight: 900;
+    -fx-font: Arial serif;
+}
