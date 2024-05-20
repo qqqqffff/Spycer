@@ -66,7 +66,8 @@ public class Profile {
             try{
                 SessionHandler.invalidateSession();
                 Application.rootBorderPane.setCenter(loader.load());
-                Application.rootBorderPane.setTop(null);
+                loader = new FXMLLoader(Application.class.getResource("views/LoginHeader.fxml"));
+                Application.rootBorderPane.setTop(loader.load());
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

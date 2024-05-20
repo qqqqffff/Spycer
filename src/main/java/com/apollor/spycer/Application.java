@@ -57,6 +57,8 @@ public class Application extends javafx.application.Application {
             if (!SessionHandler.checkSessionToken()) {
                 fxmlLoader = new FXMLLoader(Application.class.getResource("views/Login.fxml"));
                 rootBorderPane.setCenter(fxmlLoader.load());
+                fxmlLoader = new FXMLLoader(Application.class.getResource("views/LoginHeader.fxml"));
+                rootBorderPane.setTop(fxmlLoader.load());
             } else if (state != null && !state.get("file").get("file").equals("null")) {
                 System.out.println("Loading recipe: " + state.get("file").get("file"));
                 File recipe = new File(datadir.getAbsolutePath() + "/" + state.get("file").get("file"));

@@ -6,6 +6,7 @@ import javafx.animation.Transition;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -202,7 +203,7 @@ public class AnimationFactory {
         }
 
         return event -> {
-            Animation animation = AnimationFactory.generateFillTransition(
+            Animation animation = generateFillTransition(
                     n,
                     Interpolator.EASE_OUT,
                     Duration.millis(150),
@@ -215,4 +216,47 @@ public class AnimationFactory {
     }
 
 
+    public static EventHandler<MouseEvent> generateDefault2TextFieldMouseEnterAnimation(Node n) {
+        double[] hsl1 = ColorHandler.hsvToHSL(ColorHandler.hexToHSV(ColorHandler.palette.get("-primary-color")));
+        double[] hsl2 = ColorHandler.hsvToHSL(ColorHandler.hexToHSV(ColorHandler.palette.get("-t-primary-color")));
+
+        double[] delta_hsl = new double[3];
+        for(int i = 0; i < hsl1.length; i++){
+            delta_hsl[i] = hsl2[i] - hsl1[i];
+        }
+
+        return event -> {
+            Animation animation = generateFillTransition(
+                    n,
+                    Interpolator.EASE_IN,
+                    Duration.millis(150),
+                    "-fx-background-color: ",
+                    hsl1,
+                    delta_hsl
+            );
+            animation.play();
+        };
+    }
+
+    public static EventHandler<MouseEvent> generateDefault2TextFieldMouseExitAnimation(Node n) {
+        double[] hsl1 = ColorHandler.hsvToHSL(ColorHandler.hexToHSV(ColorHandler.palette.get("-primary-color")));
+        double[] hsl2 = ColorHandler.hsvToHSL(ColorHandler.hexToHSV(ColorHandler.palette.get("-t-primary-color")));
+
+        double[] delta_hsl = new double[3];
+        for(int i = 0; i < hsl1.length; i++){
+            delta_hsl[i] = hsl1[i] - hsl2[i];
+        }
+
+        return event -> {
+            Animation animation = generateFillTransition(
+                    n,
+                    Interpolator.EASE_OUT,
+                    Duration.millis(150),
+                    "-fx-background-color: ",
+                    hsl2,
+                    delta_hsl
+            );
+            animation.play();
+        };
+    }
 }

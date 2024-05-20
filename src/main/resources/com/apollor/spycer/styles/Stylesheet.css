@@ -6,6 +6,7 @@
     /*-contrast-color: #EAECEE;*/
 
     -primary-color: #FCF3CF;
+    -t-primary-color: #F9E79F;
     -secondary-color: #FAD7A0;
     -t-secondary-color: #F7DC6F;
     -t-tertiary-color: #F1948A;
@@ -74,12 +75,12 @@
     -fx-border-color: -contrast-color;
     -fx-border-width: 2;
     -fx-background-color: -secondary-color;
-    -fx-prompt-text-fill: rgba(255, 255, 255, 0.5);
     -fx-background-radius: 5;
     -fx-border-radius: 5;
     -fx-text-fill: -contrast-color;
     -fx-font-size: 24;
     -fx-font-family: Arial serif;
+    -fx-prompt-text-fill: -t-contrast-color;
 }
 
 .text-field:focused{
@@ -168,7 +169,7 @@ AnchorPane{
 }
 
 .check-box .box{
-    -fx-background-color: -secondary-color;
+    -fx-background-color: -primary-color;
     -fx-border-radius: 5;
     -fx-background-radius: 5;
     -fx-background-insets: 1,4,4;
@@ -190,8 +191,12 @@ AnchorPane{
 }
 
 .check-box:hover .box{
-    -fx-background-color: -t-secondary-color;
+    -fx-background-color: -t-primary-color;
     -fx-border-color: -tertiary-color;
+}
+
+.password-cb:disabled {
+    -fx-opacity: 1;
 }
 
 .radio-button .radio{

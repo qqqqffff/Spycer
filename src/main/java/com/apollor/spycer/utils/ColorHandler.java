@@ -16,6 +16,7 @@ public class ColorHandler {
     static {
         defaultPalette = new HashMap<>();
         defaultPalette.put("-primary-color", "#FCF3CF");
+        defaultPalette.put("-t-primary-color", "#F9E79F");
         defaultPalette.put("-secondary-color", "#FAD7A0");
         defaultPalette.put("-t-secondary-color", "#F8C471");
         defaultPalette.put("-t-tertiary-color", "#F1948A");
