@@ -114,6 +114,14 @@ public class AnimationFactory {
         };
     }
 
+    /**
+     * Generator for opacity transition using a directional parameter
+     * @param n node to animate
+     * @param interpolator interpolator
+     * @param duration duration of animation
+     * @param direction true for increase in opacity, false otherwise
+     * @return animation of the transition
+     */
     public static Animation generateOpacityTransition(Node n, Interpolator interpolator, Duration duration, boolean direction){
         return new Transition(){
             {
@@ -234,7 +242,9 @@ public class AnimationFactory {
                     hsl1,
                     delta_hsl
             );
-            animation.play();
+            if(!n.isFocused()) {
+                animation.play();
+            }
         };
     }
 
@@ -256,7 +266,9 @@ public class AnimationFactory {
                     hsl2,
                     delta_hsl
             );
-            animation.play();
+            if(!n.isFocused()) {
+                animation.play();
+            }
         };
     }
 }

@@ -45,3 +45,4 @@ build/
 /src/main/resources/com/apollor/spycer/geolocation/GeoLite2-ASN-Blocks-IPv6.csv
 /src/main/resources/com/apollor/spycer/geolocation/GeoLite2-City.mmdb
 /src/main/resources/com/apollor/spycer/geolocation/key.txt
+/src/main/test/TestTest.java
