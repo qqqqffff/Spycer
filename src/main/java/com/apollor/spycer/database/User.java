@@ -81,15 +81,16 @@ public class User {
         post.setEntity(entity);
         post.setHeader("Accept", "application/json");
         post.setHeader("Content-type", "application/json");
+        int code;
 
         try(CloseableHttpClient client = HttpClients.createDefault();
             CloseableHttpResponse response = (CloseableHttpResponse) client
                     .execute(post, new CustomHttpClientResponseHandler())) {
 
-            System.out.println(response.getCode());
+            code = response.getCode();
         }
 
-        return null;
+        return String.valueOf(code);
     }
 
 

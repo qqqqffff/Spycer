@@ -191,7 +191,7 @@
                 </BorderPane>
                 <BorderPane layoutX="37.0" layoutY="240.0" style="-fx-background-color: transparent;">
                     <left>
-                        <CheckBox disable="true" mnemonicParsing="false" style="-fx-font-size: 20;" styleClass="password-cb" text="Password Match" BorderPane.alignment="CENTER">
+                        <CheckBox fx:id="passwordMatchCheckBox" disable="true" mnemonicParsing="false" style="-fx-font-size: 20;" styleClass="password-cb" text="Password Match" BorderPane.alignment="CENTER">
                             <BorderPane.margin>
                                 <Insets />
                             </BorderPane.margin>

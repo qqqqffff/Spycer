@@ -165,7 +165,9 @@ public class SessionHandler {
                 email
         );
 
-        Database.postUser(user);
+        if(!Database.postUser(user).equals("201")){
+            return null;
+        }
         return user;
     }
 
