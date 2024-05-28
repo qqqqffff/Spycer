@@ -89,7 +89,7 @@
                         <Insets bottom="3.0" left="15.0" />
                     </VBox.margin>
                 </Label>
-                <StackPane fx:id="passwordPane">
+                <StackPane>
                     <TextField fx:id="passwordTextField" promptText="Password" style="-fx-background-color: -primary-color;" />
                     <PasswordField fx:id="passwordField" promptText="Password" style="-fx-background-color: -primary-color;" />
                     <Button fx:id="viewPasswordButton" mnemonicParsing="false" opacity="0.5" styleClass="image-button" StackPane.alignment="CENTER_RIGHT">
@@ -115,7 +115,7 @@
                         <Insets bottom="3.0" left="15.0" />
                     </VBox.margin>
                 </Label>
-                <StackPane fx:id="confirmPasswordPane">
+                <StackPane>
                     <TextField fx:id="confirmPasswordTextField" promptText="Confirm Password" style="-fx-background-color: -primary-color;" />
                     <PasswordField fx:id="confirmPasswordField" promptText="Confirm Password" style="-fx-background-color: -primary-color;" />
                     <Button fx:id="viewConfirmPasswordButton" mnemonicParsing="false" opacity="0.5" styleClass="image-button" StackPane.alignment="CENTER_RIGHT">

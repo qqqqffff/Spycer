@@ -6,27 +6,19 @@ import com.apollor.spycer.utils.AnimationFactory;
 import com.apollor.spycer.utils.SessionHandler;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
-import javafx.beans.value.ChangeListener;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.Objects;
-import java.util.regex.Pattern;
 
 
 public class NewUser {
@@ -38,17 +30,14 @@ public class NewUser {
     @FXML private Text displayNameErrorText;
     @FXML private Text emailErrorText;
     @FXML private Text passwordErrorText;
-    @FXML private VBox rootPane;
     @FXML private GridPane createAccountForm;
     @FXML private  TextField displayNameTextField;
     @FXML private  TextField emailTextField;
 
-    @FXML private StackPane confirmPasswordPane;
     @FXML private Button viewConfirmPasswordButton;
     @FXML private PasswordField confirmPasswordField;
     @FXML private TextField confirmPasswordTextField;
 
-    @FXML private StackPane passwordPane;
     @FXML private Button viewPasswordButton;
     @FXML private PasswordField passwordField;
     @FXML private TextField passwordTextField;
@@ -111,7 +100,7 @@ public class NewUser {
                 displayNameTextField.setText(o == null ? "" : o);
                 displayError("Only letters and spaces are allowed for display names", displayNameErrorText, displayNameErrorThread);
             }
-            else if(countSpaces(n.toCharArray(),6) || n.matches("\\s+.*")){
+            else if(countSpaces(n.toCharArray()) || n.matches("\\s+.*")){
                 displayNameTextField.setText(o == null ? "" : o);
                 displayError("No leading or excessive spaces", displayNameErrorText, displayNameErrorThread);
             }
@@ -215,6 +204,11 @@ public class NewUser {
                 specialCharacterCheckBox.setSelected(n.matches(".*[!@#$%^&*]+.*"));
             }
         });
+        passwordTextField.focusedProperty().addListener((l, o, n) -> {
+            if(!o && n){
+                passwordTextField.setStyle("-fx-background-color: -primary-color;");
+            }
+        });
 
         confirmPasswordField.setOnKeyPressed(key -> {
             if(key.getCode().equals(KeyCode.ENTER)) createAccountButton.fire();
@@ -232,6 +226,14 @@ public class NewUser {
         });
         confirmPasswordField.textProperty().bindBidirectional(confirmPasswordTextField.textProperty());
         confirmPasswordTextField.textProperty().addListener((l, o, n) -> passwordMatchCheckBox.setSelected(n.equals(passwordField.getText())));
+        confirmPasswordTextField.focusedProperty().addListener((l, o, n) -> {
+            if(!o && n){
+                confirmPasswordTextField.setStyle("-fx-background-color: -primary-color;");
+            }
+            else if(!n && o && !confirmPasswordField.getText().equals(passwordField.getText())){
+                displayError("Passwords do not match", passwordErrorText, passwordErrorThread);
+            }
+        });
 
         viewPasswordButton.setOpacity(0.5);
         viewPasswordButton.setOnMouseEntered(event -> {
@@ -389,17 +391,18 @@ public class NewUser {
         tr.start();
     }
 
-    private boolean countSpaces(char[] c, int limit){
+    private boolean countSpaces(char[] c){
+        int count = 6;
         for(char i : c){
-            if(String.valueOf(i).matches("\\s")) limit--;
-            if(limit <= 0) return true;
+            if(String.valueOf(i).matches("\\s")) count--;
+            if(count <= 0) return true;
         }
         return false;
     }
 
     private String validate(String displayName, String email){
         String code = "0";
-        if(countSpaces(displayName.toCharArray(), 6) || displayName.matches("\\s+.*")){
+        if(countSpaces(displayName.toCharArray()) || displayName.matches("\\s+.*")){
             code = code.replace("0", "");
             code += "1";
         }

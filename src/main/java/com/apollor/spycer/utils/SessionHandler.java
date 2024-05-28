@@ -260,11 +260,11 @@ public class SessionHandler {
     }
 
     public static void invalidateSession() throws IOException {
-        Database.deleteSession(userSession.sessionId);
+        if(userSession != null) Database.deleteSession(userSession.sessionId);
         userSession = null;
         loggedInUser = null;
         FileWriter writer = new FileWriter(sessionToken);
-        writer.write(' ');
+        writer.write("");
         writer.close();
     }
 }
