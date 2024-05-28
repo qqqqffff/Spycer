@@ -6,23 +6,33 @@ import com.apollor.spycer.utils.AnimationFactory;
 import com.apollor.spycer.utils.SessionHandler;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
+import javafx.beans.value.ChangeListener;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 
 public class NewUser {
+
+
+
 
 
     @FXML private Text displayNameErrorText;
@@ -32,8 +42,17 @@ public class NewUser {
     @FXML private GridPane createAccountForm;
     @FXML private  TextField displayNameTextField;
     @FXML private  TextField emailTextField;
-    @FXML private  PasswordField passwordField;
-    @FXML private  PasswordField confirmPasswordField;
+
+    @FXML private StackPane confirmPasswordPane;
+    @FXML private Button viewConfirmPasswordButton;
+    @FXML private PasswordField confirmPasswordField;
+    @FXML private TextField confirmPasswordTextField;
+
+    @FXML private StackPane passwordPane;
+    @FXML private Button viewPasswordButton;
+    @FXML private PasswordField passwordField;
+    @FXML private TextField passwordTextField;
+
     @FXML private  Button createAccountButton;
     @FXML private  Hyperlink loginLink;
     @FXML private  CheckBox lengthCheckBox;
@@ -48,6 +67,9 @@ public class NewUser {
 
     @FXML
     public void initialize() {
+        Image viewImg = new Image(Objects.requireNonNull(Application.class.getResource("images/view_icon.png")).toString());
+        Image noViewImg = new Image(Objects.requireNonNull(Application.class.getResource("images/no_view_icon.png")).toString());
+
         loginLink.setOnAction(action -> {
             Animation animation = AnimationFactory.generateTranslateTransition2(
                     createAccountForm,
@@ -163,6 +185,7 @@ public class NewUser {
                 capitalCheckBox.setSelected(n.matches(".*[A-Z]+.*"));
                 numberCheckBox.setSelected(n.matches(".*\\d+.*"));
                 specialCharacterCheckBox.setSelected(n.matches(".*[!@#$%^&*]+.*"));
+                passwordMatchCheckBox.setSelected(n.equals(confirmPasswordField.getText()));
             }
         });
         passwordField.setOnMouseEntered(AnimationFactory.generateDefault2TextFieldMouseEnterAnimation(passwordField));
@@ -172,11 +195,31 @@ public class NewUser {
                 passwordField.setStyle("-fx-background-color: -primary-color;");
             }
         });
+        passwordField.textProperty().bindBidirectional(passwordTextField.textProperty());
+        passwordTextField.textProperty().addListener((l, o, n) -> {
+            if(!n.matches("[\\w!@#$%^&*]*")){
+                passwordField.setText(o == null ? "" : o);
+            }
+            else if(n.length() > 64){
+                passwordField.setText(n.substring(0,64));
+            }
+            else if(n.matches("[\\w!@#$%^&*]*") && n.length() < 64){
+                if(passwordErrorThread != null) passwordErrorThread.interrupt();
+                if(passwordErrorText.isVisible()) {
+                    passwordErrorText.setVisible(false);
+                    passwordErrorText.setOpacity(1);
+                }
+                lengthCheckBox.setSelected(n.length() > 12);
+                capitalCheckBox.setSelected(n.matches(".*[A-Z]+.*"));
+                numberCheckBox.setSelected(n.matches(".*\\d+.*"));
+                specialCharacterCheckBox.setSelected(n.matches(".*[!@#$%^&*]+.*"));
+            }
+        });
 
         confirmPasswordField.setOnKeyPressed(key -> {
             if(key.getCode().equals(KeyCode.ENTER)) createAccountButton.fire();
         });
-        confirmPasswordField.textProperty().addListener((l, o, n) -> passwordMatchCheckBox.setSelected(n.matches(passwordField.getText())));
+        confirmPasswordField.textProperty().addListener((l, o, n) -> passwordMatchCheckBox.setSelected(n.equals(passwordField.getText())));
         confirmPasswordField.setOnMouseEntered(AnimationFactory.generateDefault2TextFieldMouseEnterAnimation(confirmPasswordField));
         confirmPasswordField.setOnMouseExited(AnimationFactory.generateDefault2TextFieldMouseExitAnimation(confirmPasswordField));
         confirmPasswordField.focusedProperty().addListener((l, o, n) -> {
@@ -187,6 +230,103 @@ public class NewUser {
                 displayError("Passwords do not match", passwordErrorText, passwordErrorThread);
             }
         });
+        confirmPasswordField.textProperty().bindBidirectional(confirmPasswordTextField.textProperty());
+        confirmPasswordTextField.textProperty().addListener((l, o, n) -> passwordMatchCheckBox.setSelected(n.equals(passwordField.getText())));
+
+        viewPasswordButton.setOpacity(0.5);
+        viewPasswordButton.setOnMouseEntered(event -> {
+            Animation animation = AnimationFactory.generateOpacityTransition2(
+                    viewPasswordButton,
+                    Interpolator.EASE_IN,
+                    Duration.millis(100),
+                    false,
+                    0.25
+            );
+            animation.setOnFinished(finish -> viewPasswordButton.setOpacity(0.75));
+            animation.play();
+        });
+        viewPasswordButton.setOnMouseExited(event -> {
+            Animation animation = AnimationFactory.generateOpacityTransition2(
+                    viewPasswordButton,
+                    Interpolator.EASE_OUT,
+                    Duration.millis(100),
+                    true,
+                    0.25
+            );
+            animation.setOnFinished(finish -> viewPasswordButton.setOpacity(0.5));
+            animation.play();
+        });
+        viewPasswordButton.setOnAction(event -> {
+            if(passwordField.getViewOrder() == 0){
+                //viewing
+                ImageView temp = new ImageView(noViewImg);
+                temp.setFitHeight(30);
+                temp.setFitWidth(45);
+                temp.setPreserveRatio(false);
+
+                viewPasswordButton.setGraphic(temp);
+                passwordField.setViewOrder(1);
+                passwordTextField.setViewOrder(0);
+            }
+            else{
+                //not viewing
+                ImageView temp = new ImageView(viewImg);
+                temp.setFitHeight(30);
+                temp.setFitWidth(45);
+                temp.setPreserveRatio(false);
+
+                viewPasswordButton.setGraphic(temp);
+                passwordField.setViewOrder(0);
+                passwordTextField.setViewOrder(1);
+            }
+        });
+
+        viewConfirmPasswordButton.setOpacity(0.5);
+        viewConfirmPasswordButton.setOnMouseEntered(event -> {
+            Animation animation = AnimationFactory.generateOpacityTransition2(
+                    viewConfirmPasswordButton,
+                    Interpolator.EASE_IN,
+                    Duration.millis(100),
+                    false,
+                    0.25
+            );
+            animation.setOnFinished(finish -> viewConfirmPasswordButton.setOpacity(0.75));
+            animation.play();
+        });
+        viewConfirmPasswordButton.setOnMouseExited(event -> {
+            Animation animation = AnimationFactory.generateOpacityTransition2(
+                    viewConfirmPasswordButton,
+                    Interpolator.EASE_OUT,
+                    Duration.millis(100),
+                    true,
+                    0.25
+            );
+            animation.setOnFinished(finish -> viewConfirmPasswordButton.setOpacity(0.5));
+            animation.play();
+        });
+        viewConfirmPasswordButton.setOnAction(event -> {
+            if(confirmPasswordField.getViewOrder() == 0){
+                ImageView temp = new ImageView(noViewImg);
+                temp.setFitHeight(30);
+                temp.setFitWidth(45);
+                temp.setPreserveRatio(false);
+
+                viewConfirmPasswordButton.setGraphic(temp);
+                confirmPasswordField.setViewOrder(1);
+                confirmPasswordTextField.setViewOrder(0);
+            }
+            else{
+                ImageView temp = new ImageView(viewImg);
+                temp.setFitHeight(30);
+                temp.setFitWidth(45);
+                temp.setPreserveRatio(false);
+
+                viewConfirmPasswordButton.setGraphic(temp);
+                confirmPasswordField.setViewOrder(0);
+                confirmPasswordTextField.setViewOrder(1);
+            }
+        });
+
 
         createAccountButton.setOnAction(action -> {
             String code = validate(

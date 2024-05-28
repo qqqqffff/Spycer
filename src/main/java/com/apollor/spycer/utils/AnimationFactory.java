@@ -136,6 +136,32 @@ public class AnimationFactory {
         };
     }
 
+    /**
+     * Generator for opacity transition using a directional parameter
+     * @param n node to animate
+     * @param interpolator interpolator
+     * @param duration duration of animation
+     * @param direction true for increase in opacity, false otherwise
+     * @param delta difference in the starting and ending opacities
+     * @return animation of the transition
+     */
+    public static Animation generateOpacityTransition2(Node n, Interpolator interpolator, Duration duration, boolean direction, double delta){
+        double opacityi = n.getOpacity();
+        System.out.println(opacityi);
+        return new Transition(){
+            {
+                setCycleDuration(duration);
+                setInterpolator(interpolator);
+            }
+            @Override
+            protected void interpolate(double v){
+                double d = direction ? -1 * v * delta : v * delta;
+                System.out.println(d);
+                n.setOpacity(opacityi + d);
+            }
+        };
+    }
+
     public static EventHandler<MouseEvent> generateDefaultButtonMouseEnterAnimation(Node n){
         //TODO: make it so there are no repeated computation
         double[] hsl1 = ColorHandler.hsvToHSL(ColorHandler.hexToHSV(ColorHandler.palette.get("-tertiary-color")));

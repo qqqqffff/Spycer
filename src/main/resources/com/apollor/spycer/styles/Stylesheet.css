@@ -199,6 +199,16 @@ AnchorPane{
     -fx-opacity: 1;
 }
 
+.image-button{
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-insets: 0;
+}
+
+.image-button:hover{
+    -fx-border-color: transparent;
+}
+
 .radio-button .radio{
     -fx-border-width: 1;
     -fx-border-color: -contrast-color;
