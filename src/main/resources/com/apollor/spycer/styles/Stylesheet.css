@@ -255,3 +255,10 @@ AnchorPane{
 .radio-button:hover .radio{
     -fx-border-color: -tertiary-color;
 }
+
+.error-text{
+    -fx-fill: -error-color;
+    -fx-font-weight: 900;
+    -fx-font-family: Arial serif;
+    -fx-font-size: 16;
+}

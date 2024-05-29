@@ -21,13 +21,13 @@ public class Application extends javafx.application.Application {
     public static AnchorPane rootAnchorPane;
     public static BorderPane rootBorderPane;
     public static String stylesheetLink;
-    public static final File datadir = new File(Paths.get("").toAbsolutePath() + "/src/main/java/com/apollor/spycer/data/");
+    public static final File datadir = new File(Paths.get("").toAbsolutePath() + "/data/");
     public static final String geolocationKey;
 
     //TODO: this will be preformed on the backend eventually
     static {
         try {
-            geolocationKey = new BufferedReader(new FileReader(Paths.get("").toAbsolutePath() + "/src/main/resources/com/apollor/spycer/geolocation/key.txt")).readLine().trim();
+            geolocationKey = new BufferedReader(new FileReader(Paths.get("").toAbsolutePath() + "/geolocation/key.txt")).readLine().trim();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

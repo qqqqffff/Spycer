@@ -54,7 +54,7 @@
                         <Insets />
                     </VBox.margin>
                 </TextField>
-            <Text fx:id="emailErrorText" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: -error-color; -fx-font-weight: 900; -fx-font-family: Arial; -fx-font-size: 16;" text="Error" visible="false">
+            <Text fx:id="emailErrorText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="error-text" text="Error" visible="false">
                <VBox.margin>
                   <Insets left="15.0" top="5.0" />
                </VBox.margin>
@@ -86,7 +86,7 @@
                </VBox.margin>
             </CheckBox>
             </VBox>
-         <Text fx:id="incorrectLoginError" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: -error-color; -fx-font-weight: 900; -fx-font-family: Arial; -fx-font-size: 16;" text="Incorrect Username or Password" visible="false" />
+         <Text fx:id="incorrectLoginError" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="error-text" text="Incorrect Username or Password" visible="false" />
             <BorderPane style="-fx-background-color: transparent;" VBox.vgrow="ALWAYS">
                 <right>
                     <Button fx:id="loginButton" alignment="CENTER" mnemonicParsing="false" style="-fx-font-size: 24;" text="Login" BorderPane.alignment="CENTER">

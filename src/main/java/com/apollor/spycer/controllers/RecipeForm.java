@@ -349,6 +349,7 @@ public class RecipeForm {
 
     private void compileJson() throws IOException {
         Path curdir = Paths.get("").toAbsolutePath();
+        System.out.println(curdir);
         JsonWriter jw = getJsonWriter(curdir);
         jw.beginObject().name("title").value(titleTextField.getText());
         jw.name("rating").value(ratingSlider.getValue());

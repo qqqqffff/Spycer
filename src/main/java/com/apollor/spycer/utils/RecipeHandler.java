@@ -1,6 +1,7 @@
 package com.apollor.spycer.utils;
 
 import com.apollor.spycer.Application;
+import com.google.gson.stream.JsonWriter;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
@@ -13,8 +14,12 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
 import java.util.Objects;
@@ -249,5 +254,24 @@ public class RecipeHandler {
             retString.append(value[1]).append(", ");
         }
         return retString.substring(0, retString.length() - 2);
+    }
+
+    public static void compileRecipe(Map<String, Map<String, String>> data) throws IOException, URISyntaxException {
+        String title = data.get("options").get("title");
+        System.out.println(Application.datadir.getAbsolutePath());
+        String baseDir = Application.datadir.getAbsolutePath() + "/";
+        File f = new File(baseDir + title.replace(" ", "_"));
+        System.out.println(f.getAbsolutePath());
+        if(!f.mkdir()){
+            int counter = 1;
+            while(f.exists()) {
+                f = new File(baseDir + (f.getName().contains(String.valueOf(counter)) ?
+                        f.getName().replace(String.valueOf(counter), String.valueOf(++counter)) : f.getName() + counter));
+            }
+            if(!f.mkdir()) throw new IOException("Unable to create file");
+        }
+        JsonWriter writer = new JsonWriter(new BufferedWriter(new FileWriter(f)));
+        writer.setIndent("  ");
+
     }
 }

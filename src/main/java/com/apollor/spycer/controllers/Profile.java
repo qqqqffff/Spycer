@@ -14,20 +14,35 @@ import java.io.IOException;
 
 public class Profile {
 
+
     @FXML private Button homeButton;
-    @FXML private ImageView profilePicture;
-    @FXML private TextField emailTextField;
-    @FXML private TextField displayNameTextField;
     @FXML private Text welcomeText;
-    @FXML private ComboBox<String> colorProfileComboBox;
-    @FXML private Button updateFieldsButton;
-    @FXML private Button logoutUserButton;
+    @FXML private ImageView profilePicture;
+
+    @FXML private TextField emailTextField;
+    @FXML private Text emailErrorText;
+
     @FXML private RadioButton tfaEmailRadioButton;
     @FXML private RadioButton tfaAppRadioButton;
     @FXML private RadioButton tfaPhoneRadioButton;
     @FXML private Button connectTFAAppButton;
     @FXML private Button connectTFAEmailButton;
     @FXML private Button connectTFAPhoneButton;
+
+    @FXML private Text displayNameErrorText;
+    @FXML private TextField displayNameTextField;
+
+    @FXML private TextField householdTextField;
+    @FXML private Button createHouseholdButton;
+    @FXML private Button inviteHouseholdButton;
+    @FXML private Button manageHouseholdButton;
+    @FXML private Text householdErrorText;
+
+    @FXML private ComboBox<String> colorProfileComboBox;
+    @FXML private ComboBox<String> unitsComboBox;
+
+    @FXML private Button updateFieldsButton;
+    @FXML private Button logoutUserButton;
 
     //TODO: add validators on fields
     @FXML
@@ -74,17 +89,19 @@ public class Profile {
         logoutUserButton.setOnMouseEntered(AnimationFactory.generateDefaultButtonMouseEnterAnimation(logoutUserButton));
         logoutUserButton.setOnMouseExited(AnimationFactory.generateDefaultButtonMouseExitAnimation(logoutUserButton));
 
-        connectTFAEmailButton.setText(user.mfaApp ? "Connected" : "Connect");
+        connectTFAEmailButton.setText(user.mfaApp ? "Disconnect" : "Connect");
         connectTFAEmailButton.setDisable(user.mfaApp);
         connectTFAAppButton.setOnMouseEntered(AnimationFactory.generateDefaultButtonMouseEnterAnimation(connectTFAAppButton));
         connectTFAAppButton.setOnMouseExited(AnimationFactory.generateDefaultButtonMouseExitAnimation(connectTFAAppButton));
 
-        connectTFAEmailButton.setText(user.mfaEmail ? "Connected" : "Connect");
+        connectTFAEmailButton.setText(user.mfaEmail ? "Disconnect" : "Connect");
         connectTFAEmailButton.setDisable(user.mfaEmail);
         connectTFAEmailButton.setOnMouseEntered(AnimationFactory.generateDefaultButtonMouseEnterAnimation(connectTFAEmailButton));
         connectTFAEmailButton.setOnMouseExited(AnimationFactory.generateDefaultButtonMouseExitAnimation(connectTFAEmailButton));
 
         //TODO: add mfa phone field to db
+//        connectTFAPhoneButton.setText(user.mfaPhone ? "Disconnect" : "Connect");
+//        connectTFAPhoneButton.setDisable(user.mfaPhone);
         connectTFAPhoneButton.setOnMouseEntered(AnimationFactory.generateDefaultButtonMouseEnterAnimation(connectTFAPhoneButton));
         connectTFAPhoneButton.setOnMouseExited(AnimationFactory.generateDefaultButtonMouseExitAnimation(connectTFAPhoneButton));
 
