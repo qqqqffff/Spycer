@@ -148,8 +148,6 @@ public class Login {
             animation.play();
         });
         viewPasswordButton.setOnAction(event -> {
-            System.out.println(passwordField.getViewOrder());
-            System.out.println(passwordTextField.getViewOrder());
             if(passwordField.getViewOrder() == 0){
                 //viewing
                 ImageView temp = new ImageView(noViewImg);

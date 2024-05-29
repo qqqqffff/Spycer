@@ -180,6 +180,51 @@ public class AnimationFactory {
         };
     }
 
+    public static EventHandler<MouseEvent> generateDefaultImageButtonEnterAnimation(Node n, String... params){
+        StringBuilder sb = new StringBuilder();
+        for(String s : params){
+            sb.append(s).append(' ');
+        }
+        sb = sb.length() > 0 ? new StringBuilder(sb.substring(0, sb.length() - 1)) : new StringBuilder();
+
+        StringBuilder finalSb = sb;
+        return event -> {
+            n.setStyle(finalSb.toString());
+            Animation animation = generateOpacityTransition2(
+                    n,
+                    Interpolator.EASE_IN,
+                    Duration.millis(100),
+                    false,
+                    0.25
+            );
+            animation.setOnFinished(finish -> n.setOpacity(1));
+            animation.play();
+        };
+    }
+
+    public static EventHandler<MouseEvent> generateDefaultImageButtonExitAnimation(Node n, String... params){
+        StringBuilder sb = new StringBuilder();
+        for(String s : params){
+            sb.append(s);
+        }
+        n.setStyle(sb.toString());
+        sb = sb.length() > 0 ? new StringBuilder(sb.substring(0, sb.length() - 1)) : new StringBuilder();
+
+        StringBuilder finalSb = sb;
+        return event -> {
+            n.setStyle(finalSb.toString());
+            Animation animation = generateOpacityTransition2(
+                    n,
+                    Interpolator.EASE_OUT,
+                    Duration.millis(100),
+                    true,
+                    0.25
+            );
+            animation.setOnFinished(finish -> n.setOpacity(0.75));
+            animation.play();
+        };
+    }
+
     public static EventHandler<MouseEvent> generateDefaultButtonMouseEnterAnimation(Node n, String... params){
         StringBuilder sb = new StringBuilder();
         for(String s : params){

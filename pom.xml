@@ -28,12 +28,6 @@
             <version>2.0.12</version>
         </dependency>
 
-        <dependency>
-            <groupId>commons-validator</groupId>
-            <artifactId>commons-validator</artifactId>
-            <version>1.8.0</version>
-        </dependency>
-
 
         <dependency>
             <groupId>org.slf4j</groupId>
