@@ -1,10 +1,7 @@
 package com.apollor.spycer.controllers;
 
 import com.apollor.spycer.Application;
-import com.apollor.spycer.utils.AnimationFactory;
-import com.apollor.spycer.utils.JsonLoader;
-import com.apollor.spycer.utils.RecipeUpdater;
-import com.apollor.spycer.utils.SortParam;
+import com.apollor.spycer.utils.*;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.fxml.FXML;
@@ -37,7 +34,7 @@ public class Home {
                     Map<String, Map<Integer, String[]>> data = JsonLoader.parseJsonRecipe(dir);
                     FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("views/Recipe.fxml"));
                     BorderPane recipe = fxmlLoader.load();
-                    RecipeUpdater.updateRecipe(recipe, data, dir.getName());
+                    RecipeHandler.updateRecipe(recipe, data, dir.getName());
                     contentBox.getChildren().add(recipe);
                 } catch (IOException ignored) {
                     System.out.println("Trouble loading recipe");

@@ -65,7 +65,7 @@ public class Application extends javafx.application.Application {
                 Map<String, Map<Integer, String[]>> data = JsonLoader.parseJsonRecipe(recipe);
                 FXMLLoader loader = new FXMLLoader(Application.class.getResource(state.get("page").get("page")));
                 ScrollPane content = loader.load();
-                RecipeUpdater.updateRecipePage(content, data);
+                RecipeHandler.updateRecipePage(content, data);
                 rootBorderPane.setCenter(content);
                 loader = new FXMLLoader(Application.class.getResource("views/Header.fxml"));
                 rootBorderPane.setTop(loader.load());

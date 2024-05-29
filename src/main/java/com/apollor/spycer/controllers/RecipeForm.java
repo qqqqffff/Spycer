@@ -181,7 +181,7 @@ public class RecipeForm {
                 //TODO: eliminate unnecessary IO
                 FXMLLoader loader = new FXMLLoader(Application.class.getResource("views/Recipe.fxml"));
                 BorderPane recipe = loader.load();
-                RecipeUpdater.updateRecipe(recipe, JsonLoader.parseJsonRecipe(recipeFile), recipeFile.getName());
+                RecipeHandler.updateRecipe(recipe, JsonLoader.parseJsonRecipe(recipeFile), recipeFile.getName());
                 ((VBox) Application.rootBorderPane.getCenter()).getChildren().add(recipe);
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -361,7 +361,7 @@ public class RecipeForm {
         jw.endArray().name("procedures").beginArray();
         for(String[] item : proceduresList.values()){
             if(item == null || item[0] == null) continue;
-            jw.beginObject().name(item[0]).value(RecipeTimeCalculator.calculateRecipeTime(item)).endObject();
+            jw.beginObject().name(item[0]).value(RecipeHandler.calculateRecipeTime(item)).endObject();
         }
         jw.endArray().name("notes").beginArray();
         int i = 0;

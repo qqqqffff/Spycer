@@ -1,10 +1,7 @@
 package com.apollor.spycer.controllers;
 
 import com.apollor.spycer.Application;
-import com.apollor.spycer.utils.AnimationFactory;
-import com.apollor.spycer.utils.ColorHandler;
-import com.apollor.spycer.utils.RecipeUpdater;
-import com.apollor.spycer.utils.StateManager;
+import com.apollor.spycer.utils.*;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.Transition;
@@ -319,7 +316,7 @@ public class Recipe {
                 try{
                     StateManager.updateState(data);
                     ScrollPane page = loader.load();
-                    RecipeUpdater.updateRecipePage(page, fnameText.getText());
+                    RecipeHandler.updateRecipePage(page, fnameText.getText());
                     Application.rootBorderPane.setCenter(page);
                 } catch (IOException e){
                     throw new RuntimeException(e);

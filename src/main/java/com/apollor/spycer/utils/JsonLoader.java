@@ -59,7 +59,7 @@ public class JsonLoader {
                 return 0;
             }
         }).reduce(0, Integer::sum);
-        options.put(2, new String[]{RecipeTimeCalculator.formatTotalTime(totalTime, false)});
+        options.put(2, new String[]{RecipeHandler.formatTotalTime(totalTime, false)});
 
         map.put("options", options);
         map.put("ingredients", ingredients);

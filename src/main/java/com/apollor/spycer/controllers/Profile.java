@@ -14,6 +14,7 @@ import java.io.IOException;
 
 public class Profile {
 
+    @FXML private Button homeButton;
     @FXML private ImageView profilePicture;
     @FXML private TextField emailTextField;
     @FXML private TextField displayNameTextField;
@@ -35,14 +36,12 @@ public class Profile {
         welcomeText.setText(welcomeText.getText().replace("$", user.displayName));
 
         emailTextField.setText(user.emailAddress);
-        //TODO: fix animations
-        emailTextField.setOnMouseEntered(AnimationFactory.generateDefaultTextFieldMouseEnterAnimation(emailTextField));
-        emailTextField.setOnMouseExited(AnimationFactory.generateDefaultTextFieldMouseExitAnimation(emailTextField));
+        emailTextField.setOnMouseEntered(AnimationFactory.generateDefault2TextFieldMouseEnterAnimation(emailTextField, "-fx-font-size: 16;"));
+        emailTextField.setOnMouseExited(AnimationFactory.generateDefault2TextFieldMouseExitAnimation(emailTextField, "-fx-font-size: 16;"));
 
         displayNameTextField.setText(user.displayName);
-        //TODO: fix animations
-        displayNameTextField.setOnMouseEntered(AnimationFactory.generateDefaultTextFieldMouseEnterAnimation(displayNameTextField));
-        displayNameTextField.setOnMouseExited(AnimationFactory.generateDefaultTextFieldMouseExitAnimation(displayNameTextField));
+        displayNameTextField.setOnMouseEntered(AnimationFactory.generateDefault2TextFieldMouseEnterAnimation(displayNameTextField, "-fx-font-size: 16;"));
+        displayNameTextField.setOnMouseExited(AnimationFactory.generateDefault2TextFieldMouseExitAnimation(displayNameTextField, "-fx-font-size: 16;"));
 
         updateFieldsButton.setOnAction(action -> {
             User updatedUser = new User(
@@ -88,5 +87,16 @@ public class Profile {
         //TODO: add mfa phone field to db
         connectTFAPhoneButton.setOnMouseEntered(AnimationFactory.generateDefaultButtonMouseEnterAnimation(connectTFAPhoneButton));
         connectTFAPhoneButton.setOnMouseExited(AnimationFactory.generateDefaultButtonMouseExitAnimation(connectTFAPhoneButton));
+
+        homeButton.setOnAction(action -> {
+            FXMLLoader loader = new FXMLLoader(Application.class.getResource("views/Home.fxml"));
+            try{
+                Application.rootBorderPane.setCenter(loader.load());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        homeButton.setOnMouseEntered(AnimationFactory.generateDefaultButtonMouseEnterAnimation(homeButton));
+        homeButton.setOnMouseExited(AnimationFactory.generateDefaultButtonMouseExitAnimation(homeButton));
     }
 }

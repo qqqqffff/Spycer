@@ -231,7 +231,6 @@ public class AnimationFactory {
             sb.append(s);
         }
 
-        //TODO: make it so there are no repeated computation
         double[] hsl1 = Arrays.copyOf(tertiary_hsl, tertiary_hsl.length);
         double[] hsl2 = Arrays.copyOf(t_tertiary_hsl, t_tertiary_hsl.length);
 
@@ -298,7 +297,7 @@ public class AnimationFactory {
                     n,
                     Interpolator.EASE_IN,
                     Duration.millis(150),
-                    "-fx-background-color: ",
+                    sb + "-fx-background-color: ",
                     hsl1,
                     delta_hsl
             );
@@ -324,7 +323,7 @@ public class AnimationFactory {
                     n,
                     Interpolator.EASE_OUT,
                     Duration.millis(150),
-                    "-fx-background-color: ",
+                    sb + "-fx-background-color: ",
                     hsl2,
                     delta_hsl
             );
@@ -352,7 +351,7 @@ public class AnimationFactory {
                     n,
                     Interpolator.EASE_IN,
                     Duration.millis(150),
-                    "-fx-background-color: ",
+                    sb + "-fx-background-color: ",
                     hsl1,
                     delta_hsl
             );
