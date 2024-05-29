@@ -139,7 +139,7 @@ public class RecipeHandler {
     }
 
     public static void updateRecipePage(ScrollPane pane, String fileName) throws IOException {
-        Map<String, Map<Integer, String[]>> data = JsonLoader.parseJsonRecipe(new File(Application.datadir.getAbsolutePath() + "/" +fileName));
+        Map<String, Map<Integer, String[]>> data = JsonLoader.parseJsonRecipe(new File(Application.datadir.getAbsolutePath() + "/" + fileName));
         updateRecipePage(pane, data);
     }
     public static void updateRecipePage(ScrollPane pane, Map<String, Map<Integer, String[]>> data){
@@ -256,8 +256,15 @@ public class RecipeHandler {
         return retString.substring(0, retString.length() - 2);
     }
 
-    public static void compileRecipe(Map<String, Map<String, String>> data) throws IOException, URISyntaxException {
-        String title = data.get("options").get("title");
+    public static void compileRecipe(Map<String, Map<Integer, String[]>> data) throws IOException, URISyntaxException {
+        String title = data.get("options").get(0)[0];
+        String rating = data.get("options").get(1)[0];
+        String author = data.get("options").get(2)[0];
+        Map<Integer, String[]> ingredientsList = data.get("ingredients");
+        Map<Integer, String[]> proceduresList = data.get("procedures");
+        Map<Integer, String[]> notesList = data.get("notes");
+        Map<Integer, String[]> tagsList = data.get("tags");
+
         System.out.println(Application.datadir.getAbsolutePath());
         String baseDir = Application.datadir.getAbsolutePath() + "/";
         File f = new File(baseDir + title.replace(" ", "_"));
@@ -268,10 +275,39 @@ public class RecipeHandler {
                 f = new File(baseDir + (f.getName().contains(String.valueOf(counter)) ?
                         f.getName().replace(String.valueOf(counter), String.valueOf(++counter)) : f.getName() + counter));
             }
-            if(!f.mkdir()) throw new IOException("Unable to create file");
+            if(!f.mkdir()) throw new IOException("Unable to create recipe dir");
         }
-        JsonWriter writer = new JsonWriter(new BufferedWriter(new FileWriter(f)));
+        File recipeJson = new File(f.getAbsolutePath() + "/recipe.json");
+        if(!recipeJson.createNewFile()) throw new IOException("Unable to create recipe file");
+        JsonWriter writer = new JsonWriter(new BufferedWriter(new FileWriter(recipeJson)));
         writer.setIndent("  ");
+        writer.beginObject().name("title").value(title);
+        writer.name("rating").value(rating);
+        writer.name("author").value(author);
+        writer.name("ingredients").beginArray();
 
+
+        for(String[] item : ingredientsList.values()){
+            if(item == null || item[0] == null) continue;
+            writer.beginObject().name(item[0]).value(item[1]).endObject();
+        }
+        writer.endArray().name("procedures").beginArray();
+        for(String[] item : proceduresList.values()){
+            if(item == null || item[0] == null) continue;
+            writer.beginObject().name(item[0]).value(RecipeHandler.calculateRecipeTime(item)).endObject();
+        }
+        writer.endArray().name("notes").beginArray();
+        int i = 0;
+        for(String[] item : notesList.values()){
+            if(item == null || item[0] == null) continue;
+            writer.beginObject().name("note " + i++).value(item[0]).endObject();
+        }
+        writer.endArray().name("tags").beginArray();
+        i = 0;
+        for(String[] item : tagsList.values()){
+            if(item == null || item[0] == null) continue;
+            writer.beginObject().name("tag " + i++).value(item[0]).endObject();
+        }
+        writer.endArray().endObject().close();
     }
 }

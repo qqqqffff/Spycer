@@ -29,9 +29,10 @@ public class Home {
     @FXML
     public void initialize(){
         for(File dir : Objects.requireNonNull(Application.datadir.listFiles())){
-            if(dir.getName().matches(".*_recipe\\d*[.]json")){
+            if(dir.isDirectory()){
+                File recipeJson = new File(dir.getAbsolutePath() + "/recipe.json");
                 try {
-                    Map<String, Map<Integer, String[]>> data = JsonLoader.parseJsonRecipe(dir);
+                    Map<String, Map<Integer, String[]>> data = JsonLoader.parseJsonRecipe(recipeJson);
                     FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("views/Recipe.fxml"));
                     BorderPane recipe = fxmlLoader.load();
                     RecipeHandler.updateRecipe(recipe, data, dir.getName());

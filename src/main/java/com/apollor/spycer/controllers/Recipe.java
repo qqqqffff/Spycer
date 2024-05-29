@@ -316,7 +316,7 @@ public class Recipe {
                 try{
                     StateManager.updateState(data);
                     ScrollPane page = loader.load();
-                    RecipeHandler.updateRecipePage(page, fnameText.getText());
+                    RecipeHandler.updateRecipePage(page, fnameText.getText() + "/recipe.json");
                     Application.rootBorderPane.setCenter(page);
                 } catch (IOException e){
                     throw new RuntimeException(e);

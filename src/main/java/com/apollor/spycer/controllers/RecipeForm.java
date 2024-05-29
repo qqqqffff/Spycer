@@ -23,6 +23,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
@@ -177,13 +178,14 @@ public class RecipeForm {
 
         createRecipeButton.setOnAction(event -> {
             try {
-                compileJson();
+
+                RecipeHandler.compileRecipe(aggregateRecipe());
                 //TODO: eliminate unnecessary IO
                 FXMLLoader loader = new FXMLLoader(Application.class.getResource("views/Recipe.fxml"));
                 BorderPane recipe = loader.load();
                 RecipeHandler.updateRecipe(recipe, JsonLoader.parseJsonRecipe(recipeFile), recipeFile.getName());
                 ((VBox) Application.rootBorderPane.getCenter()).getChildren().add(recipe);
-            } catch (IOException e) {
+            } catch (IOException | URISyntaxException e) {
                 throw new RuntimeException(e);
             }
             Application.rootAnchorPane.getChildren().removeIf(i -> Objects.equals(i.getId(), "recipe_form"));
@@ -203,10 +205,20 @@ public class RecipeForm {
         cancelFormButton.setOnMouseExited(AnimationFactory.generateDefaultButtonMouseExitAnimation(cancelFormButton));
     }
 
-    public void parseLists(Map<String, String> ingredientsList,
-                           Map<String, String> proceduresList,
-                           Map<String, String> notesList){
+    //TODO: validate inputs
+    public Map<String, Map<Integer, String[]>> aggregateRecipe(){
+        Map<String, Map<Integer, String[]>> data = new HashMap<>();
+        data.put("ingredients", ingredientsList);
+        data.put("procedures", proceduresList);
+        data.put("notes", notesList);
+        data.put("tags", tagsList);
+        Map<Integer, String[]> optionsList = new HashMap<>();
+        optionsList.put(0, new String[]{titleTextField.getText()});
+        optionsList.put(1, new String[]{String.format("%.1f", ratingSlider.getValue())});
+        optionsList.put(2, new String[]{SessionHandler.getLoggedInUser().displayName});
+        data.put("options", optionsList);
 
+        return data;
     }
 
     private HBox createGroup(int type){
@@ -347,58 +359,7 @@ public class RecipeForm {
         return ta;
     }
 
-    private void compileJson() throws IOException {
-        Path curdir = Paths.get("").toAbsolutePath();
-        System.out.println(curdir);
-        JsonWriter jw = getJsonWriter(curdir);
-        jw.beginObject().name("title").value(titleTextField.getText());
-        jw.name("rating").value(ratingSlider.getValue());
-        jw.name("author").value(SessionHandler.getLoggedInUser().displayName);
-        jw.name("ingredients").beginArray();
-        for(String[] item : ingredientsList.values()){
-            if(item == null || item[0] == null || item[1] == null) continue;
-            jw.beginObject().name(item[0]).value(item[1]).endObject();
-        }
-        jw.endArray().name("procedures").beginArray();
-        for(String[] item : proceduresList.values()){
-            if(item == null || item[0] == null) continue;
-            jw.beginObject().name(item[0]).value(RecipeHandler.calculateRecipeTime(item)).endObject();
-        }
-        jw.endArray().name("notes").beginArray();
-        int i = 0;
-        for(String[] item : notesList.values()){
-            if(item == null || item[0] == null ) continue;
-            jw.beginObject().name("note " + i++).value(item[0]).endObject();
-        }
-        jw.endArray().name("tags").beginArray();
-        i = 0;
-        for(String[] item : tagsList.values()){
-            if(item == null || item[0] == null ) continue;
-            jw.beginObject().name("tag " + i++).value(item[0]).endObject();
-        }
-        jw.endArray().endObject();
-
-        jw.close();
-    }
-
-    private JsonWriter getJsonWriter(Path curdir) throws IOException {
-        File f = new File(curdir + Application.datadir.getAbsolutePath() + "/" + titleTextField.getText().replace(" ", "_") + "_recipe.json");
-        if(!f.createNewFile()){
-            int counter = 1;
-            while(f.exists()) {
-                f = new File(curdir + Application.datadir.getAbsolutePath()  + "/" +
-                        f.getName().replace(f.getName().contains("_recipe" + counter) ? "_recipe" + counter : "_recipe",
-                        "_recipe" + ++counter));
-            }
-            if(!f.createNewFile()) throw new IOException("Unable to create file");
-        }
-        recipeFile = f;
-
-        JsonWriter jw = new JsonWriter(new BufferedWriter(new FileWriter(f)));
-        jw.setIndent("  ");
-        return jw;
-    }
-
+    //TODO: implement me
     public boolean checkInProgressRecipe() throws IOException {
         File f = new File(Application.datadir.getAbsolutePath() + "/inprogress_recipe.json");
         return f.exists();

@@ -88,6 +88,7 @@ public class Header {
 
         profileButton.setOpacity(0.75);
         profileButton.setOnAction(action -> {
+            //todo: handle navigation in state manager class
             FXMLLoader loader = new FXMLLoader(Application.class.getResource("views/Profile.fxml"));
             Map<String, Map<String, String>> data = new HashMap<>();
             Map<String, String> fileMap = new HashMap<>();

@@ -4,6 +4,7 @@ import com.apollor.spycer.Application;
 import com.apollor.spycer.database.User;
 import com.apollor.spycer.utils.AnimationFactory;
 import com.apollor.spycer.utils.SessionHandler;
+import com.apollor.spycer.utils.StateManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
@@ -11,6 +12,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Profile {
 
@@ -107,7 +110,15 @@ public class Profile {
 
         homeButton.setOnAction(action -> {
             FXMLLoader loader = new FXMLLoader(Application.class.getResource("views/Home.fxml"));
+            Map<String, Map<String, String>> data = new HashMap<>();
+            Map<String, String> fileMap = new HashMap<>();
+            Map<String, String> pageMap = new HashMap<>();
+            fileMap.put("file", "null");
+            pageMap.put("page", "views/Home.fxml");
+            data.put("file", fileMap);
+            data.put("page", pageMap);
             try{
+                StateManager.updateState(data);
                 Application.rootBorderPane.setCenter(loader.load());
             } catch (IOException e) {
                 throw new RuntimeException(e);
