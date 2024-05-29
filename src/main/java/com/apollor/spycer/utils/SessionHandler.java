@@ -32,7 +32,8 @@ public class SessionHandler {
             null,
             null,
             null,
-            null
+            null,
+            false
     );
 
     static {
@@ -162,7 +163,8 @@ public class SessionHandler {
                 ts,
                 hexPasswordHash,
                 hexSalt,
-                email
+                email,
+                false
         );
 
         if(!Database.postUser(user).equals("201")){

@@ -68,7 +68,8 @@ public class Profile {
                     user.createdDate,
                     user.hashPW,
                     user.hashSalt,
-                    user.emailAddress
+                    user.emailAddress,
+                    user.mfaPhone
             );
             //TODO: display modal to confirm and verify changes
         });
@@ -99,9 +100,8 @@ public class Profile {
         connectTFAEmailButton.setOnMouseEntered(AnimationFactory.generateDefaultButtonMouseEnterAnimation(connectTFAEmailButton));
         connectTFAEmailButton.setOnMouseExited(AnimationFactory.generateDefaultButtonMouseExitAnimation(connectTFAEmailButton));
 
-        //TODO: add mfa phone field to db
-//        connectTFAPhoneButton.setText(user.mfaPhone ? "Disconnect" : "Connect");
-//        connectTFAPhoneButton.setDisable(user.mfaPhone);
+        connectTFAPhoneButton.setText(user.mfaPhone ? "Disconnect" : "Connect");
+        connectTFAPhoneButton.setDisable(user.mfaPhone);
         connectTFAPhoneButton.setOnMouseEntered(AnimationFactory.generateDefaultButtonMouseEnterAnimation(connectTFAPhoneButton));
         connectTFAPhoneButton.setOnMouseExited(AnimationFactory.generateDefaultButtonMouseExitAnimation(connectTFAPhoneButton));
 

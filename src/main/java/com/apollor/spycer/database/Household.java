@@ -15,50 +15,33 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.atomic.AtomicReference;
 
-
-public class User {
-    private User(){
+public class Household {
+    private Household(){
 
     }
-    public User(
+    public Household(
+            String householdId,
+            String householdName,
             String userId,
-            String displayName,
-            boolean mfaEmail,
-            boolean mfaApp,
-            boolean verified,
-            String createdDate,
-            String hashPW,
-            String hashSalt,
-            String emailAddress,
-            boolean mfaPhone
+            String privilege,
+            boolean request
     ){
+        this.householdId = householdId;
+        this.householdName = householdName;
         this.userId = userId;
-        this.displayName = displayName;
-        this.mfaEmail = mfaEmail;
-        this.mfaApp = mfaApp;
-        this.verified = verified;
-        this.createdDate = createdDate;
-        this.hashPW = hashPW;
-        this.hashSalt = hashSalt;
-        this.emailAddress = emailAddress;
-        this.mfaPhone = mfaPhone;
+        this.privilege = privilege;
+        this.request = request;
     }
 
+    public String householdId;
+    public String householdName;
     public String userId;
-    public String displayName;
-    public String emailAddress;
-    public boolean mfaEmail;
-    public boolean mfaApp;
-    public boolean verified;
-    public String createdDate;
-    public String hashPW;
-    public String hashSalt;
-    public boolean mfaPhone;
+    public String privilege;
+    public boolean request;
 
-
-    protected static User get(String email) throws IOException {
-        String urlString = Application.baseApplicationLink + "/users/" + email;
-        AtomicReference<User> user = new AtomicReference<>(null);
+    protected static Household get(String userid) throws IOException {
+        String urlString = Application.baseApplicationLink + "/household/" + userid;
+        AtomicReference<Household> household = new AtomicReference<>(null);
 
         HttpGet get = new HttpGet(urlString);
 
@@ -66,20 +49,20 @@ public class User {
         client.execute(get, rsp -> {
             if (rsp.getCode() == 200) {
                 String r = new String(rsp.getEntity().getContent().readAllBytes(), StandardCharsets.UTF_8);
-                user.set(parseUser(r));
+                household.set(parseHousehold(r));
             }
             return rsp;
         });
         client.close();
 
-        return user.get();
+        return household.get();
     }
 
-    protected static String post(User user) throws IOException{
+    protected static String post(Household household) throws IOException{
         String urlString = Application.baseApplicationLink + "/users";
         HttpPost post = new HttpPost(urlString);
 
-        final String jsonString = createJsonString(user);
+        final String jsonString = createJsonString(household);
         final StringEntity entity = new StringEntity(jsonString);
         post.setEntity(entity);
         post.setHeader("Accept", "application/json");
@@ -94,11 +77,11 @@ public class User {
     }
 
 
-    protected static String put(User user) throws IOException {
-        String urlString = Application.baseApplicationLink + "/users";
+    protected static String put(Household household) throws IOException {
+        String urlString = Application.baseApplicationLink + "/households";
         HttpPut put = new HttpPut(urlString);
 
-        final String jsonString = createJsonString(user);
+        final String jsonString = createJsonString(household);
         final StringEntity entity = new StringEntity(jsonString);
         put.setEntity(entity);
         put.setHeader("Accept", "application/json");
@@ -113,7 +96,7 @@ public class User {
     }
 
     protected static String delete(String id) throws IOException {
-        String urlString = Application.baseApplicationLink + "/users/" + id;
+        String urlString = Application.baseApplicationLink + "/households/" + id;
         HttpDelete delete = new HttpDelete(urlString);
 
         try(CloseableHttpClient client = HttpClients.createDefault();
@@ -124,10 +107,10 @@ public class User {
         }
     }
 
-    private static User parseUser(String jsonUser){
-        User user = new User();
+    private static Household parseHousehold(String jsonHousehold){
+        Household household = new Household();
 
-        for(String i : jsonUser.split("\n")){
+        for(String i : jsonHousehold.split("\n")){
             if(!i.contains("\"")) continue;
 
             String key = i.substring(i.indexOf("\"") + 1, i.indexOf(":") - 1);
@@ -145,34 +128,24 @@ public class User {
             value = i.substring(initialLength, finalLength);
 
             switch(key){
-                case "userid" -> user.userId = value;
-                case "display_name" -> user.displayName = value;
-                case "mfa_email" -> user.mfaEmail = Boolean.parseBoolean(value);
-                case "mfa_app" -> user.mfaApp = Boolean.parseBoolean(value);
-                case "verified" -> user.verified = Boolean.parseBoolean(value);
-                case "created_date" -> user.createdDate = value;
-                case "hash_pw" -> user.hashPW = value;
-                case "hash_salt" -> user.hashSalt = value;
-                case "email_address" -> user.emailAddress = value;
-                case "mfa_phone" -> user.mfaPhone = Boolean.parseBoolean(value);
+                case "household_id" -> household.householdId = value;
+                case "household_name" -> household.householdName = value;
+                case "userid" -> household.userId = value;
+                case "privilege" -> household.privilege = value;
+                case "request" -> household.request = Boolean.parseBoolean(value);
             }
         }
 
-        return user;
+        return household;
     }
 
-    private static String createJsonString(User user){
+    private static String createJsonString(Household household){
         return "{\n" +
-                "\t\"userid\": \"" + user.userId + "\",\n" +
-                "\t\"display_name\": \"" + user.displayName + "\",\n" +
-                "\t\"mfa_email\": " + user.mfaEmail + ",\n" +
-                "\t\"mfa_app\": " + user.mfaApp + ",\n" +
-                "\t\"verified\": " + user.verified + ",\n" +
-                "\t\"created_date\": \"" + user.createdDate + "\",\n" +
-                "\t\"hash_pw\": \"" + user.hashPW + "\",\n" +
-                "\t\"hash_salt\": \"" + user.hashSalt + "\",\n" +
-                "\t\"email_address\": \"" + user.emailAddress + "\",\n" +
-                "\t\"mfa_phone\": " + user.mfaPhone + "\n" +
+                "\t\"household_id\": \"" + household.householdId + "\",\n" +
+                "\t\"household_name\": \"" + household.householdName + "\",\n" +
+                "\t\"userid\": \"" + household.userId + "\",\n" +
+                "\t\"privilege\": \"" + household.privilege + "\",\n" +
+                "\t\"request\": " + household.request + "\n" +
                 "}";
     }
 }
