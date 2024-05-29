@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefWidth="1280.0" stylesheets="@../styles/Stylesheet.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane prefWidth="1280.0" stylesheets="@../styles/Stylesheet.css" xmlns="http://javafx.com/javafx/19">
    <center>
       <Label alignment="CENTER" style="-fx-font-size: 48;" text="Spycer" BorderPane.alignment="CENTER">
          <font>
