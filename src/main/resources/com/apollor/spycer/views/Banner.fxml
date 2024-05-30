@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane fx:id="rootPane" prefWidth="600.0" style="-fx-background-color: -secondary-color; -fx-border-color: -contrast-color; -fx-border-width: 2; -fx-border-radius: 15; -fx-background-insets: 1,4,4; -fx-background-radius: 15;" stylesheets="@../styles/Stylesheet.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.apollor.spycer.controllers.Banner">
+    <center>
+        <Label fx:id="bannerText" style="-fx-text-fill: -tertiary-color;" text="Success!">
+            <padding>
+              <Insets bottom="10.0" top="10.0" />
+            </padding>
+        </Label>
+    </center>
+   <right>
+      <Button fx:id="closeBannerButton" mnemonicParsing="false" styleClass="image-button" BorderPane.alignment="CENTER">
+         <graphic>
+            <ImageView fitHeight="20.0" fitWidth="20.0" opacity="0.5" pickOnBounds="true">
+               <image>
+                  <Image url="@../images/x_icon.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+   </right>
+</BorderPane>

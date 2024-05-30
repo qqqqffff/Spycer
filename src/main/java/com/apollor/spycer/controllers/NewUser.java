@@ -22,11 +22,6 @@ import java.util.Objects;
 
 
 public class NewUser {
-
-
-
-
-
     @FXML private Text displayNameErrorText;
     @FXML private Text emailErrorText;
     @FXML private Text passwordErrorText;
@@ -366,7 +361,8 @@ public class NewUser {
         });
     }
 
-    private void displayError(String error, Text t, Thread tr){
+    //TODO: move me
+    public static void displayError(String error, Text t, Thread tr){
         t.setText(error);
         t.setVisible(true);
         Animation animation = AnimationFactory.generateOpacityTransition(
@@ -391,7 +387,8 @@ public class NewUser {
         tr.start();
     }
 
-    private boolean countSpaces(char[] c){
+    //TODO: move me
+    public static boolean countSpaces(char[] c){
         int count = 6;
         for(char i : c){
             if(String.valueOf(i).matches("\\s")) count--;

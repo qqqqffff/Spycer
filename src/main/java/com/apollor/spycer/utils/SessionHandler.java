@@ -2,6 +2,7 @@ package com.apollor.spycer.utils;
 
 import com.apollor.spycer.Application;
 import com.apollor.spycer.database.Database;
+import com.apollor.spycer.database.Household;
 import com.apollor.spycer.database.Session;
 import com.apollor.spycer.database.User;
 import com.google.gson.stream.JsonReader;
@@ -22,6 +23,7 @@ import java.util.UUID;
 public class SessionHandler {
     private static User loggedInUser;
     private static Session userSession;
+    private static Household userHousehold;
     private static final File sessionToken = new File(Application.datadir + "/session_token.json");
     private static final User guestUser = new User(
             null,
@@ -57,9 +59,11 @@ public class SessionHandler {
         if(session == null) return false;
         Session db_session = Database.getSession(session.userId);
         User user = Database.getUser(session.emailAddress);
+        Household household = Database.getHouseholdByUID(session.userId);
         if(user == null || db_session == null) return false;
         userSession = session;
         loggedInUser = user;
+        userHousehold = household;
         return true;
     }
 
@@ -117,7 +121,6 @@ public class SessionHandler {
         return false;
     }
 
-    //TODO: handle duplicate response
     public static User createUser(String email, String displayName, String password_plaintext) throws IOException {
         MessageDigest digest;
         String hexPasswordHash;
@@ -184,6 +187,14 @@ public class SessionHandler {
         if(!sessionToken.exists()) return null;
         if(userSession != null) return userSession;
         return null;
+    }
+
+    public static Household getUserHousehold(){
+        return userHousehold;
+    }
+
+    public static void setUserHousehold(Household household){
+        userHousehold = household;
     }
 
     private static void createLocalSessionToken(Session session) throws IOException {

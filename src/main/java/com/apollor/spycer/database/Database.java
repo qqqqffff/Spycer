@@ -26,8 +26,11 @@ public class Database {
         return Session.delete(sessionId);
     }
 
-    public static Household getHousehold(String userid) throws IOException {
-        return Household.get(userid);
+    public static Household getHouseholdByUID(String userid) throws IOException {
+        return Household.getByUID(userid);
+    }
+    public static Household[] getHouseholdsByID(String householdId) throws IOException {
+        return Household.getByID(householdId);
     }
     public static String postHousehold(Household household) throws IOException{
         return Household.post(household);

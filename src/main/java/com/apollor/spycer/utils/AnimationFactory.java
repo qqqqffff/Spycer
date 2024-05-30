@@ -139,7 +139,7 @@ public class AnimationFactory {
      * @param n node to animate
      * @param interpolator interpolator
      * @param duration duration of animation
-     * @param direction true for increase in opacity, false otherwise
+     * @param direction true for decrease in opacity, false otherwise
      * @return animation of the transition
      */
     public static Animation generateOpacityTransition(Node n, Interpolator interpolator, Duration duration, boolean direction){
@@ -161,7 +161,7 @@ public class AnimationFactory {
      * @param n node to animate
      * @param interpolator interpolator
      * @param duration duration of animation
-     * @param direction true for increase in opacity, false otherwise
+     * @param direction true for decrease in opacity, false otherwise
      * @param delta difference in the starting and ending opacities
      * @return animation of the transition
      */

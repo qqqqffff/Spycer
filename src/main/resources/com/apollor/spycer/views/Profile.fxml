@@ -38,9 +38,15 @@
             <Button fx:id="homeButton" mnemonicParsing="false" text="Home" />
         </VBox>
         <HBox alignment="CENTER" GridPane.columnIndex="1">
-            <ImageView fx:id="profilePicture" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
-                <Image url="@../images/placeholders/100x100.png" />
-            </ImageView>
+         <Button fx:id="profilePictureButton" mnemonicParsing="false" styleClass="image-button">
+            <graphic>
+               <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../images/add_profile_icon.png" />
+                  </image>
+               </ImageView>
+            </graphic>
+         </Button>
         </HBox>
         <HBox alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1">
             <Text fx:id="welcomeText" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: 900; -fx-font-size: 32;" text="Welcome Back, $" />

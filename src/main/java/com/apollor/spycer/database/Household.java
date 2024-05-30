@@ -13,6 +13,8 @@ import org.apache.hc.core5.http.io.entity.StringEntity;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class Household {
@@ -39,8 +41,8 @@ public class Household {
     public String privilege;
     public boolean request;
 
-    protected static Household get(String userid) throws IOException {
-        String urlString = Application.baseApplicationLink + "/household/" + userid;
+    protected static Household getByUID(String userid) throws IOException {
+        String urlString = Application.baseApplicationLink + "/households/" + userid;
         AtomicReference<Household> household = new AtomicReference<>(null);
 
         HttpGet get = new HttpGet(urlString);
@@ -58,8 +60,27 @@ public class Household {
         return household.get();
     }
 
+    protected static Household[] getByID(String id) throws IOException{
+        String urlString = Application.baseApplicationLink + "/households/" + id;
+        AtomicReference<Household[]> households = new AtomicReference<>(null);
+
+        HttpGet get = new HttpGet(urlString);
+
+        CloseableHttpClient client = HttpClients.createDefault();
+        client.execute(get, rsp -> {
+            if(rsp.getCode() == 200){
+                String r = new String(rsp.getEntity().getContent().readAllBytes(), StandardCharsets.UTF_8);
+                households.set(parseSetHouseholds(r));
+            }
+            return rsp;
+        });
+        client.close();
+
+        return households.get();
+    }
+
     protected static String post(Household household) throws IOException{
-        String urlString = Application.baseApplicationLink + "/users";
+        String urlString = Application.baseApplicationLink + "/households";
         HttpPost post = new HttpPost(urlString);
 
         final String jsonString = createJsonString(household);
@@ -137,6 +158,19 @@ public class Household {
         }
 
         return household;
+    }
+
+    private static Household[] parseSetHouseholds(String jsonHousehold){
+        List<Household> householdList = new ArrayList<>();
+        for(String i : jsonHousehold.split("[{]")){
+            if(i.contains("\"")) householdList.add(parseHousehold(i));
+        }
+        if(householdList.size() == 0) return null;
+        Household[] households = new Household[householdList.size()];
+        for(int i = 0; i < households.length; i++){
+            households[i] = householdList.get(i);
+        }
+        return households;
     }
 
     private static String createJsonString(Household household){
