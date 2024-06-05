@@ -2,17 +2,28 @@ package com.apollor.spycer.database;
 
 import com.apollor.spycer.Application;
 import com.apollor.spycer.utils.CustomHttpClientResponseHandler;
+import javafx.scene.image.Image;
+import org.apache.hc.client5.http.async.methods.SimpleRequestBuilder;
 import org.apache.hc.client5.http.classic.methods.HttpDelete;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.apache.hc.client5.http.classic.methods.HttpPost;
 import org.apache.hc.client5.http.classic.methods.HttpPut;
+import org.apache.hc.client5.http.entity.mime.FileBody;
+import org.apache.hc.client5.http.entity.mime.HttpMultipartMode;
+import org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
 import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.core5.http.ContentType;
+import org.apache.hc.core5.http.HttpEntity;
 import org.apache.hc.core5.http.io.entity.StringEntity;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.Base64;
 import java.util.concurrent.atomic.AtomicReference;
 
 
@@ -75,6 +86,25 @@ public class User {
         return user.get();
     }
 
+    protected static Image getUserPFP(String userid) throws IOException{
+        String urlString = Application.baseApplicationLink + "/users/user-pfp/" + userid;
+        AtomicReference<Image> image = new AtomicReference<>(null);
+        HttpGet get = new HttpGet(urlString);
+
+        CloseableHttpClient client = HttpClients.createDefault();
+        client.execute(get, rsp -> {
+            if(rsp.getCode() == 200){
+                byte[] b = rsp.getEntity().getContent().readAllBytes();
+                byte[] f = Base64.getDecoder().decode(new String(b, StandardCharsets.UTF_8).replace("\"","").getBytes(StandardCharsets.UTF_8));
+                image.set(new Image(new ByteArrayInputStream(f)));
+            }
+            return rsp;
+        });
+        client.close();
+
+        return image.get();
+    }
+
     protected static String post(User user) throws IOException{
         String urlString = Application.baseApplicationLink + "/users";
         HttpPost post = new HttpPost(urlString);
@@ -89,6 +119,23 @@ public class User {
             CloseableHttpResponse response = (CloseableHttpResponse) client
                     .execute(post, new CustomHttpClientResponseHandler())) {
 
+            return String.valueOf(response.getCode());
+        }
+    }
+
+    protected static String postUserPFP(File file) throws IOException {
+        String urlString = Application.baseApplicationLink + "/users/user-pfp";
+        HttpPost post = new HttpPost(urlString);
+
+        MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+        builder.setMode(HttpMultipartMode.EXTENDED);
+        builder.addBinaryBody("file", file);
+        HttpEntity entity = builder.build();
+        post.setEntity(entity);
+        post.setHeader("Accept", "application/json");
+
+        try(CloseableHttpClient client = HttpClients.createDefault();
+            CloseableHttpResponse response = (CloseableHttpResponse) client.execute(post, new CustomHttpClientResponseHandler())){
             return String.valueOf(response.getCode());
         }
     }

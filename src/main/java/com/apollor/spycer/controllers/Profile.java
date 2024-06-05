@@ -10,6 +10,7 @@ import com.apollor.spycer.utils.StateManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 
@@ -56,10 +57,15 @@ public class Profile {
     private Thread displayNameErrorThread;
 
     @FXML
-    public void initialize(){
+    public void initialize() throws IOException {
         User user = SessionHandler.getLoggedInUser();
         Household household = SessionHandler.getUserHousehold();
         welcomeText.setText(welcomeText.getText().replace("$", user.displayName));
+
+        ImageView userPFP = new ImageView(Database.getUserPFP(user.userId));
+        userPFP.setFitWidth(100);
+        userPFP.setFitHeight(100);
+        profilePictureButton.setGraphic(userPFP);
 
         emailTextField.setText(user.emailAddress);
         emailTextField.textProperty().addListener((l, o, n) -> {

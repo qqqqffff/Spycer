@@ -1,13 +1,34 @@
 package com.apollor.spycer.database;
 
+import com.apollor.spycer.Application;
+import com.apollor.spycer.utils.SessionHandler;
+import javafx.scene.image.Image;
+
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 
 public class Database {
     public static User getUser(String email) throws IOException {
         return User.get(email);
     }
+    public static Image getUserPFP(String userid) throws IOException{
+        return User.getUserPFP(userid);
+    }
     public static String postUser(User user) throws IOException {
         return User.post(user);
+    }
+    public static String postUserPFP(File file) throws IOException {
+        String fileName = file.toURI().toString();
+        if(SessionHandler.getLoggedInUser().userId == null) return "401";
+        File f = new File(Application.datadir + "/" + SessionHandler.getLoggedInUser().userId + fileName.substring(fileName.indexOf(".")));
+        if(!f.createNewFile()) throw new RuntimeException("Unable to create temp file");
+        Files.copy(file.toPath(), f.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        assert(f.exists());
+        String returnCode = User.postUserPFP(f);
+        if(returnCode.equals("201") && !f.delete()) throw new RuntimeException("Unable to delete temp file");
+        return returnCode;
     }
     public static String putUser(User user) throws IOException {
         return User.put(user);

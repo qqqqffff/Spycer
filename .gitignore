@@ -38,7 +38,7 @@ build/
 .DS_Store
 /src/main/java/com/apollor/spycer/data/
 /aws/
-/src/main/java/com/apollor/spycer/Test.java
+/src/main/java/com/apollor/spycer/Testclasser.java
 /geolocation/key
 /geolocation/GeoLite2-ASN.mmdb
 /geolocation/GeoLite2-ASN-Blocks-IPv4.csv
@@ -48,3 +48,5 @@ build/
 /src/main/test/TestTest.java
 /geolocation/
 /data/
+/.env
+/credentials.json
