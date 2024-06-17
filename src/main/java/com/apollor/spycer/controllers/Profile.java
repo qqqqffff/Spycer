@@ -10,8 +10,10 @@ import com.apollor.spycer.utils.StateManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
@@ -49,7 +51,7 @@ public class Profile {
     @FXML private ComboBox<String> colorProfileComboBox;
     @FXML private ComboBox<String> unitsComboBox;
 
-    @FXML private Button updateFieldsButton;
+    @FXML private Button saveFieldsButton;
     @FXML private Button logoutUserButton;
 
     private Thread householdErrorThread;
@@ -62,6 +64,7 @@ public class Profile {
         Household household = SessionHandler.getUserHousehold();
         welcomeText.setText(welcomeText.getText().replace("$", user.displayName));
 
+        //TODO: remove read from here, preform read on login
         ImageView userPFP = new ImageView(Database.getUserPFP(user.userId));
         userPFP.setFitWidth(100);
         userPFP.setFitHeight(100);
@@ -123,7 +126,7 @@ public class Profile {
             }
         });
 
-        updateFieldsButton.setOnAction(action -> {
+        saveFieldsButton.setOnAction(action -> {
             User updatedUser = new User(
                     user.userId,
                     user.displayName,
@@ -138,8 +141,8 @@ public class Profile {
             );
             //TODO: display modal to confirm and verify changes
         });
-        updateFieldsButton.setOnMouseEntered(AnimationFactory.generateDefaultButtonMouseEnterAnimation(updateFieldsButton));
-        updateFieldsButton.setOnMouseExited(AnimationFactory.generateDefaultButtonMouseExitAnimation(updateFieldsButton));
+        saveFieldsButton.setOnMouseEntered(AnimationFactory.generateDefaultButtonMouseEnterAnimation(saveFieldsButton));
+        saveFieldsButton.setOnMouseExited(AnimationFactory.generateDefaultButtonMouseExitAnimation(saveFieldsButton));
 
         logoutUserButton.setOnAction(action -> {
             FXMLLoader loader = new FXMLLoader(Application.class.getResource("views/Login.fxml"));
@@ -257,7 +260,20 @@ public class Profile {
         createHouseholdButton.setOnMouseExited(AnimationFactory.generateDefaultButtonMouseExitAnimation(createHouseholdButton));
 
         inviteHouseholdButton.setOnAction(action -> {
+            FXMLLoader loader = new FXMLLoader(Application.class.getResource("views/HouseholdInvite.fxml"));
+            Application.rootBorderPane.setEffect(new GaussianBlur());
+            Application.rootBorderPane.setDisable(true);
 
+            try {
+                VBox box = loader.load();
+                box.setLayoutY(50);
+                box.setLayoutX((1280-800)/2.0);
+                box.setId("household_invite_form");
+
+                Application.rootAnchorPane.getChildren().add(box);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         });
         createHouseholdButton.setOnMouseEntered(AnimationFactory.generateDefaultButtonMouseEnterAnimation(createHouseholdButton));
         createHouseholdButton.setOnMouseExited(AnimationFactory.generateDefaultButtonMouseExitAnimation(createHouseholdButton));

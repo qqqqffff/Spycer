@@ -121,26 +121,38 @@ public class Session {
             value = i.substring(initialLength, finalLength);
 
             switch(key){
-                case "session_id" -> session.sessionId = value;
-                case "userid" -> session.userId = value;
-                case "location_lat" -> {
+                case "session_id": {
+                    session.sessionId = value;
+                }
+                case "userid": {
+                    session.userId = value;
+                }
+                case "location_lat": {
                     try{
                         session.locationLat = Double.parseDouble(value);
-                    }catch(NullPointerException | NumberFormatException ignored){
+                    }catch(NullPointerException | NumberFormatException ignored) {
                         session.locationLat = null;
                     }
                 }
-                case "location_long" -> {
+                case "location_long": {
                     try{
                         session.locationLong = Double.parseDouble(value);
                     }catch(NullPointerException | NumberFormatException ignored){
                         session.locationLong = null;
                     }
                 }
-                case "session_start" -> session.sessionStart = value;
-                case "session_end" -> session.sessionEnd = value;
-                case "email_address" -> session.emailAddress = value;
-                case "stay_logged_in" -> session.stayLoggedIn = Boolean.parseBoolean(value);
+                case "session_start": {
+                    session.sessionStart = value;
+                }
+                case "session_end": {
+                    session.sessionEnd = value;
+                }
+                case "email_address": {
+                    session.emailAddress = value;
+                }
+                case "stay_logged_in": {
+                    session.stayLoggedIn = Boolean.parseBoolean(value);
+                }
             }
         }
 

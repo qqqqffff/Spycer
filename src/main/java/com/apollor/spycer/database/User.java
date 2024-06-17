@@ -192,16 +192,36 @@ public class User {
             value = i.substring(initialLength, finalLength);
 
             switch(key){
-                case "userid" -> user.userId = value;
-                case "display_name" -> user.displayName = value;
-                case "mfa_email" -> user.mfaEmail = Boolean.parseBoolean(value);
-                case "mfa_app" -> user.mfaApp = Boolean.parseBoolean(value);
-                case "verified" -> user.verified = Boolean.parseBoolean(value);
-                case "created_date" -> user.createdDate = value;
-                case "hash_pw" -> user.hashPW = value;
-                case "hash_salt" -> user.hashSalt = value;
-                case "email_address" -> user.emailAddress = value;
-                case "mfa_phone" -> user.mfaPhone = Boolean.parseBoolean(value);
+                case "userid": {
+                    user.userId = value;
+                }
+                case "display_name": {
+                    user.displayName = value;
+                }
+                case "mfa_email": {
+                    user.mfaEmail = Boolean.parseBoolean(value);
+                }
+                case "mfa_app": {
+                    user.mfaApp = Boolean.parseBoolean(value);
+                }
+                case "verified": {
+                    user.verified = Boolean.parseBoolean(value);
+                }
+                case "created_date": {
+                    user.createdDate = value;
+                }
+                case "hash_pw": {
+                    user.hashPW = value;
+                }
+                case "hash_salt": {
+                    user.hashSalt = value;
+                }
+                case "email_address": {
+                    user.emailAddress = value;
+                }
+                case "mfa_phone": {
+                    user.mfaPhone = Boolean.parseBoolean(value);
+                }
             }
         }
 

@@ -149,11 +149,21 @@ public class Household {
             value = i.substring(initialLength, finalLength);
 
             switch(key){
-                case "household_id" -> household.householdId = value;
-                case "household_name" -> household.householdName = value;
-                case "userid" -> household.userId = value;
-                case "privilege" -> household.privilege = value;
-                case "request" -> household.request = Boolean.parseBoolean(value);
+                case "household_id": {
+                    household.householdId = value;
+                }
+                case "household_name": {
+                    household.householdName = value;
+                }
+                case "userid": {
+                    household.userId = value;
+                }
+                case "privilege": {
+                    household.privilege = value;
+                }
+                case "request": {
+                    household.request = Boolean.parseBoolean(value);
+                }
             }
         }
 

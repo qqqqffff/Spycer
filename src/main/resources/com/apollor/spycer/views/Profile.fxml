@@ -191,7 +191,7 @@
                 </BorderPane>
             </VBox>
             <HBox alignment="CENTER_RIGHT" spacing="15.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
-                <Button fx:id="updateFieldsButton" mnemonicParsing="false" text="Update" />
+                <Button fx:id="saveFieldsButton" mnemonicParsing="false" text="Save" />
                 <Button fx:id="logoutUserButton" layoutX="314.0" layoutY="10.0" mnemonicParsing="false" text="Logout" />
             </HBox>
         </GridPane>
