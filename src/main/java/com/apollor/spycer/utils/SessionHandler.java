@@ -226,14 +226,14 @@ public class SessionHandler {
             String name = reader.nextName();
 
             switch(name){
-                case "session_id" -> session.sessionId = reader.nextString();
-                case "userid" -> session.userId = reader.nextString();
-                case "location_lat" -> session.locationLat = reader.nextDouble();
-                case "location_long" -> session.locationLong = reader.nextDouble();
-                case "session_start" -> session.sessionStart = reader.nextString();
-                case "session_end" -> session.sessionEnd = reader.nextString();
-                case "email_address" -> session.emailAddress = reader.nextString();
-                case "stay_logged_in" -> session.stayLoggedIn = reader.nextBoolean();
+                case "session_id": session.sessionId = reader.nextString();
+                case "userid": session.userId = reader.nextString();
+                case "location_lat": session.locationLat = reader.nextDouble();
+                case "location_long": session.locationLong = reader.nextDouble();
+                case "session_start": session.sessionStart = reader.nextString();
+                case "session_end": session.sessionEnd = reader.nextString();
+                case "email_address": session.emailAddress = reader.nextString();
+                case "stay_logged_in": session.stayLoggedIn = reader.nextBoolean();
             }
         }
         if(!validateSession(session)){

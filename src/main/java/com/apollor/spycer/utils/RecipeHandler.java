@@ -148,23 +148,23 @@ public class RecipeHandler {
             if(n.getClass().equals(GridPane.class)){
                 for(Node i : ((GridPane) n).getChildren()){
                     switch (Objects.requireNonNullElse(i.getId(),"")){
-                        case "titleText" -> ((Label) i).setText(data.get("options").get(0)[1]);
-                        case "ingredientsBox" -> {
+                        case "titleText": ((Label) i).setText(data.get("options").get(0)[1]);
+                        case "ingredientsBox": {
                             for(String[] value : data.get("ingredients").values()){
                                 ((VBox) i).getChildren().add(createIngredientGroup(value));
                             }
                         }
-                        case "proceduresBox" -> {
+                        case "proceduresBox": {
                             for(String[] value : data.get("procedures").values()){
                                 ((VBox) i).getChildren().add(createProcedureGroup(value));
                             }
                         }
-                        case "notesBox" -> {
+                        case "notesBox": {
                             for(String[] value : data.get("notes").values()){
                                 ((VBox) i).getChildren().add(createNoteGroup(value));
                             }
                         }
-                        case "" -> {}
+                        case "": {}
                     }
                 }
             }

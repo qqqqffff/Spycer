@@ -18,25 +18,25 @@ public enum JsonParameter {
 
     public static JsonParameter parseName(String name){
         switch (name.toUpperCase(Locale.ROOT)) {
-            case "TITLE" -> {
+            case "TITLE": {
                 return JsonParameter.TITLE;
             }
-            case "RATING" -> {
+            case "RATING": {
                 return JsonParameter.RATING;
             }
-            case "TAGS" -> {
+            case "TAGS": {
                 return JsonParameter.TAGS;
             }
-            case "PROCEDURES" -> {
+            case "PROCEDURES": {
                 return JsonParameter.PROCEDURES;
             }
-            case "INGREDIENTS" -> {
+            case "INGREDIENTS": {
                 return JsonParameter.INGREDIENTS;
             }
-            case "NOTES" -> {
+            case "NOTES": {
                 return JsonParameter.NOTES;
             }
-            case "AUTHOR" -> {
+            case "AUTHOR": {
                 return JsonParameter.AUTHOR;
             }
         }
