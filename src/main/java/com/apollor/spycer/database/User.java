@@ -194,33 +194,43 @@ public class User {
             switch(key){
                 case "userid": {
                     user.userId = value;
+                    break;
                 }
                 case "display_name": {
                     user.displayName = value;
+                    break;
                 }
                 case "mfa_email": {
                     user.mfaEmail = Boolean.parseBoolean(value);
+                    break;
                 }
                 case "mfa_app": {
                     user.mfaApp = Boolean.parseBoolean(value);
+                    break;
                 }
                 case "verified": {
                     user.verified = Boolean.parseBoolean(value);
+                    break;
                 }
                 case "created_date": {
                     user.createdDate = value;
+                    break;
                 }
                 case "hash_pw": {
                     user.hashPW = value;
+                    break;
                 }
                 case "hash_salt": {
                     user.hashSalt = value;
+                    break;
                 }
                 case "email_address": {
                     user.emailAddress = value;
+                    break;
                 }
                 case "mfa_phone": {
                     user.mfaPhone = Boolean.parseBoolean(value);
+                    break;
                 }
             }
         }

@@ -43,13 +43,34 @@ public class JsonLoader {
                 continue;
             }
             switch(name){
-                case TITLE: options.put(0, new String[]{jsonName, jr.nextString()});
-                case RATING: options.put(1, new String[]{jsonName, jr.nextString()});
-                case AUTHOR: options.put(3, new String[]{jsonName, jr.nextString()});
-                case INGREDIENTS: dynamicPlacement(jr, ingredients);
-                case PROCEDURES: dynamicPlacement(jr, procedures);
-                case NOTES: dynamicPlacement(jr, notes);
-                case TAGS: dynamicPlacement(jr, tags);
+                case TITLE: {
+                    options.put(0, new String[]{jsonName, jr.nextString()});
+                    break;
+                }
+                case RATING: {
+                    options.put(1, new String[]{jsonName, jr.nextString()});
+                    break;
+                }
+                case AUTHOR: {
+                    options.put(3, new String[]{jsonName, jr.nextString()});
+                    break;
+                }
+                case INGREDIENTS: {
+                    dynamicPlacement(jr, ingredients);
+                    break;
+                }
+                case PROCEDURES: {
+                    dynamicPlacement(jr, procedures);
+                    break;
+                }
+                case NOTES: {
+                    dynamicPlacement(jr, notes);
+                    break;
+                }
+                case TAGS: {
+                    dynamicPlacement(jr, tags);
+                    break;
+                }
             }
         }
         int totalTime = procedures.values().stream().map(x -> {

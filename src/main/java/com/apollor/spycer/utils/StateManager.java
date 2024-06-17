@@ -26,12 +26,19 @@ public class StateManager {
             while(jr.hasNext()){
                 String name = jr.nextName();
                 switch (name){
-                    case "page": pageMap.put(name, jr.nextString());
-                    case "file": fileMap.put(name, jr.nextString());
+                    case "page": {
+                        pageMap.put(name, jr.nextString());
+                        break;
+                    }
+                    case "file": {
+                        fileMap.put(name, jr.nextString());
+                        break;
+                    }
                     case "options": {
                         //TODO: implement special parsing
                         jr.beginArray();
                         jr.endArray();
+                        break;
                     }
                 }
             }

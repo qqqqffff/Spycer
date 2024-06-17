@@ -123,9 +123,11 @@ public class Session {
             switch(key){
                 case "session_id": {
                     session.sessionId = value;
+                    break;
                 }
                 case "userid": {
                     session.userId = value;
+                    break;
                 }
                 case "location_lat": {
                     try{
@@ -133,6 +135,7 @@ public class Session {
                     }catch(NullPointerException | NumberFormatException ignored) {
                         session.locationLat = null;
                     }
+                    break;
                 }
                 case "location_long": {
                     try{
@@ -140,18 +143,23 @@ public class Session {
                     }catch(NullPointerException | NumberFormatException ignored){
                         session.locationLong = null;
                     }
+                    break;
                 }
                 case "session_start": {
                     session.sessionStart = value;
+                    break;
                 }
                 case "session_end": {
                     session.sessionEnd = value;
+                    break;
                 }
                 case "email_address": {
                     session.emailAddress = value;
+                    break;
                 }
                 case "stay_logged_in": {
                     session.stayLoggedIn = Boolean.parseBoolean(value);
+                    break;
                 }
             }
         }

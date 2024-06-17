@@ -33,9 +33,12 @@ public class ColorHandler {
      */
     public static void applyPalette(int identifier) throws IOException {
         switch (identifier){
-            case 0: palette = defaultPalette;
+            case 0: {
+                palette = defaultPalette;
+                break;
+            }
             case 1: {
-
+                break;
             }
         }
         assert palette != null;

@@ -151,18 +151,23 @@ public class Household {
             switch(key){
                 case "household_id": {
                     household.householdId = value;
+                    break;
                 }
                 case "household_name": {
                     household.householdName = value;
+                    break;
                 }
                 case "userid": {
                     household.userId = value;
+                    break;
                 }
                 case "privilege": {
                     household.privilege = value;
+                    break;
                 }
                 case "request": {
                     household.request = Boolean.parseBoolean(value);
+                    break;
                 }
             }
         }
