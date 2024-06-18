@@ -54,15 +54,15 @@ public class Home {
         for(int i = 0, j = -1; i < contentBox.getChildren().size(); i++){
             if(contentBox.getChildren().get(i).equals(n)){
                 itemToDelete[0] = contentBox.getChildren().get(i);
-                j = 1;
+                j = i;
             }
             else if(j != -1){
                 Node x = contentBox.getChildren().get(i);
                 Animation animation = AnimationFactory.generateTranslateTransition2(
                         x,
                         Interpolator.LINEAR,
-                        Duration.millis(150),
-                        new double[]{0, -i * (x.getLayoutBounds().getHeight() + 15)}
+                        Duration.millis(200),
+                        new double[]{0, -(i - j) * (x.getLayoutBounds().getHeight())}
                 );
                 animation.play();
                 animation.setOnFinished(e -> {
