@@ -18,12 +18,12 @@ public class AnimationFactory {
     private AnimationFactory(){
         //TODO: read default colors
     }
-    private static final double[] tertiary_hsl;
-    private static final double[] t_tertiary_hsl;
-    private static final double[] secondary_hsl;
-    private static final double[] t_secondary_hsl;
-    private static final double[] primary_hsl;
-    private static final double[] t_primary_hsl;
+    public static final double[] tertiary_hsl;
+    public static final double[] t_tertiary_hsl;
+    public static final double[] secondary_hsl;
+    public static final double[] t_secondary_hsl;
+    public static final double[] primary_hsl;
+    public static final double[] t_primary_hsl;
 
     static {
         tertiary_hsl = ColorHandler.hsvToHSL(ColorHandler.hexToHSV(ColorHandler.palette.get("-tertiary-color")));
@@ -34,7 +34,6 @@ public class AnimationFactory {
 
         primary_hsl = ColorHandler.hsvToHSL(ColorHandler.hexToHSV(ColorHandler.palette.get("-primary-color")));
         t_primary_hsl = ColorHandler.hsvToHSL(ColorHandler.hexToHSV(ColorHandler.palette.get("-t-primary-color")));
-
     }
 
     /**

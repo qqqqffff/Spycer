@@ -27,23 +27,23 @@
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
             </columnConstraints>
             <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints vgrow="SOMETIMES" />
+                <RowConstraints vgrow="SOMETIMES" />
             </rowConstraints>
             <VBox.margin>
                 <Insets top="10.0" />
             </VBox.margin>
-            <TextField fx:id="titleTextField" prefWidth="400.0" promptText="Title" GridPane.columnIndex="1">
+            <TextField fx:id="titleTextField" promptText="Title" GridPane.columnIndex="1">
                 <font>
                     <Font size="32.0" />
                 </font>
                 <padding>
-                    <Insets bottom="10.0" left="5.0" top="5.0" />
+                    <Insets bottom="5.0" left="5.0" top="5.0" />
                 </padding>
             </TextField>
             <Slider fx:id="ratingSlider" blockIncrement="0.1" majorTickUnit="1.0" max="5.0" min="1.0" minorTickCount="0" showTickLabels="true" showTickMarks="true" value="3.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                 <GridPane.margin>
-                    <Insets top="24.0" />
+                    <Insets />
                 </GridPane.margin>
             </Slider>
             <Label text="Rating:" underline="true" GridPane.rowIndex="1">
@@ -57,7 +57,6 @@
                 </font>
             </Label>
         </GridPane>
-      <HBox alignment="CENTER_LEFT" spacing="30.0" />
       <BorderPane>
          <left>
             <Label text="Ingredients:" underline="true" BorderPane.alignment="CENTER">
