@@ -14,12 +14,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -28,8 +30,9 @@ public class Home {
 
     @FXML
     public void initialize(){
+        List<String> recipes = SessionHandler.getUserRecipes();
         for(File dir : Objects.requireNonNull(Application.datadir.listFiles())){
-            if(dir.isDirectory()){
+            if(dir.isDirectory() && recipes.contains(dir.getName())){
                 File recipeJson = new File(dir.getAbsolutePath() + "/recipe.json");
                 try {
                     Map<String, Map<Integer, String[]>> data = JsonLoader.parseJsonRecipe(recipeJson);
@@ -45,7 +48,8 @@ public class Home {
     }
 
     public static void dynamicAdjust(Node n){
-        VBox contentBox = (VBox) Application.rootBorderPane.getCenter();
+        VBox contentBox = ((VBox) ((GridPane) Application.rootBorderPane.getCenter()).getChildren().stream()
+                .filter(node -> node.getClass() == VBox.class).toList().get(0));
         final Node[] itemToDelete = {null};
         for(int i = 0, j = -1; i < contentBox.getChildren().size(); i++){
             if(contentBox.getChildren().get(i).equals(n)){

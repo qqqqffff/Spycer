@@ -201,12 +201,14 @@ public class RecipeForm {
 
         createRecipeButton.setOnAction(event -> {
             try {
-                RecipeHandler.compileRecipe(aggregateRecipe());
-                //TODO: eliminate unnecessary IO
+                Map<String, Map<Integer, String[]>> data = aggregateRecipe();
+                String parent = RecipeHandler.compileRecipe(data);
                 FXMLLoader loader = new FXMLLoader(Application.class.getResource("views/Recipe.fxml"));
                 BorderPane recipe = loader.load();
-                RecipeHandler.updateRecipe(recipe, JsonLoader.parseJsonRecipe(recipeFile), recipeFile.getName());
-                ((VBox) Application.rootBorderPane.getCenter()).getChildren().add(recipe);
+                RecipeHandler.updateRecipe(recipe, data, parent);
+                ((VBox) ((GridPane) Application.rootBorderPane.getCenter()).getChildren().stream()
+                        .filter(node -> node.getClass() == VBox.class).toList().get(0))
+                        .getChildren().add(recipe);
             } catch (IOException | URISyntaxException e) {
                 throw new RuntimeException(e);
             }
@@ -235,9 +237,17 @@ public class RecipeForm {
         data.put("notes", notesList);
         data.put("tags", tagsList);
         Map<Integer, String[]> optionsList = new HashMap<>();
-        optionsList.put(0, new String[]{titleTextField.getText()});
-        optionsList.put(1, new String[]{String.format("%.1f", ratingSlider.getValue())});
-        optionsList.put(2, new String[]{SessionHandler.getLoggedInUser().displayName});
+        optionsList.put(0, new String[]{"title", titleTextField.getText()});
+        optionsList.put(1, new String[]{"rating", String.format("%.1f", ratingSlider.getValue())});
+        int totalTime = proceduresList.values().stream().map(x -> {
+            try{
+                return Integer.parseInt(x[1]);
+            }catch(NumberFormatException ignored){
+                return 0;
+            }
+        }).reduce(0, Integer::sum);
+        optionsList.put(2, new String[]{RecipeHandler.formatTotalTime(totalTime, false)});
+        optionsList.put(3, new String[]{"author", SessionHandler.getLoggedInUser().displayName});
         data.put("options", optionsList);
 
         return data;

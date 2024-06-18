@@ -1,10 +1,7 @@
 package com.apollor.spycer.utils;
 
 import com.apollor.spycer.Application;
-import com.apollor.spycer.database.Database;
-import com.apollor.spycer.database.Household;
-import com.apollor.spycer.database.Session;
-import com.apollor.spycer.database.User;
+import com.apollor.spycer.database.*;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
@@ -18,11 +15,15 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.temporal.TemporalField;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 public class SessionHandler {
     private static User loggedInUser;
     private static Session userSession;
+    private static List<String> userRecipes;
     private static Household userHousehold;
     private static final File sessionToken = new File(Application.datadir + "/session_token.json");
     private static final User guestUser = new User(
@@ -39,6 +40,7 @@ public class SessionHandler {
     );
 
     static {
+        userRecipes = new ArrayList<>();
         if(!sessionToken.exists()) {
             try {
                 if(!sessionToken.createNewFile()){
@@ -197,7 +199,11 @@ public class SessionHandler {
         userHousehold = household;
     }
 
-    private static void createLocalSessionToken(Session session) throws IOException {
+    public static List<String> getUserRecipes() {
+        return Collections.unmodifiableList(userRecipes);
+    }
+
+    private static void createLocalSessionToken(Session session, String... recipes) throws IOException {
         JsonWriter writer = new JsonWriter(new BufferedWriter(new FileWriter(sessionToken)));
         writer.setIndent("  ");
         writer.beginObject().name("session_id").value(session.sessionId);
@@ -206,7 +212,23 @@ public class SessionHandler {
         writer.name("location_long").value(session.locationLong);
         writer.name("session_start").value(session.sessionStart);
         writer.name("session_end").value(session.sessionEnd);
-        writer.name("email_address").value(session.emailAddress).endObject().close();
+        writer.name("email_address").value(session.emailAddress);
+        writer.name("recipes").beginArray();
+        for(String recipe : recipes){
+            writer.value(recipe);
+        }
+        writer.endArray();
+        writer.endObject().close();
+    }
+
+    public static void addRecipe(Session session, String recipe) throws IOException {
+        String[] recipes = new String[userRecipes.size() + 1];
+        for(int i = 0; i < userRecipes.size(); i++){
+            recipes[i] = userRecipes.get(i);
+        }
+        recipes[userRecipes.size()] = recipe;
+        userRecipes.add(recipe);
+        createLocalSessionToken(session, recipes);
     }
 
     private static Session readLocalSessionToken() throws IOException{
@@ -256,6 +278,14 @@ public class SessionHandler {
                 }
                 case "stay_logged_in": {
                     session.stayLoggedIn = reader.nextBoolean();
+                    break;
+                }
+                case "recipes" : {
+                    reader.beginArray();
+                    while(reader.hasNext()){
+                        userRecipes.add(reader.nextString());
+                    }
+                    reader.endArray();
                     break;
                 }
             }

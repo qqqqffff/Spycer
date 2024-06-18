@@ -19,7 +19,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
 import java.util.Objects;
@@ -262,19 +261,17 @@ public class RecipeHandler {
         return retString.substring(0, retString.length() - 2);
     }
 
-    public static void compileRecipe(Map<String, Map<Integer, String[]>> data) throws IOException, URISyntaxException {
-        String title = data.get("options").get(0)[0];
-        String rating = data.get("options").get(1)[0];
-        String author = data.get("options").get(2)[0];
+    public static String compileRecipe(Map<String, Map<Integer, String[]>> data) throws IOException, URISyntaxException {
+        String title = data.get("options").get(0)[1];
+        String rating = data.get("options").get(1)[1];
+        String author = data.get("options").get(3)[1];
         Map<Integer, String[]> ingredientsList = data.get("ingredients");
         Map<Integer, String[]> proceduresList = data.get("procedures");
         Map<Integer, String[]> notesList = data.get("notes");
         Map<Integer, String[]> tagsList = data.get("tags");
 
-        System.out.println(Application.datadir.getAbsolutePath());
         String baseDir = Application.datadir.getAbsolutePath() + "/";
         File f = new File(baseDir + title.replace(" ", "_"));
-        System.out.println(f.getAbsolutePath());
         if(!f.mkdir()){
             int counter = 1;
             while(f.exists()) {
@@ -283,6 +280,8 @@ public class RecipeHandler {
             }
             if(!f.mkdir()) throw new IOException("Unable to create recipe dir");
         }
+        SessionHandler.addRecipe(SessionHandler.getCurrentSession(), f.getName());
+
         File recipeJson = new File(f.getAbsolutePath() + "/recipe.json");
         if(!recipeJson.createNewFile()) throw new IOException("Unable to create recipe file");
         JsonWriter writer = new JsonWriter(new BufferedWriter(new FileWriter(recipeJson)));
@@ -315,5 +314,6 @@ public class RecipeHandler {
             writer.beginObject().name("tag " + i++).value(item[0]).endObject();
         }
         writer.endArray().endObject().close();
+        return f.getName();
     }
 }
