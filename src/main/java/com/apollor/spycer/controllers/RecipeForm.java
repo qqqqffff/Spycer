@@ -1,12 +1,12 @@
 package com.apollor.spycer.controllers;
 
 import com.apollor.spycer.Application;
-import com.apollor.spycer.database.User;
-import com.apollor.spycer.utils.*;
-import com.google.gson.stream.JsonWriter;
+import com.apollor.spycer.utils.AnimationFactory;
+import com.apollor.spycer.utils.JsonLoader;
+import com.apollor.spycer.utils.RecipeHandler;
+import com.apollor.spycer.utils.SessionHandler;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,16 +17,11 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
-import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -68,7 +63,7 @@ public class RecipeForm {
 
     private File recipeFile;
 
-    private boolean[] removing = new boolean[]{false, false, false};
+    private final boolean[] removing = new boolean[]{false, false, false, false};
 
     @FXML
     public void initialize(){
@@ -78,8 +73,6 @@ public class RecipeForm {
         tagsList = new HashMap<>();
 
         //TODO: make it so that you can lists at a time from multiple
-        //TODO: make it so that adding a new item turns off remove mode
-        //TODO: fix formatting of cancel and create button when scroll overflow
 
         titleTextField.setOnMouseEntered(AnimationFactory.generateDefaultTextFieldMouseEnterAnimation(titleTextField));
         titleTextField.setOnMouseExited(AnimationFactory.generateDefaultTextFieldMouseExitAnimation(titleTextField));
@@ -115,6 +108,12 @@ public class RecipeForm {
 
 
         addProcedureButton.setOnAction(event -> {
+            if(removing[1]){
+                removing[1] = false;
+                removeProcedureButton.setText("-");
+                toggleRemoveButtons(removeProcedureButton, false);
+                revertItems(procedureBox);
+            }
             GridPane box = createGroup(1);
             procedureBox.getChildren().add(box);
         });
@@ -122,7 +121,8 @@ public class RecipeForm {
         addProcedureButton.setOnMouseExited(AnimationFactory.generateDefaultButtonMouseExitAnimation(addProcedureButton));
 
         removeProcedureButton.setOnAction(event -> {
-            if(removeProcedureButton.getText().equals("-")){
+            removing[1] = !removing[1];
+            if(removing[1]){
                 removeProcedureButton.setText("✔");
                 toggleRemoveButtons(removeProcedureButton, true);
                 makeItemsRemovable(procedureBox, proceduresList);
@@ -137,6 +137,12 @@ public class RecipeForm {
         removeProcedureButton.setOnMouseExited(AnimationFactory.generateDefaultButtonMouseExitAnimation(removeProcedureButton));
 
         addNotesButton.setOnAction(event -> {
+            if(removing[2]){
+                removing[2] = false;
+                removeNotesButton.setText("-");
+                toggleRemoveButtons(removeNotesButton, false);
+                revertItems(noteBox);
+            }
             GridPane box = createGroup(2);
             noteBox.getChildren().add(box);
         });
@@ -144,7 +150,8 @@ public class RecipeForm {
         addNotesButton.setOnMouseExited(AnimationFactory.generateDefaultButtonMouseExitAnimation(addNotesButton));
 
         removeNotesButton.setOnAction(event -> {
-            if(removeNotesButton.getText().equals("-")){
+            removing[2] = !removing[2];
+            if(removing[2]){
                 removeNotesButton.setText("✔");
                 toggleRemoveButtons(removeNotesButton, true);
                 makeItemsRemovable(noteBox, notesList);
@@ -159,12 +166,17 @@ public class RecipeForm {
         removeNotesButton.setOnMouseExited(AnimationFactory.generateDefaultButtonMouseExitAnimation(removeNotesButton));
 
         addTagsButton.setOnAction(event -> {
+            if(removing[3]){
+                removing[3] = false;
+                removeTagsButton.setText("-");
+                toggleRemoveButtons(removeTagsButton, false);
+                revertItems(tagsBox);
+            }
             if(tagsList.size() < 3){
                 GridPane box = createGroup(3);
                 tagsBox.getChildren().add(box);
             }
-            if(tagsList.size() == 3){
-                addTagsButton.setOpacity(0);
+            if(tagsList.size() >= 3){
                 addTagsButton.setDisable(true);
             }
         });
@@ -172,7 +184,8 @@ public class RecipeForm {
         addTagsButton.setOnMouseExited(AnimationFactory.generateDefaultButtonMouseExitAnimation(addTagsButton));
 
         removeTagsButton.setOnAction(event -> {
-            if(removeTagsButton.getText().equals("-")){
+            removing[3] = !removing[3];
+            if(removing[3]){
                 removeTagsButton.setText("✔");
                 toggleRemoveButtons(removeTagsButton, true);
                 makeItemsRemovable(tagsBox, tagsList);
@@ -255,12 +268,14 @@ public class RecipeForm {
 
         if(type == 0){
             TextField input_a = new TextField();
-            input_a.setOnMouseEntered(AnimationFactory.generateDefaultTextFieldMouseEnterAnimation(input_a));
-            input_a.setOnMouseExited(AnimationFactory.generateDefaultTextFieldMouseExitAnimation(input_a));
+            input_a.setStyle(input_a.getStyle() + "-fx-font-size: 16;");
+            input_a.setOnMouseEntered(AnimationFactory.generateDefaultTextFieldMouseEnterAnimation(input_a, input_a.getStyle()));
+            input_a.setOnMouseExited(AnimationFactory.generateDefaultTextFieldMouseExitAnimation(input_a, input_a.getStyle()));
 
             TextField input_b = new TextField();
-            input_b.setOnMouseEntered(AnimationFactory.generateDefaultTextFieldMouseEnterAnimation(input_b));
-            input_b.setOnMouseExited(AnimationFactory.generateDefaultTextFieldMouseExitAnimation(input_b));
+            input_b.setStyle(input_b.getStyle() + "-fx-font-size: 16;");
+            input_b.setOnMouseEntered(AnimationFactory.generateDefaultTextFieldMouseEnterAnimation(input_b, input_b.getStyle()));
+            input_b.setOnMouseExited(AnimationFactory.generateDefaultTextFieldMouseExitAnimation(input_b, input_b.getStyle()));
 
             SimpleStringProperty sp_a = new SimpleStringProperty();
             SimpleStringProperty sp_b = new SimpleStringProperty();
@@ -357,9 +372,10 @@ public class RecipeForm {
         }
         else if(type == 3){
             TextField input_a = new TextField();
+            input_a.setStyle(input_a.getStyle() + "-fx-font-size: 16;");
             input_a.setPrefHeight(50);
-            input_a.setOnMouseEntered(AnimationFactory.generateDefaultTextFieldMouseEnterAnimation(input_a));
-            input_a.setOnMouseExited(AnimationFactory.generateDefaultTextFieldMouseExitAnimation(input_a));
+            input_a.setOnMouseEntered(AnimationFactory.generateDefaultTextFieldMouseEnterAnimation(input_a, input_a.getStyle()));
+            input_a.setOnMouseExited(AnimationFactory.generateDefaultTextFieldMouseExitAnimation(input_a, input_a.getStyle()));
 
             SimpleStringProperty sp_a = new SimpleStringProperty();
             input_a.textProperty().bindBidirectional(sp_a);
@@ -390,7 +406,7 @@ public class RecipeForm {
 
         HBox numericalFields = new HBox();
         numericalFields.setAlignment(Pos.CENTER_LEFT);
-        TextField hrInput = createNumericalInput("00");
+        TextField hrInput = createNumericalInput();
         hrInput.setStyle(hrInput.getStyle() + "-fx-font-size: 16;");
         numericalFields.getChildren().add(hrInput);
         hrInput.setOnMouseEntered(AnimationFactory.generateDefaultTextFieldMouseEnterAnimation(hrInput, hrInput.getStyle()));
@@ -402,19 +418,19 @@ public class RecipeForm {
         SimpleStringProperty spHr = new SimpleStringProperty();
         hrInput.textProperty().bindBidirectional(spHr);
 
-        TextField minInput = createNumericalInput("00");
+        TextField minInput = createNumericalInput();
         minInput.setStyle(minInput.getStyle() + "-fx-font-size: 16;");
         numericalFields.getChildren().add(minInput);
         minInput.setOnMouseEntered(AnimationFactory.generateDefaultTextFieldMouseEnterAnimation(minInput, minInput.getStyle()));
         minInput.setOnMouseExited(AnimationFactory.generateDefaultTextFieldMouseExitAnimation(minInput, minInput.getStyle()));
 
-        Label minLabel = new Label("M");
+        Label minLabel = new Label();
         HBox.setMargin(minLabel, new Insets(0,10,0,5));
         numericalFields.getChildren().add(minLabel);
         SimpleStringProperty spMin = new SimpleStringProperty();
         minInput.textProperty().bindBidirectional(spMin);
 
-        TextField secInput = createNumericalInput("00");
+        TextField secInput = createNumericalInput();
         secInput.setStyle(secInput.getStyle() + "-fx-font-size: 16;");
         numericalFields.getChildren().add(secInput);
         secInput.setOnMouseEntered(AnimationFactory.generateDefaultTextFieldMouseEnterAnimation(secInput, secInput.getStyle()));
@@ -437,9 +453,9 @@ public class RecipeForm {
         return box;
     }
 
-    private TextField createNumericalInput(String... params){
+    private TextField createNumericalInput(){
         TextField tf = new TextField();
-        if(params.length > 0) tf.setPromptText(params[0]);
+        tf.setPromptText("00");
         tf.textProperty().addListener((c, o, n) -> {
             if(n != null && !n.matches("\\d*")) tf.setText(o);
         });
@@ -454,8 +470,6 @@ public class RecipeForm {
         return f.exists();
     }
 
-
-    //TODO: handle procedure box special case (indenting)
     private void makeItemsRemovable(VBox box, Map<Integer, String[]> map){
         for(Node n : box.getChildren()){
             if(n.getClass() == GridPane.class){
@@ -500,6 +514,7 @@ public class RecipeForm {
                 n.setOnMouseClicked(event -> {
                     map.remove(Integer.parseInt(n.getId()));
                     shiftMap(map);
+                    if(map.equals(tagsList)) addTagsButton.setDisable(false);
                     box.getChildren().remove(n);
                 });
 
@@ -508,6 +523,7 @@ public class RecipeForm {
                 deleteItemButton.setOnAction(action -> {
                     map.remove(Integer.parseInt(n.getId()));
                     shiftMap(map);
+                    if(map.equals(tagsList)) addTagsButton.setDisable(false);
                     box.getChildren().remove(n);
                 });
                 GridPane.setHalignment(deleteItemButton, HPos.RIGHT);
