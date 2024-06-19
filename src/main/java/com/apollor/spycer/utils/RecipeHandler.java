@@ -20,6 +20,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Pattern;
@@ -284,6 +286,11 @@ public class RecipeHandler {
 
         File recipeJson = new File(f.getAbsolutePath() + "/recipe.json");
         if(!recipeJson.createNewFile()) throw new IOException("Unable to create recipe file");
+
+        if(SessionHandler.getLoggedInUser().userId != null &&
+            !(new File(f.getAbsolutePath() + "/" + SessionHandler.getLoggedInUser().userId).createNewFile()))
+            throw new RuntimeException("Unable to allocate file");
+
         JsonWriter writer = new JsonWriter(new BufferedWriter(new FileWriter(recipeJson)));
         writer.setIndent("  ");
         writer.beginObject().name("title").value(title);
@@ -315,5 +322,33 @@ public class RecipeHandler {
         }
         writer.endArray().endObject().close();
         return f.getName();
+    }
+
+    public static String[] introspectRecipes(String uid){
+        List<String> list = new ArrayList<>();
+        for(File dir : Objects.requireNonNull(Application.datadir.listFiles())){
+            if(dir.isDirectory()){
+                File[] files = Objects.requireNonNull(dir.listFiles());
+                boolean containsRecipe = false;
+                for(File f : files){
+                    if(f.getName().equals("recipe.json")){
+                        containsRecipe = true;
+                        break;
+                    }
+                }
+                if(!containsRecipe) continue;
+                if(Objects.requireNonNull(dir.listFiles()).length >= 2) {
+                    File ownership = new File(dir.getAbsolutePath() + "/" + uid);
+                    if (ownership.exists()) list.add(dir.getName());
+                    continue;
+                }
+                list.add(dir.getName());
+            }
+        }
+        String[] ret = new String[list.size()];
+        for(int i = 0; i < ret.length; i++){
+            ret[i] = list.get(i);
+        }
+        return ret;
     }
 }

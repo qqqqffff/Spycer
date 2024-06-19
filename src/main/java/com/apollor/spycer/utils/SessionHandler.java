@@ -6,7 +6,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
 import java.io.*;
-import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -14,7 +13,6 @@ import java.security.SecureRandom;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.ZoneId;
-import java.time.temporal.TemporalField;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -23,7 +21,7 @@ import java.util.UUID;
 public class SessionHandler {
     private static User loggedInUser;
     private static Session userSession;
-    private static List<String> userRecipes;
+    private static final List<String> userRecipes;
     private static Household userHousehold;
     private static final File sessionToken = new File(Application.datadir + "/session_token.json");
     private static final User guestUser = new User(
@@ -62,7 +60,16 @@ public class SessionHandler {
         Session db_session = Database.getSession(session.userId);
         User user = Database.getUser(session.emailAddress);
         Household household = Database.getHouseholdByUID(session.userId);
-        if(user == null || db_session == null) return false;
+
+        if(user == null ||
+                db_session == null ||
+                !user.userId.equals(db_session.userId) ||
+                !db_session.userId.equals(session.userId)
+        ) {
+            invalidateSession();
+            return false;
+        }
+
         userSession = session;
         loggedInUser = user;
         userHousehold = household;
@@ -95,7 +102,7 @@ public class SessionHandler {
 
             if(success){
                 loggedInUser = tempUser;
-
+                String[] recipes = RecipeHandler.introspectRecipes(loggedInUser.userId);
                 if(stayLoggedIn) {
                     Session uSess = Database.getSession(tempUser.userId);
 
@@ -109,7 +116,7 @@ public class SessionHandler {
                         userSession = uSess;
                     }
 
-                    createLocalSessionToken(userSession);
+                    createLocalSessionToken(userSession, recipes);
                 }
 
                 return true;

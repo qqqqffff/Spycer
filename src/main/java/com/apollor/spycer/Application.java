@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.Objects;
 
 public class Application extends javafx.application.Application {
-    public static final String baseApplicationLink = "http://localhost:8080";
+    public static final String baseApplicationLink = "http://localhost:8000";
     public static final Duration defaultTokenExpireTime = Duration.ofDays(30);
     public static AnchorPane rootAnchorPane;
     public static BorderPane rootBorderPane;
