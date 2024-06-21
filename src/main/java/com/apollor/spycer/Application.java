@@ -26,11 +26,14 @@ public class Application extends javafx.application.Application {
 
     //TODO: this will be preformed on the backend eventually
     static {
+        String tempGeoKey;
         try {
-            geolocationKey = new BufferedReader(new FileReader(Paths.get("").toAbsolutePath() + "/geolocation/key.txt")).readLine().trim();
+            tempGeoKey = new BufferedReader(new FileReader(Paths.get("").toAbsolutePath() + "/geolocation/key.txt")).readLine().trim();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println("geolocation key not found");
+            tempGeoKey = null;
         }
+        geolocationKey = tempGeoKey;
     }
 
     @Override
@@ -92,7 +95,7 @@ public class Application extends javafx.application.Application {
 
         Scene scene = new Scene(rootAnchorPane, 1280, 800);
         ColorHandler.applyPalette(0);
-        stage.setTitle("Respicy");
+        stage.setTitle("Spycer");
         stage.setScene(scene);
         stage.show();
     }
@@ -103,6 +106,6 @@ public class Application extends javafx.application.Application {
     }
 
     public static void main(String[] args) {
-        launch();
+        launch(args);
     }
 }
