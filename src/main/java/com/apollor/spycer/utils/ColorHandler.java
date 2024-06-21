@@ -44,6 +44,10 @@ public class ColorHandler {
         assert palette != null;
 
         File f = new File(Application.stylesheetLink);
+        if(!f.exists()) {
+            palette = defaultPalette;
+            return;
+        }
         BufferedReader reader = new BufferedReader(new FileReader(f));
         StringBuilder sb = new StringBuilder();
         Map<String, String> finalPalette = palette;
