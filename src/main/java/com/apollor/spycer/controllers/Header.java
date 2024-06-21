@@ -4,8 +4,6 @@ import com.apollor.spycer.Application;
 import com.apollor.spycer.utils.AnimationFactory;
 import com.apollor.spycer.utils.SortParam;
 import com.apollor.spycer.utils.StateManager;
-import javafx.animation.Animation;
-import javafx.animation.Interpolator;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -15,20 +13,22 @@ import javafx.scene.control.TextField;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.util.Duration;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class Header {
     @FXML private Button profileButton;
     @FXML private TextField recipeSearchField;
     @FXML private Button createRecipeButton;
     @FXML private Button sortDirectionButton;
-    @FXML private ComboBox<SortParam> sortParameterComboBox;
+    @FXML private ComboBox<String> sortParameterComboBox;
 
     @FXML
     public void initialize(){
@@ -36,7 +36,7 @@ public class Header {
         Image ascending = new Image(Objects.requireNonNull(Application.class.getResource("images/up_icon.png")).toString());
         Image descending = new Image(Objects.requireNonNull(Application.class.getResource("images/down_icon.png")).toString());
         AtomicBoolean direction = new AtomicBoolean(true);
-        SortParam defaultSortBy = SortParam.NAME;
+        AtomicReference<SortParam> sortParam = new AtomicReference<>(SortParam.BEST);
 
         createRecipeButton.setOpacity(0.75);
         createRecipeButton.setOnAction(event -> {
@@ -79,10 +79,19 @@ public class Header {
                 sortDirectionButton.setGraphic(temp);
             }
             direction.set(!direction.get());
+            Home.sort(sortParam.get(), direction.get(),
+                    (VBox) ((GridPane) Application.rootBorderPane.getCenter()).getChildren().stream().filter(x -> x.getClass() == VBox.class).toList().get(0));
         });
         sortDirectionButton.setOnMouseEntered(AnimationFactory.generateDefaultImageButtonEnterAnimation(sortDirectionButton, "-fx-border-color: -t-contrast-color;"));
         sortDirectionButton.setOnMouseExited(AnimationFactory.generateDefaultImageButtonExitAnimation(sortDirectionButton, "-fx-border-color: transparent;"));
 
+        sortParameterComboBox.getItems().addAll(SortParam.sortParameters());
+        sortParameterComboBox.setValue(sortParam.get().toString());
+        sortParameterComboBox.getSelectionModel().selectedItemProperty().addListener((c, o, n) -> {
+            sortParam.set(SortParam.parse(n));
+            Home.sort(sortParam.get(), direction.get(),
+                    (VBox) ((GridPane) Application.rootBorderPane.getCenter()).getChildren().stream().filter(x -> x.getClass() == VBox.class).toList().get(0));
+        });
         sortParameterComboBox.setOnMouseEntered(AnimationFactory.generateDefaultButtonMouseEnterAnimation(sortParameterComboBox));
         sortParameterComboBox.setOnMouseExited(AnimationFactory.generateDefaultButtonMouseExitAnimation(sortParameterComboBox));
 
