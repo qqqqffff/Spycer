@@ -150,8 +150,8 @@ AnchorPane{
 
 .combo-box {
     -fx-background-color: -tertiary-color;
-    -fx-background-radius: 5;
-    -fx-border-radius: 5;
+    -fx-background-radius: 5, 5, 0, 0;
+    -fx-border-radius: 5, 5, 0, 0;
     -fx-border-color: black;
     -fx-border-width: 2;
     -fx-background-insets: 1,4,4;
@@ -166,6 +166,27 @@ AnchorPane{
 
 .combo-box:hover{
     -fx-border-color: -t-contrast-color;
+}
+
+.combo-box-popup .list-view {
+    -fx-background-color: -secondary-color;
+    -fx-border-color: -contrast-color;
+    -fx-border-radius: 0, 0, 5, 5;
+    -fx-background-radius: 0, 0, 5, 5;
+}
+
+.combo-box-popup .list-view .list-cell:selected {
+    -fx-background-color: -t-tertiary-color;
+    -fx-text-fill: -t-contrast-color;
+}
+.combo-box-popup .list-view .list-cell {
+    -fx-background-color: -secondary-color;
+    -fx-text-fill: -contrast-color;
+}
+
+.combo-box-popup .list-view .list-cell:hover{
+    -fx-background-color: -t-secondary-color;
+    -fx-text-fill: -t-contrast-color;
 }
 
 .check-box .box{

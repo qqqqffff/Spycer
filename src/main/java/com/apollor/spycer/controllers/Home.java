@@ -7,12 +7,6 @@ import javafx.animation.Interpolator;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
-import javafx.scene.effect.GaussianBlur;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -20,12 +14,15 @@ import javafx.util.Duration;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 public class Home {
     @FXML private VBox contentBox;
     private final static List<Map<String, Map<Integer, String[]>>> displayRecipes = new ArrayList<>();
+    private static List<Map<String, Map<Integer, String[]>>> currentRecipes = new ArrayList<>();
 
     @FXML
     public void initialize(){
@@ -43,7 +40,9 @@ public class Home {
                 }
             }
         }
-        sort(SortParam.BEST, true, contentBox);
+        currentRecipes.clear();
+        currentRecipes.addAll(displayRecipes);
+        sort(Header.sortParam.get(), Header.direction.get(), contentBox);
     }
 
     public static void dynamicAdjust(Node n){
@@ -139,12 +138,22 @@ public class Home {
                     Double.compare(Double.parseDouble(a.get("options").get(1)[1]), Double.parseDouble(b.get("options").get(1)[1])));
         }
         //redraw recipes
-        drawRecipes(contentBox);
+        drawRecipes(contentBox, currentRecipes);
     }
 
-    private static void drawRecipes(VBox contentBox){
+    public static void filter(String filter, VBox contentBox){
+        currentRecipes = new ArrayList<>(displayRecipes.stream().filter(x -> {
+            for(String[] tags : x.get("tags").values()){
+                if(tags[1].matches(".*"+filter+".*")) return true;
+            }
+            return x.get("options").get(0)[1].matches(".*"+filter+".*");
+        }).toList());
+        drawRecipes(contentBox, currentRecipes);
+    }
+
+    private static void drawRecipes(VBox contentBox, List<Map<String, Map<Integer, String[]>>> recipes){
         contentBox.getChildren().clear();
-        for(Map<String, Map<Integer, String[]>> data : displayRecipes){
+        for(Map<String, Map<Integer, String[]>> data : recipes){
             try{
                 FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("views/Recipe.fxml"));
                 BorderPane recipe = fxmlLoader.load();

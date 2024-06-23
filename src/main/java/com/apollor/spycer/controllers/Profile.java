@@ -5,14 +5,17 @@ import com.apollor.spycer.database.Database;
 import com.apollor.spycer.database.Household;
 import com.apollor.spycer.database.User;
 import com.apollor.spycer.utils.AnimationFactory;
+import com.apollor.spycer.utils.Navigation;
 import com.apollor.spycer.utils.SessionHandler;
 import com.apollor.spycer.utils.StateManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
@@ -90,7 +93,7 @@ public class Profile {
         });
         emailTextField.setOnMouseEntered(AnimationFactory.generateDefault2TextFieldMouseEnterAnimation(emailTextField, "-fx-font-size: 16;"));
         emailTextField.setOnMouseExited(AnimationFactory.generateDefault2TextFieldMouseExitAnimation(emailTextField, "-fx-font-size: 16;"));
-        householdTextField.focusedProperty().addListener((l, o, n) -> {
+        emailTextField.focusedProperty().addListener((l, o, n) -> {
             if(!o && n){
                 displayNameTextField.setStyle("-fx-background-color: -primary-color; -fx-font-size: 16;");
             }
@@ -120,7 +123,7 @@ public class Profile {
         });
         displayNameTextField.setOnMouseEntered(AnimationFactory.generateDefault2TextFieldMouseEnterAnimation(displayNameTextField, "-fx-font-size: 16;"));
         displayNameTextField.setOnMouseExited(AnimationFactory.generateDefault2TextFieldMouseExitAnimation(displayNameTextField, "-fx-font-size: 16;"));
-        householdTextField.focusedProperty().addListener((l, o, n) -> {
+        displayNameTextField.focusedProperty().addListener((l, o, n) -> {
             if(!o && n){
                 displayNameTextField.setStyle("-fx-background-color: -primary-color; -fx-font-size: 16;");
             }
@@ -179,17 +182,9 @@ public class Profile {
         tfaGroup.getToggles().add(tfaPhoneRadioButton);
 
         homeButton.setOnAction(action -> {
-            FXMLLoader loader = new FXMLLoader(Application.class.getResource("views/Home.fxml"));
-            Map<String, Map<String, String>> data = new HashMap<>();
-            Map<String, String> fileMap = new HashMap<>();
-            Map<String, String> pageMap = new HashMap<>();
-            fileMap.put("file", "null");
-            pageMap.put("page", "views/Home.fxml");
-            data.put("file", fileMap);
-            data.put("page", pageMap);
             try{
-                StateManager.updateState(data);
-                Application.rootBorderPane.setCenter(loader.load());
+                Node pane = Navigation.navigate(Navigation.generateDefaultNavigationData("views/Home.fxml"));
+                Application.rootBorderPane.setCenter(pane);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

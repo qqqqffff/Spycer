@@ -8,6 +8,7 @@ import javafx.animation.Transition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
@@ -303,20 +304,21 @@ public class Recipe {
             }
             else{
                 System.out.println("no drag detected, displaying recipe: " + fnameText.getText());
-                Map<String, Map<String, String>> data = new HashMap<>();
-                Map<String, String> fileMap = new HashMap<>();
-                Map<String, String> pageMap = new HashMap<>();
-                fileMap.put("file", fnameText.getText());
-                pageMap.put("page", "views/RecipePage.fxml");
-                data.put("file", fileMap);
-                data.put("page", pageMap);
-
-
-                FXMLLoader loader = new FXMLLoader(Application.class.getResource("views/RecipePage.fxml"));
+//                Map<String, Map<String, String>> data = new HashMap<>();
+//                Map<String, String> fileMap = new HashMap<>();
+//                Map<String, String> pageMap = new HashMap<>();
+//                fileMap.put("file", fnameText.getText());
+//                pageMap.put("page", "views/RecipePage.fxml");
+//                data.put("file", fileMap);
+//                data.put("page", pageMap);
+//
+//
+//                FXMLLoader loader = new FXMLLoader(Application.class.getResource("views/RecipePage.fxml"));
                 try{
-                    StateManager.updateState(data);
-                    ScrollPane page = loader.load();
-                    RecipeHandler.updateRecipePage(page, fnameText.getText() + "/recipe.json");
+//                    StateManager.updateState(data);
+//                    ScrollPane page = loader.load();
+//                    RecipeHandler.updateRecipePage(page, fnameText.getText() + "/recipe.json");
+                    Node page = Navigation.navigate(Navigation.generateDefaultNavigationData("views/RecipePage.fxml", fnameText.getText()));
                     Application.rootBorderPane.setCenter(page);
                 } catch (IOException e){
                     throw new RuntimeException(e);

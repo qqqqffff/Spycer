@@ -2,10 +2,12 @@ package com.apollor.spycer.controllers;
 
 import com.apollor.spycer.Application;
 import com.apollor.spycer.utils.AnimationFactory;
+import com.apollor.spycer.utils.Navigation;
 import com.apollor.spycer.utils.SortParam;
 import com.apollor.spycer.utils.StateManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ScrollPane;
@@ -29,14 +31,14 @@ public class Header {
     @FXML private Button createRecipeButton;
     @FXML private Button sortDirectionButton;
     @FXML private ComboBox<String> sortParameterComboBox;
+    public static AtomicReference<SortParam> sortParam = new AtomicReference<>(SortParam.BEST);
+    public static AtomicBoolean direction = new AtomicBoolean(true);
 
     @FXML
     public void initialize(){
         //todo: replace with icons
         Image ascending = new Image(Objects.requireNonNull(Application.class.getResource("images/up_icon.png")).toString());
         Image descending = new Image(Objects.requireNonNull(Application.class.getResource("images/down_icon.png")).toString());
-        AtomicBoolean direction = new AtomicBoolean(true);
-        AtomicReference<SortParam> sortParam = new AtomicReference<>(SortParam.BEST);
 
         createRecipeButton.setOpacity(0.75);
         createRecipeButton.setOnAction(event -> {
@@ -57,6 +59,11 @@ public class Header {
         createRecipeButton.setOnMouseEntered(AnimationFactory.generateDefaultImageButtonEnterAnimation(createRecipeButton, "-fx-border-color: -t-contrast-color;"));
         createRecipeButton.setOnMouseExited(AnimationFactory.generateDefaultImageButtonExitAnimation(createRecipeButton, "-fx-border-color: transparent;"));
 
+        recipeSearchField.textProperty().addListener((c, o, n) -> {
+            if(n == null) n = "";
+            Home.filter(n,
+                    (VBox) ((GridPane) Application.rootBorderPane.getCenter()).getChildren().stream().filter(x -> x.getClass() == VBox.class).toList().get(0));
+        });
         recipeSearchField.setOnMouseEntered(AnimationFactory.generateDefaultTextFieldMouseEnterAnimation(recipeSearchField));
         recipeSearchField.setOnMouseExited(AnimationFactory.generateDefaultTextFieldMouseExitAnimation(recipeSearchField));
 
@@ -97,19 +104,9 @@ public class Header {
 
         profileButton.setOpacity(0.75);
         profileButton.setOnAction(action -> {
-            //todo: handle navigation in state manager class
-            FXMLLoader loader = new FXMLLoader(Application.class.getResource("views/Profile.fxml"));
-            Map<String, Map<String, String>> data = new HashMap<>();
-            Map<String, String> fileMap = new HashMap<>();
-            Map<String, String> pageMap = new HashMap<>();
-            fileMap.put("file", "null");
-            pageMap.put("page", "views/Profile.fxml");
-            data.put("file", fileMap);
-            data.put("page", pageMap);
-
             try{
-                StateManager.updateState(data);
-                Application.rootBorderPane.setCenter(loader.load());
+                Node pane = Navigation.navigate(Navigation.generateDefaultNavigationData("views/Profile.fxml"));
+                Application.rootBorderPane.setCenter(pane);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
