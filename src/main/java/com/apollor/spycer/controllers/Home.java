@@ -14,10 +14,7 @@ import javafx.util.Duration;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class Home {
     @FXML private VBox contentBox;
@@ -26,6 +23,7 @@ public class Home {
 
     @FXML
     public void initialize(){
+        displayRecipes.clear();
         List<String> recipes = SessionHandler.getUserRecipes();
         for(File dir : Objects.requireNonNull(Application.datadir.listFiles())){
             if(dir.isDirectory() && recipes.contains(dir.getName())){
@@ -34,12 +32,12 @@ public class Home {
                     Map<String, Map<Integer, String[]>> data = JsonLoader.parseJsonRecipe(recipeJson);
                     data.put("dir", Map.of(0, new String[]{dir.getName()}));
                     displayRecipes.add(data);
-
                 } catch (IOException ignored) {
                     throw new RuntimeException("Failed to load a recipe");
                 }
             }
         }
+
         currentRecipes.clear();
         currentRecipes.addAll(displayRecipes);
         sort(Header.sortParam.get(), Header.direction.get(), contentBox);
