@@ -124,10 +124,37 @@
          </right>
       </BorderPane>
       <VBox fx:id="tagsBox" spacing="5.0" />
-        <HBox alignment="CENTER_RIGHT" spacing="15.0">
-            <Button fx:id="cancelFormButton" mnemonicParsing="false" text="Cancel" />
-            <Button fx:id="createRecipeButton" mnemonicParsing="false" text="Create" />
-        </HBox>
+        <GridPane>
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES"/>
+                <ColumnConstraints hgrow="SOMETIMES"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints vgrow="SOMETIMES"/>
+            </rowConstraints>
+            <HBox alignment="CENTER_RIGHT" spacing="15.0" GridPane.columnIndex="1">
+                <Button fx:id="cancelFormButton" mnemonicParsing="false" text="Cancel"/>
+                <Button fx:id="createRecipeButton" mnemonicParsing="false" text="Create"/>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" spacing="10.0">
+                <Label style="-fx-font-size: 16; -fx-font-family: Arial; -fx-font-weight: 700;"
+                       text="Load from URL:" textAlignment="RIGHT">
+                    <font>
+                        <Font size="24.0"/>
+                    </font>
+                </Label>
+                <TextField fx:id="loadRecipeTextField" prefWidth="300.0" promptText="URL"
+                           style="-fx-font-size: 16;">
+                    <font>
+                        <Font size="16.0"/>
+                    </font>
+                    <padding>
+                        <Insets bottom="5.0" left="5.0" top="5.0"/>
+                    </padding>
+                </TextField>
+                <Button fx:id="loadRecipeButton" disable="true" mnemonicParsing="false" text="Load"/>
+            </HBox>
+        </GridPane>
       <padding>
          <Insets bottom="25.0" left="40.0" right="40.0" top="25.0" />
       </padding>

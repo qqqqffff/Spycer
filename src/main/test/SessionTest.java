@@ -1,15 +1,6 @@
-import com.apollor.spycer.Application;
-import com.apollor.spycer.database.Database;
-import com.apollor.spycer.database.Session;
-import com.apollor.spycer.database.User;
-import com.apollor.spycer.utils.SessionHandler;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.sql.Timestamp;
-import java.time.Instant;
-import java.time.ZoneId;
-import java.util.UUID;
 
 public class SessionTest {
     @Test

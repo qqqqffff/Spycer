@@ -21,13 +21,16 @@ import javafx.util.Duration;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
+import java.net.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class RecipeForm {
     public RecipeForm(){
+        System.out.println("this gets called poggers");
         try {
             if(checkInProgressRecipe()){
 
@@ -52,6 +55,9 @@ public class RecipeForm {
     @FXML private VBox procedureBox;
     @FXML private VBox noteBox;
     @FXML private VBox tagsBox;
+
+    @FXML private TextField loadRecipeTextField;
+    @FXML private Button loadRecipeButton;
 
     @FXML private Button cancelFormButton;
     @FXML private Button createRecipeButton;
@@ -198,6 +204,28 @@ public class RecipeForm {
         });
         removeTagsButton.setOnMouseEntered(AnimationFactory.generateDefaultButtonMouseEnterAnimation(removeTagsButton));
         removeTagsButton.setOnMouseExited(AnimationFactory.generateDefaultButtonMouseExitAnimation(removeTagsButton));
+
+        loadRecipeTextField.textProperty().addListener((c, o, n) -> loadRecipeButton.setDisable(n.matches(
+                "(http|https)://www\\.[a-zA-Z0-9@:%._+~#?&/=\\\\]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%._\\\\+~#?&/=]*)")));
+        loadRecipeTextField.setOnMouseEntered(AnimationFactory.generateDefaultTextFieldMouseEnterAnimation(loadRecipeTextField, loadRecipeTextField.getStyle()));
+        loadRecipeTextField.setOnMouseExited(AnimationFactory.generateDefaultTextFieldMouseExitAnimation(loadRecipeTextField, loadRecipeTextField.getStyle()));
+
+        loadRecipeButton.setOnAction(event -> {
+            String content = null;
+            URLConnection connection;
+            try{
+                connection = new URL(loadRecipeTextField.getText()).openConnection();
+                Scanner scanner = new Scanner(connection.getInputStream());
+                scanner.useDelimiter("\\Z");
+                content = scanner.next();
+                scanner.close();
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+            }
+            System.out.println(content);
+        });
+        loadRecipeButton.setOnMouseEntered(AnimationFactory.generateDefaultButtonMouseEnterAnimation(loadRecipeButton));
+        loadRecipeButton.setOnMouseExited(AnimationFactory.generateDefaultButtonMouseExitAnimation(loadRecipeButton));
 
         createRecipeButton.setOnAction(event -> {
             try {
